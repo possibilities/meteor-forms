@@ -23,6 +23,7 @@ Form = function(options) {
   options.layout = options.layout || 'basic';
   options.classes = options.classes || [];
   options.inputLayout = options.inputLayout || 'basic';
+  options.actionLayout = (options.layout === 'horizontal') ? 'horizontal' : 'basic';
   options.labelByDefault = _.isBoolean(options.labelByDefault) ? options.labelByDefault : true;
   options.autoPlaceholders = _.isBoolean(options.autoPlaceholders) ? options.autoPlaceholders : false;
   options.noInputLabels = _.isBoolean(options.noInputLabels) ? options.noInputLabels : false;
@@ -169,11 +170,31 @@ Form.prototype._parseInputs = function(inputs) {
 };
 
 Form.prototype._parseActions = function(actions) {
+  var self = this;
+
   actions = this._parse(actions);
   actions = _.map(actions, function(action) {
-    action.label = _.humanize(action.label || action.name)
+    action.label = _.humanize(action.label || action.name);
     return action;
   });
   
   return actions;
+};
+
+// Template helpers
+
+Template.action.render = function() {
+  var templateName = _.camelize(this.name + '_action');
+  return Template[templateName] && Template[templateName](this);
+};
+
+Template.inputs.input = function() {
+  var templateName = _.camelize(this.inputLayout + '_' + this.as +'_input');
+  return Template[templateName](this);
+};
+
+Template.form.actions = function() {
+  console.log(this);
+  var templateName = _.camelize(this.actionLayout + '_actions');
+  return Template[templateName](this);
 };

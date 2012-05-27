@@ -5,11 +5,11 @@
     {{else}}
       {{> inputs}}
     {{/if}}
-    {{> actions}}
+    {{{actions}}}
   </form>
 </template>
 
-<template name="actions">
+<template name="basicActions">
   {{#if actions}}
     {{#each actions}}
       {{> action}}

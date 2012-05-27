@@ -11,7 +11,7 @@ Package.on_use(function (api) {
   // Templates
   api.add_files('templates/base.html', 'client');
   api.add_files('templates/actions.html', 'client');
-  // Form input templtae
+  // Form input templates
   api.add_files('templates/inputs/text.html', 'client');
   api.add_files('templates/inputs/textarea.html', 'client');
   api.add_files('templates/inputs/checkbox.html', 'client');
