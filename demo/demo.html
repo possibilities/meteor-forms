@@ -1,8 +1,13 @@
 <head>
   <title>Forms Demo</title>
+  <!-- purposely preventing this from getting minified -->
+  <script src="examples/basic.js"></script>
+  <script src="examples/search.js"></script>
+  <script src="examples/horizontal.js"></script>
+  <script src="examples/inline.js"></script>
 </head>
 
-<body>
+<body onload="prettyPrint()">
   {{> demo}}
   {{> forkMe}}
 </body>
@@ -20,22 +25,50 @@
         <li><a href="#search" data-toggle="tab">Search</a></li>
         <li><a href="#inline" data-toggle="tab">Inline</a></li>
       </ul>
-      <div class="tab-content span6">
+      <div class="tab-content span12">
         <div class="tab-pane active" id="basic">
-          <h2>Basic Form</h2>
-          {{{basicForm}}}
+          <h2>Basic</h2>
+          <div class="row">
+            <div class="span6">
+              {{{basicForm}}}
+            </div>
+            <div class="span6">
+              <pre class="prettyprint">{{{code basicForm}}}</pre>
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="horizontal">
-          <h2>Horizontal Form</h2>
-          {{{horizontalForm}}}
+            <h2>Horizontal</h2>
+          <div class="row">
+            <div class="span6">
+              {{{horizontalForm}}}
+            </div>
+            <div class="span6">
+              <pre class="prettyprint">{{code horizontalForm}}</pre>
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="search">
-          <h2>Search Form</h2>
-          {{{searchForm}}}
+          <h2>Search</h2>
+          <div class="row">
+            <div class="span6">
+              {{{searchForm}}}
+            </div>
+            <div class="span6">
+              <pre class="prettyprint">{{code searchForm}}</pre>
+            </div>
+          </div>
         </div>
         <div class="tab-pane" id="inline">
-          <h2>Inline Form</h2>
-          {{{inlineForm}}}
+          <h2>Inline</h2>
+          <div class="row">
+            <div class="span6">
+              {{{inlineForm}}}
+            </div>
+            <div class="span6">
+              <pre class="prettyprint">{{code inlineForm}}</pre>
+            </div>
+          </div>
         </div>
       </div>
     </div>

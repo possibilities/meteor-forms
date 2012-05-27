@@ -6,6 +6,12 @@ h2 {
   margin-top: 20px;
 }
 
-.well, .tabbable {
+pre, .well, .tabbable {
   margin-top: 20px;
+}
+
+pre {
+  padding: 20px !important;
+  border: 1px solid #eee !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
 }
