@@ -13,17 +13,32 @@
 
     <p><em>A smart package for generating bootstrap forms (based on formtastic)</em></p>
 
-    <h2>Basic Form</h2>
-    {{{basicForm}}}
-
-    <h2>Search Form</h2>
-    {{{searchForm}}}
-
-    <h2>Inline Form</h2>
-    {{{inlineForm}}}
-
-    <h2>Horizontal Form</h2>
-    {{{horizontalForm}}}
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
+        <li><a href="#horizontal" data-toggle="tab">Horizontal</a></li>
+        <li><a href="#search" data-toggle="tab">Search</a></li>
+        <li><a href="#inline" data-toggle="tab">Inline</a></li>
+      </ul>
+      <div class="tab-content span6">
+        <div class="tab-pane active" id="basic">
+          <h2>Basic Form</h2>
+          {{{basicForm}}}
+        </div>
+        <div class="tab-pane" id="horizontal">
+          <h2>Horizontal Form</h2>
+          {{{horizontalForm}}}
+        </div>
+        <div class="tab-pane" id="search">
+          <h2>Search Form</h2>
+          {{{searchForm}}}
+        </div>
+        <div class="tab-pane" id="inline">
+          <h2>Inline Form</h2>
+          {{{inlineForm}}}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

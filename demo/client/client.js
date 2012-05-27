@@ -73,9 +73,9 @@ Template.demo.horizontalForm = function() {
 Template.demo.searchForm = function() {
   return new Form({
     name: 'search',
-    classes: 'well form-search',
-    inputClasses: ['input-medium', 'search-query'],
-    layout: 'inline'
+    classes: 'well',
+    inputClasses: ['input-medium'],
+    layout: 'search'
   }).tag({
     inputs: [
       'query', {
@@ -93,7 +93,7 @@ Template.demo.searchForm = function() {
 Template.demo.inlineForm = function() {
   return new Form({
     name: 'inline',
-    classes: 'well form-inline',
+    classes: 'well',
     layout: 'inline',
     inputClasses: ['input-small'],
     autoPlaceholders: true,

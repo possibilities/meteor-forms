@@ -40,7 +40,11 @@ Form.prototype.tag = function(form) {
 
   if (this.tag.layout === 'horizontal') {
     this.tag.classes = _.flatten([this.tag.classes, 'form-horizontal']).join(' ');
-  }
+  } else if (this.tag.layout === 'inline') {
+    this.tag.classes = _.flatten([this.tag.classes, 'form-inline']).join(' ');
+  } else if (this.tag.layout === 'search') {
+    this.tag.classes = _.flatten([this.tag.classes, 'form-search']).join(' ');
+  } 
 
   return this;
 };
@@ -126,13 +130,17 @@ Form.prototype._parseInputs = function(inputs) {
     // Figure out which classes it should have
     var classes = _.ensureArray(input.classes).join(' ');
     if (self.options.inputClasses) {
-      classes = classes = ' ' + self.options.inputClasses.join(' ');
+      classes = classes + ' ' + self.options.inputClasses.join(' ');
     }
     var name = self.options.name + '[' + input.name + ']';
     var id = self.options.name + '_' + input.name;
     var layout = self.options.layout;
     var as = input.as || 'text';
-
+    
+    if (layout === 'search') {
+      classes = classes + ' ' + ' search-query';
+    }
+  
     // TODO Haha, clean this up!
     var label = (
       (
@@ -181,7 +189,7 @@ Template.action.render = function() {
 };
 
 Template.inputs.input = function() {
-  var inputType = (this.layout === 'inline') ? 'basic' : this.layout;
+  var inputType = _.contains(['inline', 'search'], this.layout) ? 'basic' : this.layout;
 
   var templateName = _.camelize(inputType + '_' + this.as +'_input');
   return Template[templateName](this);

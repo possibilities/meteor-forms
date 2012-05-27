@@ -17,6 +17,16 @@
   {{/if}}
 </template>
 
+<template name="horizontalActions">
+  <div class="form-actions">
+    {{#if actions}}
+      {{#each actions}}
+        {{> action}}
+      {{/each}}
+    {{/if}}
+  </div>
+</template>
+
 <template name="action">
   {{{render this}}}
 </template>
