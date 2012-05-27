@@ -1,0 +1,19 @@
+<template name="basicTextInput">
+  {{#if label}}<label>{{label}}</label>{{/if}}
+  <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
+</template>
+
+<template name="horizontalTextInput">
+  <div class="control-group">
+    {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
+    <div class="controls">
+      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+      {{#if hint}}
+        <p class="help-block">{{hint}}</p>
+      {{/if}}
+    </div>
+  </div>
+</template>

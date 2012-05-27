@@ -6,11 +6,21 @@ Package.on_use(function (api) {
   // Dependencies
   api.use('bootstrap', 'client');
   api.use('templating', 'client');
-  // Scripts
+  // Vendored
   api.add_files('vendor/underscore.strings.js', 'client');
-  api.add_files('templates/actions.html', 'client');
+  // Templates
   api.add_files('templates/base.html', 'client');
-  api.add_files('templates/inputs.html', 'client');
+  api.add_files('templates/actions.html', 'client');
+  // Form input templtae
+  api.add_files('templates/inputs/text.html', 'client');
+  api.add_files('templates/inputs/textarea.html', 'client');
+  api.add_files('templates/inputs/checkbox.html', 'client');
+  // Core
   api.add_files('client.js', 'client');
   api.add_files('forms.css', 'client');
+  api.add_files('template.js', 'client');
+  // Forms
+  api.add_files('presets/search.js', 'client');
+  api.add_files('presets/inline.js', 'client');
+  api.add_files('presets/horizontal.js', 'client');
 });

@@ -1,0 +1,19 @@
+<template name="basicTextareaInput">
+  {{#if label}}<label>{{label}}</label>{{/if}}
+  <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"></textarea>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
+</template>
+
+<template name="horizontalTextareaInput">
+  <div class="control-group">
+    {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
+    <div class="controls">
+      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"></textarea>
+      {{#if hint}}
+        <span class="help-block">{{hint}}</span>
+      {{/if}}
+    </div>
+  </div>
+</template>

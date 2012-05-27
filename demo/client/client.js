@@ -1,37 +1,3 @@
-SearchForm = function(options) {
-  var defaultOptions = {
-    layout: 'search',
-    inputClasses: ['input-medium', 'search-query'],
-    noInputLabels: true
-  };
-  options = _.extend(defaultOptions, options);
-
-  Form.call(this, options);
-};
-_.extend(SearchForm.prototype, Form.prototype);
-
-HorizontalForm = function(options) {
-  var defaultOptions = {
-    layout: 'horizontal',
-    inputLayout: 'horizontal'
-  };
-  options = _.extend(defaultOptions, options);
-
-  Form.call(this, options);
-};
-_.extend(HorizontalForm.prototype, Form.prototype);
-
-InlineForm = function(options) {
-  var defaultOptions = {
-    layout: 'inline',
-    inputClasses: ['input-small'],
-  };
-  options = _.extend(defaultOptions, options);
-
-  Form.call(this, options);
-};
-_.extend(InlineForm.prototype, Form.prototype);
-
 Template.demo.basicForm = function() {
   return new Form({
     name: 'basic',
