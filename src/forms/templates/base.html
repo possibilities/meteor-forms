@@ -1,0 +1,41 @@
+<template name="form">
+  <form class="{{classes}}">
+    {{#if fieldsets}}
+      {{> fieldsets}}
+    {{else}}
+      {{> inputs}}
+    {{/if}}
+    {{> actions}}
+  </form>
+</template>
+
+<template name="actions">
+  {{#if actions}}
+    {{#each actions}}
+      {{> action}}
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="action">
+  {{{render this}}}
+</template>
+
+<template name="fieldsets">
+  {{#if fieldsets}}
+    {{#each fieldsets}}
+      <fieldset>
+        <legend>{{name}}</legend>
+        {{> inputs}}
+      </fieldset>
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="inputs">
+  {{#if inputs}}
+    {{#each inputs}}
+      {{{input}}}
+    {{/each}}
+  {{/if}}
+</template>
