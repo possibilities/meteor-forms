@@ -35,6 +35,5 @@ Meteor.defer(function() {
 });
 
 Meteor.startup(function() {
-  console.log(prettyPrint);
   prettyPrint();
 });
