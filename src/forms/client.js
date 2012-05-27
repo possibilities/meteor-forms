@@ -21,7 +21,8 @@ Form = function(options) {
 
   // Set defaults
   options.layout = options.layout || 'basic';
-  options.classes = options.classes || [];
+  var classes = options.classes ? options.classes : [];
+  options.classes = _.isString(options.classes) ? options.classes.split(' ') : options.classes;
   options.inputLayout = options.inputLayout || 'basic';
   options.actionLayout = (options.layout === 'horizontal') ? 'horizontal' : 'basic';
   options.labelByDefault = _.isBoolean(options.labelByDefault) ? options.labelByDefault : true;
@@ -194,7 +195,6 @@ Template.inputs.input = function() {
 };
 
 Template.form.actions = function() {
-  console.log(this);
   var templateName = _.camelize(this.actionLayout + '_actions');
   return Template[templateName](this);
 };

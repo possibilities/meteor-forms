@@ -18,7 +18,6 @@ Package.on_use(function (api) {
   // Core
   api.add_files('client.js', 'client');
   api.add_files('forms.css', 'client');
-  api.add_files('template.js', 'client');
   // Forms
   api.add_files('presets/search.js', 'client');
   api.add_files('presets/inline.js', 'client');
