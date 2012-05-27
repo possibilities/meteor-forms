@@ -17,34 +17,37 @@ _.mixin({
 _.mixin(_.str.exports());  
 
 Form = function(options) {
-  this.options = _.extend({}, options);
+  options = _.extend({}, options);
+
+  // Set defaults
+  options.layout = options.layout || 'basic';
+  options.classes = options.classes || [];
+  options.inputLayout = options.inputLayout || 'basic';
+  options.labelByDefault = _.isBoolean(options.labelByDefault) ? options.labelByDefault : true;
+  options.autoPlaceholders = _.isBoolean(options.autoPlaceholders) ? options.autoPlaceholders : false;
+  options.noInputLabels = _.isBoolean(options.noInputLabels) ? options.noInputLabels : false;
+
+  // Inject classes
+  options.classes = _.flatten([options.classes, 'form-' + options.layout]).join(' ');
+  
+  this.options = options;
 };
 
 Form.prototype.tag = function(form) {
   var self = this;
-  this.tag = {};
 
-  if (form.fieldsets) {
+  // Tag gets all the options set in the form construtor
+  this.tag = _.extend({}, this.options);
+
+  // Build up the fieldsets and inputs
+  if (form.fieldsets)
     this.tag.fieldsets = self._parseFieldsets(form.fieldsets);
-  } else {
+  else
     this.tag.inputs = self._parseInputs(form.inputs);
-  }
 
-  if (form.actions) {
+  // Build up the form actions
+  if (form.actions)
     this.tag.actions = self._parseActions(form.actions);
-  }
-
-  this.tag.classes = this.options.classes || '';
-  this.tag.name = this.options.name;
-  this.tag.layout = this.options.layout || 'basic';
-
-  if (this.tag.layout === 'horizontal') {
-    this.tag.classes = _.flatten([this.tag.classes, 'form-horizontal']).join(' ');
-  } else if (this.tag.layout === 'inline') {
-    this.tag.classes = _.flatten([this.tag.classes, 'form-inline']).join(' ');
-  } else if (this.tag.layout === 'search') {
-    this.tag.classes = _.flatten([this.tag.classes, 'form-search']).join(' ');
-  } 
 
   return this;
 };
@@ -127,36 +130,29 @@ Form.prototype._parseInputs = function(inputs) {
   inputs = self._parse(inputs);
   
   inputs = _.map(inputs, function(input) {
+
     // Figure out which classes it should have
     var classes = _.ensureArray(input.classes).join(' ');
-    if (self.options.inputClasses) {
+    if (self.options.inputClasses)
       classes = classes + ' ' + self.options.inputClasses.join(' ');
-    }
+    
+    // Calculate all the values the input will need
     var name = self.options.name + '[' + input.name + ']';
     var id = self.options.name + '_' + input.name;
-    var layout = self.options.layout;
     var as = input.as || 'text';
-    
-    if (layout === 'search') {
-      classes = classes + ' ' + ' search-query';
-    }
-  
-    // TODO Haha, clean this up!
-    var label = (
-      (
-        _.isBoolean(self.options.labelByDefault)
-          &&
-        !self.options.labelByDefault
-          &&
-        !input.label
-      )
-        ||
-      input.noLabel
-    ) ? null : (input.label || _.humanize(input.name));
-
     var placeholder = self.options.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
-    var hint = input.hint;
-    
+
+    // Calculate label if world peace exists
+    var label = (
+      !self.options.noInputLabels
+        &&
+      (
+        input.label
+          ||
+        self.options.labelByDefault
+      )
+    ) ? (input.label || _.humanize(input.name)) : null;
+
     return {
       as: as,
       classes: classes,
@@ -164,8 +160,9 @@ Form.prototype._parseInputs = function(inputs) {
       id: id,
       label: label,
       placeholder: placeholder,
-      hint: hint,
-      layout: layout
+      hint: input.hint,
+      layout: self.options.layout,
+      inputLayout: self.options.inputLayout
     };
   });
   return inputs;
@@ -189,8 +186,6 @@ Template.action.render = function() {
 };
 
 Template.inputs.input = function() {
-  var inputType = _.contains(['inline', 'search'], this.layout) ? 'basic' : this.layout;
-
-  var templateName = _.camelize(inputType + '_' + this.as +'_input');
+  var templateName = _.camelize(this.inputLayout + '_' + this.as +'_input');
   return Template[templateName](this);
 };

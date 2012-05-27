@@ -1,12 +1,41 @@
+SearchForm = function(options) {
+  var defaultOptions = {
+    layout: 'search',
+    inputClasses: ['input-medium', 'search-query'],
+    noInputLabels: true
+  };
+  options = _.extend(defaultOptions, options);
+
+  Form.call(this, options);
+};
+_.extend(SearchForm.prototype, Form.prototype);
+
+HorizontalForm = function(options) {
+  var defaultOptions = {
+    layout: 'horizontal',
+    inputLayout: 'horizontal'
+  };
+  options = _.extend(defaultOptions, options);
+
+  Form.call(this, options);
+};
+_.extend(HorizontalForm.prototype, Form.prototype);
+
+InlineForm = function(options) {
+  var defaultOptions = {
+    layout: 'inline',
+    inputClasses: ['input-small'],
+  };
+  options = _.extend(defaultOptions, options);
+
+  Form.call(this, options);
+};
+_.extend(InlineForm.prototype, Form.prototype);
 
 Template.demo.basicForm = function() {
   return new Form({
     name: 'basic',
-    layout: 'basic',
-    classes: 'well',
-    onSubmit: function() {
-      console.log('submitting', this);
-    }
+    classes: 'well'
   }).tag({
     inputs: [
       'title',
@@ -31,13 +60,9 @@ Template.demo.basicForm = function() {
 };
 
 Template.demo.horizontalForm = function() {
-  return new Form({
+  return new HorizontalForm({
     name: 'horizontal',
-    layout: 'horizontal',
-    classes: 'well',
-    onSubmit: function() {
-      console.log('submitting', this);
-    }
+    classes: 'well'
   }).tag({
     fieldsets: [
       'storyInfo', {
@@ -71,16 +96,12 @@ Template.demo.horizontalForm = function() {
 };
 
 Template.demo.searchForm = function() {
-  return new Form({
+  return new SearchForm({
     name: 'search',
-    classes: 'well',
-    inputClasses: ['input-medium'],
-    layout: 'search'
+    classes: 'well'
   }).tag({
     inputs: [
-      'query', {
-        noLabel: true
-      }
+      'query'
     ],
     actions: [
       'submit', {
@@ -91,11 +112,9 @@ Template.demo.searchForm = function() {
 };
 
 Template.demo.inlineForm = function() {
-  return new Form({
+  return new InlineForm({
     name: 'inline',
     classes: 'well',
-    layout: 'inline',
-    inputClasses: ['input-small'],
     autoPlaceholders: true,
     labelByDefault: false
   }).tag({
