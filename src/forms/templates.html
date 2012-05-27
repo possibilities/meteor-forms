@@ -1,0 +1,111 @@
+<template name="form">
+  <form class="{{classes}}">
+    {{#if fieldsets}}
+      {{> fieldsets}}
+    {{else}}
+      {{> inputs}}
+    {{/if}}
+    {{> actions}}
+  </form>
+</template>
+
+<template name="actions">
+  {{#if actions}}
+    {{#each actions}}
+      {{> action}}
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="action">
+  {{{render this}}}
+</template>
+
+<template name="submitAction">
+  <button type="submit" id="{{id}}" name="commit" class="btn">{{label}}</button>
+</template>
+
+<template name="cancelAction">
+  <button class="btn" name="cancel">{{label}}</button>
+</template>
+
+<template name="fieldsets">
+  {{#if fieldsets}}
+    {{#each fieldsets}}
+      <fieldset>
+        <legend>{{name}}</legend>
+        {{> inputs}}
+      </fieldset>
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="inputs">
+  {{#if inputs}}
+    {{#each inputs}}
+      {{{input}}}
+    {{/each}}
+  {{/if}}
+</template>
+
+<template name="basicTextInput">
+  {{#if label}}<label>{{label}}</label>{{/if}}
+  <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
+</template>
+
+<template name="horizontalTextInput">
+  <div class="control-group">
+    {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
+    <div class="controls">
+      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+      {{#if hint}}
+        <p class="help-block">{{hint}}</p>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="basicTextareaInput">
+  {{#if label}}<label>{{label}}</label>{{/if}}
+  <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"></textarea>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
+</template>
+
+<template name="horizontalTextareaInput">
+  <div class="control-group">
+    {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
+    <div class="controls">
+      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"></textarea>
+      {{#if hint}}
+        <span class="help-block">{{hint}}</span>
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="basicCheckboxInput">
+  <label class="checkbox">
+    <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox">{{#if label}} {{label}}{{/if}}
+  </label>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
+</template>
+
+<template name="horizontalCheckboxInput">
+  <div class="control-group">
+    <label class="checkbox" class="control-label" for="{{id}}">
+      <div class="controls">
+        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox">{{#if label}} {{label}}{{/if}}
+      </div>
+    </label>
+    {{#if hint}}
+      <span class="help-block">{{hint}}</span>
+    {{/if}}
+  </div>
+</template>

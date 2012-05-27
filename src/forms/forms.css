@@ -1,0 +1,15 @@
+body {
+  margin: 20px;
+}
+
+.well {
+  margin-top: 20px;
+}
+
+button.btn {
+  margin-right: 5px;
+}
+
+.actions button.btn {
+  margin-top: 10px;
+}

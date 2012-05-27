@@ -1,0 +1,32 @@
+<head>
+  <title>Forms Demo</title>
+</head>
+
+<body>
+  {{> demo}}
+  {{> forkMe}}
+</body>
+
+<template name="demo">
+  <div class="container">
+    <h1>Forms Demo</h1>
+
+    <p><em>A smart package for generating bootstrap forms (based on formtastic)</em></p>
+
+    <h2>Basic Form</h2>
+    {{{basicForm}}}
+
+    <h2>Search Form</h2>
+    {{{searchForm}}}
+
+    <h2>Inline Form</h2>
+    {{{inlineForm}}}
+
+    <h2>Horizontal Form</h2>
+    {{{horizontalForm}}}
+  </div>
+</template>
+
+<template name="forkMe">
+  <a href="https://github.com/possibilities/meteor-forms"><img class="forkMe" style="position: absolute; top: 0; right: 0; border: 0;" data-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+</template>
