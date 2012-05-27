@@ -4,7 +4,9 @@ Template.demo.searchForm = function() {
     classes: 'well'
   }).tag({
     inputs: [
-      'query'
+      'query', {
+        placeholder: 'Search for something...'
+      }
     ],
     actions: [
       'submit', {

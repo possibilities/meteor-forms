@@ -1,5 +1,6 @@
 Template.demo.code = function(form) {
   var name = form.tag.name + 'Form';
+  Meteor.defer(prettyPrint);
   return Session.get(name);
 };
 
@@ -32,8 +33,4 @@ Meteor.defer(function() {
   $forkMe = $('img.forkMe');
   var src = $forkMe.data('src');
   $forkMe.attr('src', src);
-});
-
-Meteor.startup(function() {
-  prettyPrint();
 });
