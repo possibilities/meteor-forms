@@ -1,11 +1,13 @@
 <template name="basicCheckboxInput">
-  <label class="checkbox">
-    <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="">
-    {{#if label}}{{label}}{{/if}}
-  </label>
-  {{#if hint}}
-    <span class="help-block">{{hint}}</span>
-  {{/if}}
+  <span class="control-group">
+    <label class="checkbox">
+      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="">
+      {{#if label}}{{label}}{{/if}}
+    </label>
+    {{#if hint}}
+      <span class="help-block">{{hint}}</span>
+    {{/if}}
+  </span>
 </template>
 
 <template name="horizontalCheckboxInput">

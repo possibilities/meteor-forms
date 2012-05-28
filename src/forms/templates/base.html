@@ -28,11 +28,13 @@
 </template>
 
 <template name="basicActions">
-  {{#if actions}}
-    {{#each actions}}
-      {{> action}}
-    {{/each}}
-  {{/if}}
+  <span class="form-basic-actions">
+    {{#if actions}}
+      {{#each actions}}
+        {{> action}}
+      {{/each}}
+    {{/if}}
+  </span>
 </template>
 
 <template name="horizontalActions">
