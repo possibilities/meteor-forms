@@ -2,7 +2,7 @@
   <form id="{{name}}Form" class="{{classes}}">
     <div class="formWrapper">
       {{> success}}
-      {{> error}}
+      {{> errorsReason}}
       {{#if fieldsets}}
         {{> fieldsets}}
       {{else}}
@@ -13,7 +13,7 @@
   </form>
 </template>
 
-<template name="error">
+<template name="errorsReason">
   {{#if errors}}
     {{#with errors}}
       <div class="alert alert-error">{{reason}}</div>

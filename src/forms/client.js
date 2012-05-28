@@ -269,7 +269,7 @@ Template.form.actions = function() {
   return Template[templateName](this);
 };
 
-Template.error.errors = function() {
+Template.errorsReason.errors = function() {
   var key = _.camelize(this.name + '_errors');
   return Session.get(key);
 };
