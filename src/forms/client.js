@@ -271,7 +271,12 @@ Template.form.actions = function() {
 
 Template.errorsReason.errors = function() {
   var key = _.camelize(this.name + '_errors');
-  return Session.get(key);
+  var errors = Session.get(key);
+
+  if (_.isString(errors))
+    return { reason: errors, details: [] };
+  else
+    return errors;
 };
 
 Template.success.success = function() {
