@@ -65,6 +65,12 @@ Form.prototype.render = function() {
 };
 Form.prototype.toString = Form.prototype.render;
 
+Form.prototype._handleErrors = function(errors) {
+  this.options.failure && this.options.failure(errors);
+  Session.set(this.tag.name + 'Errors', errors);
+  Session.set(this.tag.name + 'Success', null);
+};
+
 Form.prototype._onSubmit = function() {
   var self = this;
   var validatorName = _.constantize(self.tag.name + '_validator');
@@ -77,26 +83,42 @@ Form.prototype._onSubmit = function() {
   var success;
 
   if (validator.isValid()) {
-    self.options.success && self.options.success(self);
-    $form.find(':input').val('');
-    $form.find(':checkbox').prop('checked', false);
-    Session.set(self.tag.name + 'Success', validator.validations.successMessage);
-    Session.set(self.tag.name + 'Errors', null);
+    Meteor.call(self.options.method, formValues, function(errors, formValues) {
+      if (errors) {
+        self._handleErrors(errors);
+      } else {
+        self.options.success && self.options.success(self);
+        $form.find(':input').val('');
+        $form.find(':checkbox').prop('checked', false);
+        Session.set(self.tag.name + 'Success', validator.validations.successMessage);
+        Session.set(self.tag.name + 'Errors', null);
+      }
+    });
   } else {
-    self.options.failure && self.options.failure(validator.errors);
-    Session.set(self.tag.name + 'Errors', validator.errors);
-    Session.set(self.tag.name + 'Success', null);
+    self._handleErrors(validator.errors);
   }
 };
 
 Form.prototype._events = function() {
   var self = this;
   return {
-    'click button.btn': function(e) {
+    'click .cancelAction': function(e) {
+      e.preventDefault();
+      // self._onCancel();
+    },
+    'keydown .cancelAction': function(e) {
+
+      // Return or space bar on the button should cancel the form
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        e.preventDefault();
+        // self._onCancel();
+      }
+    },
+    'click .submitAction': function(e) {
       e.preventDefault();
       self._onSubmit();
     },
-    'keydown button.btn': function(e) {
+    'keydown .submitAction': function(e) {
 
       // Return or space bar on the button should submit the form
       if (e.keyCode === 13 || e.keyCode === 32) {

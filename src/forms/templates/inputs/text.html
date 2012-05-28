@@ -11,10 +11,10 @@
       </p>
     {{/if}}
 
-    {{#if hint}}
-      <span class="help-block">{{hint}}</span>
-    {{/if}}
   </span>
+  {{#if hint}}
+    <span class="help-block">{{hint}}</span>
+  {{/if}}
 </template>
 
 <template name="horizontalTextInput">
@@ -27,9 +27,4 @@
       {{/if}}
     </div>
   </div>
-</template>
-
-<template name="textError">
-  <!-- div and p break this for some reason, TODO: create GH issue -->
-  <span style="display:block">{{this}}</span>
 </template>
