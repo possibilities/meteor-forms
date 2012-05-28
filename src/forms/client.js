@@ -78,13 +78,11 @@ Form.prototype._onSubmit = function() {
 
   if (validator.isValid()) {
     self.options.success && self.options.success(self);
-    Meteor.defer(function() {
-      $form.find(':input').val('');
-      Session.set(self.tag.name + 'Success', validator.validations.successMessage);
-      Session.set(self.tag.name + 'Errors', null);
-    });
+    $form.find(':input').val('');
+    $form.find(':checkbox').prop('checked', false);
+    Session.set(self.tag.name + 'Success', validator.validations.successMessage);
+    Session.set(self.tag.name + 'Errors', null);
   } else {
-    self.errors = validator.errors;
     self.options.failure && self.options.failure(validator.errors);
     Session.set(self.tag.name + 'Errors', validator.errors);
     Session.set(self.tag.name + 'Success', null);
@@ -99,6 +97,7 @@ Form.prototype._events = function() {
       self._onSubmit();
     },
     'keydown button.btn': function(e) {
+
       // Return or space bar on the button should submit the form
       if (e.keyCode === 13 || e.keyCode === 32) {
         e.preventDefault();
@@ -106,9 +105,11 @@ Form.prototype._events = function() {
       }
     },
     'keydown input': function(e) {
+
       // Hitting enter on an input that isn't a button
       if (e.keyCode === 13 && !$(e.target).hasClass('btn')) {
         e.preventDefault();
+
         // Save field if it's a liveEdit field
         if (false) {
       
