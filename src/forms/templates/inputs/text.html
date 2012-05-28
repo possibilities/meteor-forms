@@ -1,9 +1,25 @@
 <template name="basicTextInput">
-  {{#if label}}<label>{{label}}</label>{{/if}}
-  <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
-  {{#if hint}}
-    <span class="help-block">{{hint}}</span>
-  {{/if}}
+  <span class="control-group {{#if errors}} error{{/if}}">
+    {{#if label}}<label>{{label}}</label>{{/if}}
+    <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
+  
+    {{#if errors}}
+      <p class="help-block">
+        {{#each errors}}
+          {{> error}}
+        {{/each}}
+      </p>
+    {{/if}}
+
+    {{#if hint}}
+      <span class="help-block">{{hint}}</span>
+    {{/if}}
+  </span>
+</template>
+
+<template name="error">
+  <!-- div and p break this for some reason, TODO: create GH issue -->
+  <span style="display:block">{{this}}</span>
 </template>
 
 <template name="horizontalTextInput">

@@ -1,12 +1,27 @@
 <template name="form">
-  <form class="{{classes}}">
-    {{#if fieldsets}}
-      {{> fieldsets}}
-    {{else}}
-      {{> inputs}}
-    {{/if}}
-    {{{actions}}}
+  <form id="{{name}}Form" class="{{classes}}">
+    {{> success}}
+    <div class="formWrapper">
+      {{#if errors}}
+        {{#with errors}}
+          <div class="alert alert-error">{{reason}}</div>
+        {{/with}}
+      {{/if}}
+      {{#if fieldsets}}
+        {{> fieldsets}}
+      {{else}}
+        {{> inputs}}
+      {{/if}}
+      {{{actions}}}
+    </div>
   </form>
+</template>
+
+
+<template name="success">
+  {{#if success}}
+    <p id="{{name}}Success" class="alert alert-success">{{success}}</p>
+  {{/if}}
 </template>
 
 <template name="basicActions">

@@ -8,6 +8,7 @@ Package.on_use(function (api) {
   api.use('templating', 'client');
   // Vendored
   api.add_files('vendor/underscore.strings.js', 'client');
+  api.add_files('vendor/form2js.js', 'client');
   // Templates
   api.add_files('templates/base.html', 'client');
   api.add_files('templates/actions.html', 'client');

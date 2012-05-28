@@ -9,6 +9,9 @@ _.mixin({
     
     // If it isn't an array make it so
     return _.isArray(scalarOrArray) ? scalarOrArray : [scalarOrArray];
+  },
+  constantize: function(str) {
+    return _.titleize(_.camelize(str));
   }
 });
 
@@ -38,7 +41,7 @@ Form = function(options) {
 Form.prototype.tag = function(form) {
   var self = this;
 
-  // Tag gets all the options set in the form construtor
+  // Tag gets all the options set in the form constructor
   this.tag = _.extend({}, this.options);
 
   // Build up the fieldsets and inputs
@@ -56,22 +59,50 @@ Form.prototype.tag = function(form) {
 
 Form.prototype.render = function() {
   Template.form.events = this._events();
+  Session.set(this.tag.name + 'Success', null);
+  Session.set(this.tag.name + 'Errors', null);
   return Template.form(this.tag);
 };
 Form.prototype.toString = Form.prototype.render;
+
+Form.prototype._onSubmit = function() {
+  var self = this;
+  var validatorName = _.constantize(self.tag.name + '_validator');
+  var validatorClass = window[validatorName];
+  var $form = $('#' + self.tag.name + 'Form');
+  var form = $form.get(0);
+
+  var formValues = form2js(form)[self.tag.name] || {};
+  var validator = new validatorClass(formValues);
+  var success;
+
+  if (validator.isValid()) {
+    self.options.success && self.options.success(self);
+    Meteor.defer(function() {
+      $form.find(':input').val('');
+      Session.set(self.tag.name + 'Success', validator.validations.successMessage);
+      Session.set(self.tag.name + 'Errors', null);
+    });
+  } else {
+    self.errors = validator.errors;
+    self.options.failure && self.options.failure(validator.errors);
+    Session.set(self.tag.name + 'Errors', validator.errors);
+    Session.set(self.tag.name + 'Success', null);
+  }
+};
 
 Form.prototype._events = function() {
   var self = this;
   return {
     'click button.btn': function(e) {
       e.preventDefault();
-      self.options.onSubmit.apply(self);
+      self._onSubmit();
     },
     'keydown button.btn': function(e) {
       // Return or space bar on the button should submit the form
       if (e.keyCode === 13 || e.keyCode === 32) {
         e.preventDefault();
-        self.options.onSubmit.apply(self);
+        self._onSubmit();
       }
     },
     'keydown input': function(e) {
@@ -83,7 +114,7 @@ Form.prototype._events = function() {
       
         // Otherwise submit the form
         } else {
-          self.options.onSubmit.apply(self);
+          self._onSubmit();
         }
       }
     }
@@ -139,7 +170,7 @@ Form.prototype._parseInputs = function(inputs) {
       classes = classes + ' ' + self.options.inputClasses.join(' ');
     
     // Calculate all the values the input will need
-    var name = self.options.name + '[' + input.name + ']';
+    var name = self.options.name + '.' + input.name;
     var id = self.options.name + '_' + input.name;
     var as = input.as || 'text';
     var placeholder = self.options.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
@@ -182,6 +213,21 @@ Form.prototype._parseActions = function(actions) {
   return actions;
 };
 
+// Class methods
+
+Form.helpers = {
+  inputErrors: function() {
+    // TODO avoid all this
+    var idParts = this.id.split('_');
+    var formName = idParts[0];
+    var fieldName = idParts[1];
+    var errors = Session.get(formName + 'Errors');
+    if (errors) {
+      return errors.details[fieldName];
+    }
+  }
+};
+
 // Template helpers
 
 Template.action.render = function() {
@@ -191,10 +237,21 @@ Template.action.render = function() {
 
 Template.inputs.input = function() {
   var templateName = _.camelize(this.inputLayout + '_' + this.as +'_input');
+  Template[templateName].errors = Form.helpers.inputErrors;
   return Template[templateName](this);
 };
 
 Template.form.actions = function() {
   var templateName = _.camelize(this.actionLayout + '_actions');
   return Template[templateName](this);
+};
+
+Template.form.errors = function() {
+  var key = _.camelize(this.name + '_errors');
+  return Session.get(key);
+};
+
+Template.success.success = function() {
+  var key = _.camelize(this.name + '_success');
+  return Session.get(key);
 };
