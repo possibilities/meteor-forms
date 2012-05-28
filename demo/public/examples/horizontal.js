@@ -28,7 +28,8 @@ Template.demo.horizontalForm = function() {
     actions: [
       'cancel',
       'submit', {
-        label: 'Save'
+        label: 'Save',
+        classes: 'btn-primary'
       }
     ]
   });
