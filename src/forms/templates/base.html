@@ -2,11 +2,6 @@
   <form id="{{name}}Form" class="{{classes}}">
     {{> success}}
     <div class="formWrapper">
-      {{#if errors}}
-        {{#with errors}}
-          <div class="alert alert-error">{{reason}}</div>
-        {{/with}}
-      {{/if}}
       {{#if fieldsets}}
         {{> fieldsets}}
       {{else}}
