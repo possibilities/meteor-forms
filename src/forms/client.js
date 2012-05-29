@@ -17,6 +17,8 @@ Form = function(options) {
   this.options = options;
 };
 
+_.extend(Form.prototype, Events);
+
 Form.prototype.tag = function(form) {
   var self = this;
 
@@ -51,6 +53,7 @@ Form.prototype._handleErrors = function(errors) {
 };
 
 Form.prototype._onSubmit = function() {
+  this.trigger('submit');
   var self = this;
   var success;
 
@@ -69,7 +72,7 @@ Form.prototype._onSubmit = function() {
         self.options.success && self.options.success(self);
         $form.find(':input').val('');
         $form.find(':checkbox').prop('checked', false);
-        Session.set(self.tag.name + 'Success', validator.validations.successMessage);
+        Session.set(self.tag.name + 'Success', validator.validate.successMessage);
         Session.set(self.tag.name + 'Errors', null);
       }
     });

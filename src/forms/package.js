@@ -9,6 +9,7 @@ Package.on_use(function (api) {
   // Vendored
   api.add_files('vendor/underscore.strings.js', 'client');
   api.add_files('vendor/form2js.js', 'client');
+  api.add_files('vendor/backbone-events.js', ['client', 'server']);
   // Templates
   api.add_files('templates/base.html', 'client');
   api.add_files('templates/actions.html', 'client');
