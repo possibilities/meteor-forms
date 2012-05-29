@@ -11,7 +11,7 @@ _.mixin({
     return _.isArray(scalarOrArray) ? scalarOrArray : [scalarOrArray];
   },
   constantize: function(str) {
-    return _.titleize(_.camelize(str));
+    return window[_.titleize(_.camelize(str))];
   }
 });
 
@@ -73,14 +73,14 @@ Form.prototype._handleErrors = function(errors) {
 
 Form.prototype._onSubmit = function() {
   var self = this;
-  var validatorName = _.constantize(self.tag.name + '_validator');
-  var validatorClass = window[validatorName];
+  var success;
+
   var $form = $('#' + self.tag.name + 'Form');
   var form = $form.get(0);
 
   var formValues = form2js(form)[self.tag.name] || {};
+  var validatorClass = _.constantize(self.tag.name + '_validator');
   var validator = new validatorClass(formValues);
-  var success;
 
   if (validator.isValid()) {
     Meteor.call(self.options.method, formValues, function(errors, formValues) {
