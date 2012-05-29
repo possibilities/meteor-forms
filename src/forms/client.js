@@ -1,24 +1,3 @@
-// Helpers
-
-_.mixin({
-  ensureArray: function(scalarOrArray) {
-
-    // If the obj is undefined return an empty array
-    if (_.isUndefined(scalarOrArray))
-      return [];
-    
-    // If it isn't an array make it so
-    return _.isArray(scalarOrArray) ? scalarOrArray : [scalarOrArray];
-  },
-  constantize: function(str) {
-    return window[_.titleize(_.camelize(str))];
-  }
-});
-
-// Load underscore.strings
-
-_.mixin(_.str.exports());  
-
 Form = function(options) {
   options = _.extend({}, options);
 
@@ -245,7 +224,7 @@ Form.helpers = {
     var formName = idParts[0];
     var fieldName = idParts[1];
     var errors = Session.get(formName + 'Errors');
-    if (errors) {
+    if (errors && errors.details) {
       return errors.details[fieldName];
     }
   }

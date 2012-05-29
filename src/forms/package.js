@@ -17,6 +17,9 @@ Package.on_use(function (api) {
   api.add_files('templates/inputs/textarea.html', 'client');
   api.add_files('templates/inputs/checkbox.html', 'client');
   // Core
+  api.add_files('utils/client.js', 'client');
+  api.add_files('utils/common.js', ['client', 'server']);
+  api.add_files('server.js', 'server');
   api.add_files('client.js', 'client');
   api.add_files('forms.css', 'client');
   // Forms
