@@ -5,6 +5,7 @@
   <script src="examples/search.js"></script>
   <script src="examples/horizontal.js"></script>
   <script src="examples/inline.js"></script>
+  <script src="examples/events.js"></script>
 </head>
 
 <body onload="prettyPrint()">
@@ -73,15 +74,14 @@
         </div>
         <div class="tab-pane" id="events">
           <h2>Events</h2>
+          <p>Form objects emit lifecycle events so it's easy to customize a form's behavior. Watch the console to see the events being fired</p>
           <div class="row">
             <div class="span6">
-              <p>Form objects emit lifecycle events so it's easy to customize a form's behavior</p>
-              <p>TODO</p>
+              {{{eventsForm}}}
             </div>
-            
-            <!-- <div class="span5">
-              <pre class="prettyprint"></pre>
-            </div> -->
+            <div class="span5">
+              <pre class="prettyprint">{{code eventsForm}}</pre>
+            </div>
           </div>
         </div>
       </div>

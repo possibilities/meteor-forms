@@ -47,14 +47,14 @@ Form.prototype.render = function() {
 Form.prototype.toString = Form.prototype.render;
 
 Form.prototype._handleErrors = function(errors) {
-  this.trigger('form:errors');
+  this.trigger('errors', errors);
 
   Session.set(this.tag.name + 'Errors', errors);
   Session.set(this.tag.name + 'Success', null);
 };
 
 Form.prototype._handleSuccess = function(message) {
-  this.trigger('form:success');
+  this.trigger('success', message);
 
   this.$form.find(':input').val('');
   this.$form.find(':checkbox').prop('checked', false);
@@ -67,7 +67,7 @@ Form.prototype._onSubmit = function() {
   var success, form, formValues,
       validatorClass, validator;
 
-  this.trigger('form:submit');
+  this.trigger('submit', self);
 
   self.$form = $('#' + self.tag.name + 'Form');
   form = self.$form.get(0);

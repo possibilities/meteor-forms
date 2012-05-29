@@ -25,6 +25,11 @@ Meteor.startup(function() {
       Session.set('searchForm', result.content);
     }
   });
+  Meteor.http.get('examples/events.js', function(err, result) {
+    if (!err) {
+      Session.set('eventsForm', result.content);
+    }
+  });
 });
 
 // Get github fork me graphic loaded. Found that client subscriptions sometimes
