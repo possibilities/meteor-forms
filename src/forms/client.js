@@ -47,37 +47,49 @@ Form.prototype.render = function() {
 Form.prototype.toString = Form.prototype.render;
 
 Form.prototype._handleErrors = function(errors) {
-  this.options.failure && this.options.failure(errors);
+  this.trigger('form:errors');
+
   Session.set(this.tag.name + 'Errors', errors);
   Session.set(this.tag.name + 'Success', null);
 };
 
+Form.prototype._handleSuccess = function(message) {
+  this.trigger('form:success');
+
+  this.$form.find(':input').val('');
+  this.$form.find(':checkbox').prop('checked', false);
+  Session.set(this.tag.name + 'Success', message);
+  Session.set(this.tag.name + 'Errors', null);
+};
+
 Form.prototype._onSubmit = function() {
-  this.trigger('submit');
   var self = this;
-  var success;
+  var success, form, formValues,
+      validatorClass, validator;
 
-  var $form = $('#' + self.tag.name + 'Form');
-  var form = $form.get(0);
+  this.trigger('form:submit');
 
-  var formValues = form2js(form)[self.tag.name] || {};
-  var validatorClass = _.constantize(self.tag.name + '_validator');
-  var validator = new validatorClass(formValues);
+  self.$form = $('#' + self.tag.name + 'Form');
+  form = self.$form.get(0);
 
-  if (validator.isValid()) {
-    Meteor.call(self.options.method, formValues, function(errors, formValues) {
-      if (errors) {
-        self._handleErrors(errors);
-      } else {
-        self.options.success && self.options.success(self);
-        $form.find(':input').val('');
-        $form.find(':checkbox').prop('checked', false);
-        Session.set(self.tag.name + 'Success', validator.validate.successMessage);
-        Session.set(self.tag.name + 'Errors', null);
-      }
-    });
+  formValues = form2js(form)[self.tag.name] || {};
+  validatorClass = _.constantize(self.tag.name + '_validator');
+  if (validatorClass) {
+    validator = new validatorClass(formValues);
+
+    if (validator.isValid()) {
+      Meteor.call(self.options.method, formValues, function(errors, formValues) {
+        if (errors) {
+          self._handleErrors(errors);
+        } else {
+          self._handleSuccess(validator.validate.successMessage);
+        }
+      });
+    } else {
+      self._handleErrors(validator.errors);
+    }
   } else {
-    self._handleErrors(validator.errors);
+    self._handleSuccess(self.successMessage);
   }
 };
 
