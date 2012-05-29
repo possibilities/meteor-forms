@@ -19,5 +19,6 @@ _.mixin({
     name = _.camelize(name);
     var _global = Meteor.is_client ? window : global;
     return _global[name];
-  }
+  },
+
 });

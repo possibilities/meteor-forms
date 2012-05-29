@@ -91,7 +91,7 @@ Form.prototype._events = function() {
     'keydown .cancelAction': function(e) {
 
       // Return or space bar on the button should cancel the form
-      if (e.keyCode === 13 || e.keyCode === 32) {
+      if (_.isSubmitKey(e)) {
         e.preventDefault();
         // self._onCancel();
       }
@@ -103,7 +103,7 @@ Form.prototype._events = function() {
     'keydown .submitAction': function(e) {
 
       // Return or space bar on the button should submit the form
-      if (e.keyCode === 13 || e.keyCode === 32) {
+      if (_.isSubmitKey(e)) {
         e.preventDefault();
         self._onSubmit();
       }
@@ -111,7 +111,7 @@ Form.prototype._events = function() {
     'keydown input': function(e) {
 
       // Hitting enter on an input that isn't a button
-      if (e.keyCode === 13 && !$(e.target).hasClass('btn')) {
+      if (_.isReturnKey(e) && !$(e.target).hasClass('btn')) {
         e.preventDefault();
 
         // Save field if it's a liveEdit field
