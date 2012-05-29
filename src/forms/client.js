@@ -39,11 +39,24 @@ Form.prototype.tag = function(form) {
 };
 
 Form.prototype.render = function() {
-  Template.form.events = this._events();
+  var self = this;
+  
+  // Keep a reference to the form
+  Meteor.defer(function() {
+    self.$form = $('#' + self.tag.name + 'Form');
+    self.form = self.$form.get(0);
+  });
+
+  // Update the display with a success or error message
   Session.set(this.tag.name + 'Success', null);
   Session.set(this.tag.name + 'Errors', null);
+
+  // Add events and render it
+  Template.form.events = this._events();
   return Template.form(this.tag);
 };
+// Alias to toString so the form get's rendered when
+// it's added to a template
 Form.prototype.toString = Form.prototype.render;
 
 Form.prototype._handleErrors = function(errors) {
@@ -69,10 +82,7 @@ Form.prototype._onSubmit = function() {
 
   this.trigger('submit', self);
 
-  self.$form = $('#' + self.tag.name + 'Form');
-  form = self.$form.get(0);
-
-  formValues = form2js(form)[self.tag.name] || {};
+  formValues = form2js(self.form)[self.tag.name] || {};
   validatorClass = _.constantize(self.tag.name + '_validator');
   if (validatorClass) {
     validator = new validatorClass(formValues);
