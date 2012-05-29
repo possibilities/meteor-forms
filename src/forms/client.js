@@ -136,6 +136,8 @@ Form.prototype._onSubmit = function() {
           }
         });
       }
+    } else {
+      self._handleSuccess(self.tag.successMessage);
     }
   }
 };

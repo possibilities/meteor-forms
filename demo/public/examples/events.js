@@ -1,7 +1,9 @@
 Template.demo.eventsForm = function() {
   var form = new Form({
     name: 'events',
-    classes: 'well'
+    classes: 'well',
+    method: artificialDelay,
+    successMessage: 'Great, the form was submitted!'
   }).tag({
     inputs: [
       'title',
