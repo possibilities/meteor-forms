@@ -3,7 +3,10 @@ Template.demo.inlineForm = function() {
     name: 'inline',
     classes: 'well',
     autoPlaceholders: true,
-    labelByDefault: false
+    labelByDefault: false,
+    // Delay everything so we can get 
+    // a look at the loading state
+    method: artificialDelay
   }).tag({
     inputs: [
       'email',

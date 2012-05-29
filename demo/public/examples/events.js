@@ -1,7 +1,10 @@
 Template.demo.eventsForm = function() {
   var form = new Form({
     name: 'events',
-    classes: 'well'
+    classes: 'well',
+    // Delay everything so we can get 
+    // a look at the loading state
+    method: artificialDelay
   }).tag({
     inputs: [
       'title',
