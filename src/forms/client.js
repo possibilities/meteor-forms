@@ -126,7 +126,17 @@ Form.prototype._onSubmit = function() {
       self._handleErrors(validator.errors);
     }
   } else {
-    self._handleSuccess(self.successMessage);
+    if (self.options.method) {
+      if (_.isFunction(self.options.method)) {
+        self.options.method(function(errors) {
+          if (errors) {
+            self._handleErrors(errors);
+          } else {
+            self._handleSuccess(self.tag.successMessage);
+          }
+        });
+      }
+    }
   }
 };
 

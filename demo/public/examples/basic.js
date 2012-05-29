@@ -1,7 +1,15 @@
+var artificialDelay = function(afterDelay) {
+  Meteor.setTimeout(afterDelay, 3000);
+};
+
 Template.demo.basicForm = function() {
   return new Form({
     name: 'basic',
-    classes: 'well'
+    classes: 'well',
+    // Delay everything so we can get 
+    // a look at the loading state
+    method: artificialDelay,
+    successMessage: 'Great, the form was submitted!'
   }).tag({
     inputs: [
       'title',

@@ -1,7 +1,9 @@
 Template.demo.horizontalForm = function() {
   return new HorizontalForm({
     name: 'horizontal',
-    classes: 'well'
+    classes: 'well',
+    method: artificialDelay,
+    successMessage: 'Great, the form was submitted!'
   }).tag({
     fieldsets: [
       'storyInfo', {

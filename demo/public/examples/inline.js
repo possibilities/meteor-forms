@@ -3,7 +3,9 @@ Template.demo.inlineForm = function() {
     name: 'inline',
     classes: 'well',
     autoPlaceholders: true,
-    labelByDefault: false
+    labelByDefault: false,
+    method: artificialDelay,
+    successMessage: 'Great, the form was submitted!'
   }).tag({
     inputs: [
       'email',
