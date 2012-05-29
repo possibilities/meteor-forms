@@ -10,14 +10,3 @@ form {
   display: block;
   margin-top: 20px;
 }
-
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 11px;
-  background-image: url("/packages/forms/public/spinner.gif") !important;
-}
-
-.hide {
-  display: none;
-}

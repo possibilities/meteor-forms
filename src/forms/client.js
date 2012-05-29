@@ -14,32 +14,10 @@ Form = function(options) {
   // Inject classes
   options.classes = _.flatten([options.classes, 'form-' + options.layout]).join(' ');
   
-  var self = this;
-  
-  this.on('success', function() {
-    self._loadingStop();
-  });
-  this.on('errors', function() {
-    self._loadingStop();
-  });
-  this.on('submit', function() {
-    self._loadingStart();
-  });
-
   this.options = options;
 };
 
 _.extend(Form.prototype, Events);
-
-Form.prototype._loadingStart = function(form) {
-  this.$form.find(':input').prop('disabled', true);
-  this.$form.find('.spinner').removeClass('hide');
-};
-
-Form.prototype._loadingStop = function(form) {
-  this.$form.find(':input').prop('disabled', false);
-  this.$form.find('.spinner').addClass('hide');
-};
 
 Form.prototype.tag = function(form) {
   var self = this;
@@ -61,24 +39,11 @@ Form.prototype.tag = function(form) {
 };
 
 Form.prototype.render = function() {
-  var self = this;
-  
-  Meteor.defer(function() {
-    // Keep a reference to the form
-    self.$form = $('#' + self.tag.name + 'Form');
-    self.form = self.$form.get(0);
-  });
-  
-  // Update the display with a success or error message
+  Template.form.events = this._events();
   Session.set(this.tag.name + 'Success', null);
   Session.set(this.tag.name + 'Errors', null);
-
-  // Add events and render it
-  Template.form.events = this._events();
   return Template.form(this.tag);
 };
-// Alias to toString so the form get's rendered when
-// it's added to a template
 Form.prototype.toString = Form.prototype.render;
 
 Form.prototype._handleErrors = function(errors) {
@@ -107,7 +72,7 @@ Form.prototype._onSubmit = function() {
   self.$form = $('#' + self.tag.name + 'Form');
   form = self.$form.get(0);
 
-  formValues = form2js(this.form)[self.tag.name] || {};
+  formValues = form2js(form)[self.tag.name] || {};
   validatorClass = _.constantize(self.tag.name + '_validator');
   if (validatorClass) {
     validator = new validatorClass(formValues);
@@ -124,13 +89,7 @@ Form.prototype._onSubmit = function() {
       self._handleErrors(validator.errors);
     }
   } else {
-    if (self.options.method && _.isFunction(self.options.method)) {
-      self.options.method.call(self, function(err, result) {
-        self._handleSuccess(self.successMessage);
-      });
-    } else {
-      self._handleSuccess(self.successMessage);
-    }
+    self._handleSuccess(self.successMessage);
   }
 };
 

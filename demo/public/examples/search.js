@@ -1,10 +1,7 @@
 Template.demo.searchForm = function() {
   return new SearchForm({
     name: 'search',
-    classes: 'well',
-    // Delay everything so we can get 
-    // a look at the loading state
-    method: artificialDelay
+    classes: 'well'
   }).tag({
     inputs: [
       'query', {

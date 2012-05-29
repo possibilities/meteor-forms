@@ -1,10 +1,7 @@
 Template.demo.horizontalForm = function() {
   return new HorizontalForm({
     name: 'horizontal',
-    classes: 'well',
-    // Delay everything so we can get 
-    // a look at the loading state
-    method: artificialDelay
+    classes: 'well'
   }).tag({
     fieldsets: [
       'storyInfo', {
