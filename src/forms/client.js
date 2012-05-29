@@ -1,4 +1,5 @@
 Form = function(options) {
+  var self = this;
   options = _.extend({}, options);
 
   // Set defaults
@@ -11,13 +12,39 @@ Form = function(options) {
   options.autoPlaceholders = _.isBoolean(options.autoPlaceholders) ? options.autoPlaceholders : false;
   options.noInputLabels = _.isBoolean(options.noInputLabels) ? options.noInputLabels : false;
 
-  // Inject classes
+  // Figure out classes
   options.classes = _.flatten([options.classes, 'form-' + options.layout]).join(' ');
+
+  this.on('success', function() {
+    self._loadingStop();
+  });
+  this.on('errors', function() {
+    self._loadingStop();
+  });
+  this.on('submit', function() {
+    self._loadingStart();
+  });
   
   this.options = options;
 };
 
 _.extend(Form.prototype, Events);
+
+Form.prototype._loadingStart = function() {
+  var self = this;
+  Meteor.defer(function() {
+    self.$form.find(':input').prop('disabled', true);
+    self.$form.find('.spinner').removeClass('hide');
+  });
+};
+
+Form.prototype._loadingStop = function() {
+  var self = this;
+  Meteor.defer(function() {
+    self.$form.find(':input').prop('disabled', false);
+    self.$form.find('.spinner').addClass('hide');
+  });
+};
 
 Form.prototype.tag = function(form) {
   var self = this;
@@ -77,7 +104,7 @@ Form.prototype._handleSuccess = function(message) {
 
 Form.prototype._onSubmit = function() {
   var self = this;
-  var success, form, formValues,
+  var success, formValues,
       validatorClass, validator;
 
   this.trigger('submit', self);
