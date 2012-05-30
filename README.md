@@ -6,8 +6,6 @@ A smart package for generating bootstrap forms (inspired by [formtastic](https:/
 
 Mass assignment protection where possible
 
-Cache some dom elements we're looking up in Form
-
 Allow setting default value when defining form
 
 Change all examples so the form isn't defined every time

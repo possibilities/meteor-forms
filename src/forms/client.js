@@ -36,16 +36,16 @@ _.extend(Form.prototype, Events);
 Form.prototype._loadingStart = function() {
   var self = this;
   Meteor.defer(function() {
-    self.$form.find(':input').prop('disabled', true);
-    self.$form.find('.spinner').removeClass('hide');
+    self.$inputs.prop('disabled', true);
+    self.$spinner.removeClass('hide');
   });
 };
 
 Form.prototype._loadingStop = function() {
   var self = this;
   Meteor.defer(function() {
-    self.$form.find(':input').prop('disabled', false);
-    self.$form.find('.spinner').addClass('hide');
+    self.$inputs.prop('disabled', false);
+    self.$spinner.addClass('hide');
   });
 };
 
@@ -54,10 +54,12 @@ Form.prototype.render = function() {
 
   this.trigger('render');
   
-  // Keep a reference to the form
+  // Keep a references to important dom elements
   Meteor.defer(function() {
     self.$form = $('#' + self.name + 'Form');
     self.form = self.$form.get(0);
+    self.$inputs = self.$form.find(':input');
+    self.$spinner = self.$form.find('.spinner');
   });
 
   // Update the display with a success or error message
