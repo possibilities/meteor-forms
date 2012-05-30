@@ -67,6 +67,8 @@ Form.prototype.tag = function(form) {
 
 Form.prototype.render = function() {
   var self = this;
+
+  this.trigger('render');
   
   // Keep a reference to the form
   Meteor.defer(function() {

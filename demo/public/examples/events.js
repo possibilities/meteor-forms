@@ -38,5 +38,9 @@ Template.demo.eventsForm = function() {
     console.info('[errors]', errors);
   });
   
+  form.on('render', function() {
+    console.info('[render]');
+  });
+
   return form;
 };
