@@ -27,15 +27,15 @@ Template.demo.eventsForm = function() {
   });
   
   form.on('submit', function(form) {
-    console.info('Event: submit, Form name:', form.tag.name);
+    console.info('[submit]', form);
   });
   
   form.on('success', function(message) {
-    console.info('Event: success, Message:', message);
+    console.info('[success]', message);
   });
   
   form.on('errors', function(errors) {
-    console.info('Event: errors, Reason:', errors.reason);
+    console.info('[errors]', errors);
   });
   
   return form;
