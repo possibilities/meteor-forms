@@ -25,16 +25,10 @@ Form = function(attributes) {
   // Figure out classes
   self.classes = _.flatten([self.classes, 'form-' + self.layout]).join(' ');
 
-  this.on('success', function() {
-    self._loadingStop();
-  });
-  this.on('errors', function() {
-    self._loadingStop();
-  });
-  this.on('submit', function() {
-    self._loadingStart();
-  });
-
+  // Wire up internal event handling for loading indicator
+  this.on('success', self._loadingStop);
+  this.on('errors', self._loadingStop);
+  this.on('submit', self._loadingStart);
 };
 
 _.extend(Form.prototype, Events);
