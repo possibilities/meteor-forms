@@ -235,8 +235,8 @@ Form.prototype._parseInputs = function(inputs) {
     ) ? (input.label || _.humanize(input.name)) : null;
 
     // Calculate all the values the input will need
-    input.name = self.name + '.' + input.name;
-    input.id = self.name + '_' + input.name;
+    input.elementName = self.name + '.' + input.name;
+    input.elementId = self.name + '_' + input.name;
     input.as = input.as || 'text';
     input.placeholder = self.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
     input.layout = self.layout;
@@ -263,7 +263,7 @@ Form.prototype._parseActions = function(actions) {
 Form.helpers = {
   inputErrors: function() {
     // TODO avoid all this
-    var idParts = this.id.split('_');
+    var idParts = this.elementId.split('_');
     var formName = idParts[0];
     var fieldName = idParts[1];
     var errors = Session.get(formName + 'Errors');
@@ -292,7 +292,7 @@ Template.form.actions = function() {
 };
 
 Template.errorsReason.errors = function() {
-  var key = _.camelize(this.name + '_errors');
+  var key = _.camelize(this.elementName + '_errors');
   var errors = Session.get(key);
 
   if (_.isString(errors))
@@ -302,6 +302,6 @@ Template.errorsReason.errors = function() {
 };
 
 Template.success.success = function() {
-  var key = _.camelize(this.name + '_success');
+  var key = _.camelize(this.elementName + '_success');
   return Session.get(key);
 };
