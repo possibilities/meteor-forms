@@ -9,8 +9,7 @@ Template.demo.basicForm = function() {
     // Delay everything so we can get 
     // a look at the loading state
     method: artificialDelay,
-    successMessage: 'Great, the form was submitted!'
-  }).tag({
+    successMessage: 'Great, the form was submitted!',
     inputs: [
       'title',
       'body', {

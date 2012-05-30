@@ -4,11 +4,9 @@ A smart package for generating bootstrap forms (inspired by [formtastic](https:/
 
 ## TODO
 
-Add render event
-
-Get rid of tag() garbage
-
 Mass assignment protection where possible
+
+Cache some dom elements we're looking up in Form
 
 Allow setting default value when defining form
 

@@ -3,8 +3,7 @@ Template.demo.eventsForm = function() {
     name: 'events',
     classes: 'well',
     method: artificialDelay,
-    successMessage: 'Great, the form was submitted!'
-  }).tag({
+    successMessage: 'Great, the form was submitted!',
     inputs: [
       'title',
       'body', {

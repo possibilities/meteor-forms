@@ -3,8 +3,7 @@ Template.demo.searchForm = function() {
     name: 'search',
     classes: 'well',
     method: artificialDelay,
-    successMessage: 'Great, the form was submitted!'
-  }).tag({
+    successMessage: 'Great, the form was submitted!',
     inputs: [
       'query', {
         placeholder: 'Search for something...'

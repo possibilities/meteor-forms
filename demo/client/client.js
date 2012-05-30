@@ -1,11 +1,11 @@
 Template.demo.code = function(form) {
-  var name = form.tag.name + 'Form';
+  var name = form.name + 'Form';
   Meteor.defer(prettyPrint);
   return Session.get(name);
 };
 
 Meteor.startup(function() {
-  Meteor.http.get('/examples/basic.js', function(err, result) {
+  Meteor.http.get('examples/basic.js', function(err, result) {
     if (!err) {
       Session.set('basicForm', result.content);
     }

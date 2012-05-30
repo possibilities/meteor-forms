@@ -1,19 +1,29 @@
-Form = function(options) {
+Form = function(attributes) {
   var self = this;
-  options = _.extend({}, options);
+  _.extend(self, attributes);
 
   // Set defaults
-  options.layout = options.layout || 'basic';
-  var classes = options.classes ? options.classes : [];
-  options.classes = _.isString(options.classes) ? options.classes.split(' ') : options.classes;
-  options.inputLayout = options.inputLayout || 'basic';
-  options.actionLayout = (options.layout === 'horizontal') ? 'horizontal' : 'basic';
-  options.labelByDefault = _.isBoolean(options.labelByDefault) ? options.labelByDefault : true;
-  options.autoPlaceholders = _.isBoolean(options.autoPlaceholders) ? options.autoPlaceholders : false;
-  options.noInputLabels = _.isBoolean(options.noInputLabels) ? options.noInputLabels : false;
+  self.layout = self.layout || 'basic';
+  var classes = self.classes ? self.classes : [];
+  self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
+  self.inputLayout = self.inputLayout || 'basic';
+  self.actionLayout = (self.layout === 'horizontal') ? 'horizontal' : 'basic';
+  self.labelByDefault = _.isBoolean(self.labelByDefault) ? self.labelByDefault : true;
+  self.autoPlaceholders = _.isBoolean(self.autoPlaceholders) ? self.autoPlaceholders : false;
+  self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
+
+  // Build up the fieldsets and inputs
+  if (self.fieldsets)
+    self.fieldsets = self._parseFieldsets(self.fieldsets);
+  else
+    self.inputs = self._parseInputs(self.inputs);
+
+  // Build up the form actions
+  if (self.actions)
+    self.actions = self._parseActions(self.actions);
 
   // Figure out classes
-  options.classes = _.flatten([options.classes, 'form-' + options.layout]).join(' ');
+  self.classes = _.flatten([self.classes, 'form-' + self.layout]).join(' ');
 
   this.on('success', function() {
     self._loadingStop();
@@ -24,8 +34,7 @@ Form = function(options) {
   this.on('submit', function() {
     self._loadingStart();
   });
-  
-  this.options = options;
+
 };
 
 _.extend(Form.prototype, Events);
@@ -46,25 +55,6 @@ Form.prototype._loadingStop = function() {
   });
 };
 
-Form.prototype.tag = function(form) {
-  var self = this;
-
-  // Tag gets all the options set in the form constructor
-  this.tag = _.extend({}, this.options);
-
-  // Build up the fieldsets and inputs
-  if (form.fieldsets)
-    this.tag.fieldsets = self._parseFieldsets(form.fieldsets);
-  else
-    this.tag.inputs = self._parseInputs(form.inputs);
-
-  // Build up the form actions
-  if (form.actions)
-    this.tag.actions = self._parseActions(form.actions);
-
-  return this;
-};
-
 Form.prototype.render = function() {
   var self = this;
 
@@ -72,17 +62,17 @@ Form.prototype.render = function() {
   
   // Keep a reference to the form
   Meteor.defer(function() {
-    self.$form = $('#' + self.tag.name + 'Form');
+    self.$form = $('#' + self.name + 'Form');
     self.form = self.$form.get(0);
   });
 
   // Update the display with a success or error message
-  Session.set(this.tag.name + 'Success', null);
-  Session.set(this.tag.name + 'Errors', null);
+  Session.set(this.name + 'Success', null);
+  Session.set(this.name + 'Errors', null);
 
   // Add events and render it
   Template.form.events = this._events();
-  return Template.form(this.tag);
+  return Template.form(this);
 };
 // Alias to toString so the form get's rendered when
 // it's added to a template
@@ -91,8 +81,8 @@ Form.prototype.toString = Form.prototype.render;
 Form.prototype._handleErrors = function(errors) {
   this.trigger('errors', errors);
 
-  Session.set(this.tag.name + 'Errors', errors);
-  Session.set(this.tag.name + 'Success', null);
+  Session.set(this.name + 'Errors', errors);
+  Session.set(this.name + 'Success', null);
 };
 
 Form.prototype._handleSuccess = function(message) {
@@ -100,8 +90,8 @@ Form.prototype._handleSuccess = function(message) {
 
   this.$form.find(':input').val('');
   this.$form.find(':checkbox').prop('checked', false);
-  Session.set(this.tag.name + 'Success', message);
-  Session.set(this.tag.name + 'Errors', null);
+  Session.set(this.name + 'Success', message);
+  Session.set(this.name + 'Errors', null);
 };
 
 Form.prototype._onSubmit = function() {
@@ -111,13 +101,13 @@ Form.prototype._onSubmit = function() {
 
   this.trigger('submit', self);
 
-  formValues = form2js(self.form)[self.tag.name] || {};
-  validatorClass = _.constantize(self.tag.name + '_validator');
+  formValues = form2js(self.form)[self.name] || {};
+  validatorClass = _.constantize(self.name + '_validator');
   if (validatorClass) {
     validator = new validatorClass(formValues);
 
     if (validator.isValid()) {
-      Meteor.call(self.options.method, formValues, function(errors, formValues) {
+      Meteor.call(self.method, formValues, function(errors, formValues) {
         if (errors) {
           self._handleErrors(errors);
         } else {
@@ -128,18 +118,18 @@ Form.prototype._onSubmit = function() {
       self._handleErrors(validator.errors);
     }
   } else {
-    if (self.options.method) {
-      if (_.isFunction(self.options.method)) {
-        self.options.method(function(errors) {
+    if (self.method) {
+      if (_.isFunction(self.method)) {
+        self.method(function(errors) {
           if (errors) {
             self._handleErrors(errors);
           } else {
-            self._handleSuccess(self.tag.successMessage);
+            self._handleSuccess(self.successMessage);
           }
         });
       }
     } else {
-      self._handleSuccess(self.tag.successMessage);
+      self._handleSuccess(self.successMessage);
     }
   }
 };
@@ -234,23 +224,23 @@ Form.prototype._parseInputs = function(inputs) {
 
     // Figure out which classes it should have
     var classes = _.ensureArray(input.classes).join(' ');
-    if (self.options.inputClasses)
-      classes = classes + ' ' + self.options.inputClasses.join(' ');
+    if (self.inputClasses)
+      classes = classes + ' ' + self.inputClasses.join(' ');
     
     // Calculate all the values the input will need
-    var name = self.options.name + '.' + input.name;
-    var id = self.options.name + '_' + input.name;
+    var name = self.name + '.' + input.name;
+    var id = self.name + '_' + input.name;
     var as = input.as || 'text';
-    var placeholder = self.options.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
+    var placeholder = self.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
 
     // Calculate label if world peace exists
     var label = (
-      !self.options.noInputLabels
+      !self.noInputLabels
         &&
       (
         input.label
           ||
-        self.options.labelByDefault
+        self.labelByDefault
       )
     ) ? (input.label || _.humanize(input.name)) : null;
 
@@ -262,8 +252,8 @@ Form.prototype._parseInputs = function(inputs) {
       label: label,
       placeholder: placeholder,
       hint: input.hint,
-      layout: self.options.layout,
-      inputLayout: self.options.inputLayout
+      layout: self.layout,
+      inputLayout: self.inputLayout
     };
   });
   return inputs;

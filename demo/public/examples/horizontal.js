@@ -3,8 +3,7 @@ Template.demo.horizontalForm = function() {
     name: 'horizontal',
     classes: 'well',
     method: artificialDelay,
-    successMessage: 'Great, the form was submitted!'
-  }).tag({
+    successMessage: 'Great, the form was submitted!',
     fieldsets: [
       'storyInfo', {
         inputs: [

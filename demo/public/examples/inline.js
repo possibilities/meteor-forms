@@ -5,8 +5,7 @@ Template.demo.inlineForm = function() {
     autoPlaceholders: true,
     labelByDefault: false,
     method: artificialDelay,
-    successMessage: 'Great, the form was submitted!'
-  }).tag({
+    successMessage: 'Great, the form was submitted!',
     inputs: [
       'email',
       'password',
