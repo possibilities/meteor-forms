@@ -14,6 +14,7 @@ Template.demo.basicForm = function() {
       'title',
       'body', {
         as: 'textarea',
+        value: 'Some default text!', 
         hint: 'Some help text about the field'
       },
       'section',

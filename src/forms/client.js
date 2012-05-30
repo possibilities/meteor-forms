@@ -240,6 +240,7 @@ Form.prototype._parseInputs = function(inputs) {
       )
     ) ? (input.label || _.humanize(input.name)) : null;
 
+    // TODO hmmmm
     return {
       as: as,
       classes: classes,
@@ -247,6 +248,7 @@ Form.prototype._parseInputs = function(inputs) {
       id: id,
       label: label,
       placeholder: placeholder,
+      value: input.value,
       hint: input.hint,
       layout: self.layout,
       inputLayout: self.inputLayout

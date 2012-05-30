@@ -1,7 +1,7 @@
 <template name="basicTextInput">
   <span class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label>{{label}}</label>{{/if}}
-    <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
+    <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
   
     {{#if errors}}
       <p class="help-block">
@@ -21,7 +21,7 @@
   <div class="control-group">
     {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
     <div class="controls">
-      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
+      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
       {{#if hint}}
         <p class="help-block">{{hint}}</p>
       {{/if}}
