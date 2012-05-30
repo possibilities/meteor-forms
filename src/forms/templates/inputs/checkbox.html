@@ -1,7 +1,7 @@
 <template name="basicCheckboxInput">
   <span class="control-group">
     <label class="checkbox">
-      <input id="{{elementId}}" name="{{elementName}}" class="{{classes}}" type="checkbox" value="">
+      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="">
       {{#if label}}{{label}}{{/if}}
     </label>
     {{#if hint}}
@@ -12,9 +12,9 @@
 
 <template name="horizontalCheckboxInput">
   <div class="control-group">
-    <label class="checkbox" class="control-label" for="{{elementId}}">
+    <label class="checkbox" class="control-label" for="{{id}}">
       <div class="controls">
-        <input id="{{elementId}}" name="{{elementName}}" class="{{classes}}" type="checkbox">
+        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox">
         {{#if label}} {{label}}{{/if}}
       </div>
     </label>

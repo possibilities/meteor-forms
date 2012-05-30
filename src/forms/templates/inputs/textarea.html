@@ -1,7 +1,7 @@
 <template name="basicTextareaInput">
   <span class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label>{{label}}</label>{{/if}}
-    <textarea id="{{elementId}}" name="{{elementName}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+    <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
     {{#if errors}}
       <p class="help-block">
         {{#each errors}}
@@ -17,9 +17,9 @@
 
 <template name="horizontalTextareaInput">
   <div class="control-group">
-    {{#if label}}<label class="control-label" for="{{elementId}}">{{label}}</label>{{/if}}
+    {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
     <div class="controls">
-      <textarea id="{{elementId}}" name="{{elementName}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
       {{#if hint}}
         <span class="help-block">{{hint}}</span>
       {{/if}}
