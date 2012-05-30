@@ -216,21 +216,15 @@ Form.prototype._parseInputs = function(inputs) {
   var self = this;
   inputs = self._parse(inputs);
   
-  inputs = _.map(inputs, function(input) {
+  return _.map(inputs, function(input) {
 
     // Figure out which classes it should have
-    var classes = _.ensureArray(input.classes).join(' ');
+    input.classes = _.ensureArray(input.classes).join(' ');
     if (self.inputClasses)
-      classes = classes + ' ' + self.inputClasses.join(' ');
+      input.classes = input.classes + ' ' + self.inputClasses.join(' ');
     
-    // Calculate all the values the input will need
-    var name = self.name + '.' + input.name;
-    var id = self.name + '_' + input.name;
-    var as = input.as || 'text';
-    var placeholder = self.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
-
     // Calculate label if world peace exists
-    var label = (
+    input.label = (
       !self.noInputLabels
         &&
       (
@@ -240,21 +234,16 @@ Form.prototype._parseInputs = function(inputs) {
       )
     ) ? (input.label || _.humanize(input.name)) : null;
 
-    // TODO hmmmm
-    return {
-      as: as,
-      classes: classes,
-      name: name,
-      id: id,
-      label: label,
-      placeholder: placeholder,
-      value: input.value,
-      hint: input.hint,
-      layout: self.layout,
-      inputLayout: self.inputLayout
-    };
+    // Calculate all the values the input will need
+    input.name = self.name + '.' + input.name;
+    input.id = self.name + '_' + input.name;
+    input.as = input.as || 'text';
+    input.placeholder = self.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
+    input.layout = self.layout;
+    input.inputLayout = self.inputLayout;
+
+    return input;
   });
-  return inputs;
 };
 
 Form.prototype._parseActions = function(actions) {

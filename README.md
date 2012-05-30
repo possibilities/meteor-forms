@@ -6,8 +6,6 @@ A smart package for generating bootstrap forms (inspired by [formtastic](https:/
 
 Mass assignment protection where possible
 
-Allow setting default value when defining form
-
 Change all examples so the form isn't defined every time
 
 Auto focus (default) and manual focus
