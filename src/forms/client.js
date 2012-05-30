@@ -235,10 +235,11 @@ Form.prototype._parseInputs = function(inputs) {
     ) ? (input.label || _.humanize(input.name)) : null;
 
     // Calculate all the values the input will need
-    input.name = self.name + '.' + input.name;
-    input.id = self.name + '_' + input.name;
+    var inputName = input.name;
+    input.name = self.name + '.' + inputName;
+    input.id = self.name + '_' + inputName;
     input.as = input.as || 'text';
-    input.placeholder = self.autoPlaceholders ? _.humanize(input.name) : input.placeholder;
+    input.placeholder = self.autoPlaceholders ? _.humanize(inputName) : input.placeholder;
     input.layout = self.layout;
     input.inputLayout = self.inputLayout;
 
@@ -266,6 +267,7 @@ Form.helpers = {
     var idParts = this.id.split('_');
     var formName = idParts[0];
     var fieldName = idParts[1];
+
     var errors = Session.get(formName + 'Errors');
     if (errors && errors.details) {
       return errors.details[fieldName];
