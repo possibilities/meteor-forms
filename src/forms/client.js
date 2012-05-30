@@ -90,7 +90,7 @@ Form.prototype._handleSuccess = function(message) {
   Session.set(this.name + 'Errors', null);
 };
 
-Form.prototype._onSubmit = function() {
+Form.prototype._handleSubmit = function() {
   var self = this;
   var success, formValues,
       validatorClass, validator;
@@ -147,14 +147,14 @@ Form.prototype._events = function() {
     },
     'click .submitAction': function(e) {
       e.preventDefault();
-      self._onSubmit();
+      self._handleSubmit();
     },
     'keydown .submitAction': function(e) {
 
       // Return or space bar on the button should submit the form
       if (_.isSubmitKey(e)) {
         e.preventDefault();
-        self._onSubmit();
+        self._handleSubmit();
       }
     },
     'keydown input': function(e) {
@@ -168,7 +168,7 @@ Form.prototype._events = function() {
       
         // Otherwise submit the form
         } else {
-          self._onSubmit();
+          self._handleSubmit();
         }
       }
     }
