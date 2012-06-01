@@ -1,11 +1,5 @@
 <head>
   <title>Forms Demo</title>
-  <!-- purposely preventing this from getting minified -->
-  <script src="examples/basic.js"></script>
-  <script src="examples/search.js"></script>
-  <script src="examples/horizontal.js"></script>
-  <script src="examples/inline.js"></script>
-  <script src="examples/events.js"></script>
 </head>
 
 <body>
@@ -23,7 +17,8 @@
 
     <div class="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
+        <li class="active"><a href="#validation" data-toggle="tab">Validation</a></li>
+        <li><a href="#basic" data-toggle="tab">Basic</a></li>
         <li><a href="#horizontal" data-toggle="tab">Horizontal</a></li>
         <li><a href="#search" data-toggle="tab">Search</a></li>
         <li><a href="#inline" data-toggle="tab">Inline</a></li>
@@ -33,13 +28,22 @@
       </ul>
       <div class="tab-content span12">
         <div class="tab-pane active" id="basic">
+          <h2>Validation</h2>
+          <div class="row">
+            <div class="span6">
+              {{{validationForm}}}
+            </div>
+            <div class="span5">
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="basic">
           <h2>Basic</h2>
           <div class="row">
             <div class="span6">
               {{{basicForm}}}
             </div>
             <div class="span5">
-              <pre class="prettyprint">{{code basicForm}}</pre>
             </div>
           </div>
         </div>
@@ -50,7 +54,6 @@
               {{{horizontalForm}}}
             </div>
             <div class="span5">
-              <pre class="prettyprint">{{code horizontalForm}}</pre>
             </div>
           </div>
         </div>
@@ -61,7 +64,6 @@
               {{{searchForm}}}
             </div>
             <div class="span5">
-              <pre class="prettyprint">{{code searchForm}}</pre>
             </div>
           </div>
         </div>
@@ -72,7 +74,6 @@
               {{{inlineForm}}}
             </div>
             <div class="span5">
-              <pre class="prettyprint">{{code inlineForm}}</pre>
             </div>
           </div>
         </div>
@@ -84,7 +85,6 @@
               {{{eventsForm}}}
             </div>
             <div class="span5">
-              <pre class="prettyprint">{{code eventsForm}}</pre>
             </div>
           </div>
         </div>

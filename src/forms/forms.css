@@ -6,18 +6,26 @@ form {
   position: relative;
 }
 
-.form-basic .form-basic-actions {
+.form-basic .inline-form-actions {
   display: block;
   margin-top: 20px;
 }
 
 .spinner {
-  display: inline-block;
+  display: none;
   width: 16px;
   height: 11px;
-  background-image: url("/packages/forms/public/spinner.gif") !important;
+  background-image: url("/packages/forms/public/spinner.gif");
 }
 
-.hide {
-  display: none;
+.loading .spinner {
+  display: inline-block;
+}
+
+.block-fix {
+  display: block;
+}
+
+.help-block {
+  color: grey;
 }

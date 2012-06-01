@@ -6,7 +6,7 @@ _.mixin(_.str.exports());
 
 _.mixin({
 
-  isSubmitKey: function(e) {
+  isActionKey: function(e) {
     return e.keyCode === 13 || e.keyCode === 32;
   },
   

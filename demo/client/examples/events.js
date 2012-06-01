@@ -1,19 +1,12 @@
-var artificialDelay = function(afterDelay) {
-  Meteor.setTimeout(afterDelay, 3000);
-};
-
-var basicForm = new Form({
-  name: 'basic',
+var eventsForm = new Form({
+  name: 'events',
   classes: 'well',
-  // Delay everything so we can get 
-  // a look at the loading state
   method: artificialDelay,
   successMessage: 'Great, the form was submitted!',
   inputs: [
     'title',
     'body', {
       as: 'textarea',
-      value: 'Some default text!', 
       hint: 'Some help text about the field'
     },
     'section',
@@ -31,6 +24,14 @@ var basicForm = new Form({
   ]
 });
 
-Template.demo.basicForm = function() {
-  return basicForm;
+Template.demo.eventsForm = function() {
+
+  // Show all events in the console
+  eventsForm.on('all', function() {
+    var args = _.toArray(arguments);
+    args.unshift('[EVENT]');
+    console.info.apply(console, args);
+  });
+
+  return eventsForm.render();
 };

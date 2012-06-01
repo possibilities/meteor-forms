@@ -21,5 +21,5 @@ var inlineForm = new InlineForm({
 });
 
 Template.demo.inlineForm = function() {
-  return inlineForm;
+  return inlineForm.render();
 };

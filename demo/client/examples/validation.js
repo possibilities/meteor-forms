@@ -1,0 +1,99 @@
+var shouldBeAnISBN = function(options) {
+  options = _.extend({
+    message: "must be a valid ISBN 10 or 13"
+  }, options);
+
+  return function(attribute) {
+    var isbn;
+
+    if (attribute)
+      isbn = ISBN.parse(attribute);
+
+    if (!isbn || !isbn.isValid()) {
+      return options;
+    }
+  };
+};
+
+var shouldBeLastFirstFormat = function(options) {
+  options = _.extend({
+    message: "should be 'Last, First' format"
+  }, options);
+
+  return function(attribute) {
+    if (!attribute || attribute.search(/, /g) === -1) {
+      return options;
+    }
+  };
+};
+
+var shouldBeAnISBN = function(options) {
+  options = _.extend({
+    message: "must be a valid ISBN 10 or 13"
+  }, options);
+
+  return function(attribute) {
+    var isbn;
+
+    if (attribute)
+      isbn = ISBN.parse(attribute);
+
+    if (!isbn || !isbn.isValid()) {
+      return options;
+    }
+  };
+};
+
+
+BookValidator = Model.extend({
+  validate: {
+    errorMessage: "The demo form isn't happy, make " +
+                  "things right and try again!",
+    successMessage: "Great, you made a happy form, " +
+                    "Try it again!",
+    inputs: {
+      title: {
+        validators: [
+          shouldBeLongerThan(6)
+        ]
+      },
+      author: {
+        validators: [
+          shouldBeLastFirstFormat(),
+          shouldBeLongerThan(7)
+        ]
+      },
+      isbn: {
+        label: 'ISBN',
+        validators: [
+          shouldBeAnISBN()
+        ]
+      }
+    }
+  }
+});
+
+var bookForm = new Form({
+  name: 'book',
+  classes: 'well',
+  method: artificialDelay,
+  inputs: [
+    'title',
+    'author', {
+      hint: "'Last, First' format"
+    },
+    'isbn', {
+      label: 'ISBN'
+    }
+  ],
+  actions: [
+    'cancel',
+    'submit', {
+      label: 'Save'
+    }
+  ]
+});
+
+Template.demo.validationForm = function() {
+  return bookForm.render();
+};

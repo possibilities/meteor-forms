@@ -1,177 +1,78 @@
 Form = function(attributes) {
   var self = this;
   _.extend(self, attributes);
-
+  this._inputRegistry = {};
+  
   // Set defaults
   self.layout = self.layout || 'basic';
   var classes = self.classes ? self.classes : [];
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
   self.inputLayout = self.inputLayout || 'basic';
-  self.actionLayout = (self.layout === 'horizontal') ? 'horizontal' : 'basic';
+  self.actionLayout = (self.layout === 'horizontal') ? 'block' : 'inline';
   self.labelByDefault = _.isBoolean(self.labelByDefault) ? self.labelByDefault : true;
   self.autoPlaceholders = _.isBoolean(self.autoPlaceholders) ? self.autoPlaceholders : false;
   self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
-
+  self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
+  
   // Build up the fieldsets and inputs
   if (self.fieldsets)
     self.fieldsets = self._parseFieldsets(self.fieldsets);
   else
     self.inputs = self._parseInputs(self.inputs);
-
+  
   // Build up the form actions
   if (self.actions)
     self.actions = self._parseActions(self.actions);
 
   // Figure out classes
   self.classes = _.flatten([self.classes, 'form-' + self.layout]).join(' ');
-
-  // Wire up internal event handling for loading indicator
-  this.on('success', self._loadingStop);
-  this.on('errors', self._loadingStop);
-  this.on('submit', self._loadingStart);
+  
+  this.listeners = {};
 };
 
 _.extend(Form.prototype, Events);
 
-Form.prototype._loadingStart = function() {
-  var self = this;
-  Meteor.defer(function() {
-    self.$inputs.prop('disabled', true);
-    self.$spinner.removeClass('hide');
-  });
-};
-
-Form.prototype._loadingStop = function() {
-  var self = this;
-  Meteor.defer(function() {
-    self.$inputs.prop('disabled', false);
-    self.$spinner.addClass('hide');
-  });
-};
-
 Form.prototype.render = function() {
   var self = this;
-
   this.trigger('render');
-  
+
   // Keep a references to important dom elements
   Meteor.defer(function() {
     self.$form = $('#' + self.name + 'Form');
     self.form = self.$form.get(0);
+    self.$form.data('form', self);
     self.$inputs = self.$form.find(':input');
-    self.$spinner = self.$form.find('.spinner');
+    self.initialValues = form2js(self.form)[self.name] || {};
   });
 
-  // Update the display with a success or error message
-  Session.set(this.name + 'Success', null);
-  Session.set(this.name + 'Errors', null);
-
-  // Add events and render it
-  Template.form.events = this._events();
-  return Template.form(this);
-};
-// Alias to toString so the form get's rendered when
-// it's added to a template
-Form.prototype.toString = Form.prototype.render;
-
-Form.prototype._handleErrors = function(errors) {
-  this.trigger('errors', errors);
-
-  Session.set(this.name + 'Errors', errors);
-  Session.set(this.name + 'Success', null);
+  return Meteor.ui.chunk(function() {
+    var tag = self._tag();
+    return Template.form(tag);
+  });
+  
 };
 
-Form.prototype._handleSuccess = function(message) {
-  this.trigger('success', message);
-
-  this.$form.find(':input').val('');
-  this.$form.find(':checkbox').prop('checked', false);
-  Session.set(this.name + 'Success', message);
-  Session.set(this.name + 'Errors', null);
-};
-
-Form.prototype._handleSubmit = function() {
+Form.prototype._tag = function() {
   var self = this;
-  var success, formValues,
-      validatorClass, validator;
 
-  this.trigger('submit', self);
+  this._registerListeners();
+  this._resetValues();
 
-  formValues = form2js(self.form)[self.name] || {};
-  validatorClass = _.constantize(self.name + '_validator');
-  if (validatorClass) {
-    validator = new validatorClass(formValues);
-
-    if (validator.isValid()) {
-      Meteor.call(self.method, formValues, function(errors, formValues) {
-        if (errors) {
-          self._handleErrors(errors);
-        } else {
-          self._handleSuccess(validator.validate.successMessage);
-        }
-      });
-    } else {
-      self._handleErrors(validator.errors);
-    }
-  } else {
-    if (self.method) {
-      if (_.isFunction(self.method)) {
-        self.method(function(errors) {
-          if (errors) {
-            self._handleErrors(errors);
-          } else {
-            self._handleSuccess(self.successMessage);
-          }
-        });
-      }
-    } else {
-      self._handleSuccess(self.successMessage);
-    }
-  }
+  return this;
 };
 
-Form.prototype._events = function() {
+Form.prototype._resetValues = function() {
   var self = this;
-  return {
-    'click .cancelAction': function(e) {
-      e.preventDefault();
-      // self._onCancel();
-    },
-    'keydown .cancelAction': function(e) {
 
-      // Return or space bar on the button should cancel the form
-      if (_.isSubmitKey(e)) {
-        e.preventDefault();
-        // self._onCancel();
-      }
-    },
-    'click .submitAction': function(e) {
-      e.preventDefault();
-      self._handleSubmit();
-    },
-    'keydown .submitAction': function(e) {
-
-      // Return or space bar on the button should submit the form
-      if (_.isSubmitKey(e)) {
-        e.preventDefault();
-        self._handleSubmit();
-      }
-    },
-    'keydown input': function(e) {
-
-      // Hitting enter on an input that isn't a button
-      if (_.isReturnKey(e) && !$(e.target).hasClass('btn')) {
-        e.preventDefault();
-
-        // Save field if it's a liveEdit field
-        if (false) {
-      
-        // Otherwise submit the form
-        } else {
-          self._handleSubmit();
-        }
-      }
+  if (self.clearOnSuccess) {
+    if (self.$inputs) {
+      self.$inputs.val('');
+      self.$form.find(':checkbox').prop('checked', false);
     }
+
+    _.each(self.initialValues, function(val, fieldName) {
+      $('#' + self.name + '_' + fieldName).val(val);
+    });
   }
 };
 
@@ -243,6 +144,8 @@ Form.prototype._parseInputs = function(inputs) {
     input.layout = self.layout;
     input.inputLayout = self.inputLayout;
 
+    self._inputRegistry[inputName] = input;
+
     return input;
   });
 };
@@ -259,51 +162,182 @@ Form.prototype._parseActions = function(actions) {
   return actions;
 };
 
-// Class methods
+Form.prototype._isValid = function() {
+  var self = this;
+  var validator;
 
-Form.helpers = {
-  inputErrors: function() {
-    // TODO avoid all this
-    var idParts = this.id.split('_');
-    var formName = idParts[0];
-    var fieldName = idParts[1];
+  var validatorClass = _.constantize(self.name + '_validator');
+  if (validatorClass) {
+    validator = new validatorClass(self.currentValues);
+    if (validator.isValid()) {
+      return true;
+    } else {
+      self._addErrors(validator.errors);
+      return false;
+    }
+  } else {
+    return true;
+  }
+};
 
-    var errors = Session.get(formName + 'Errors');
-    if (errors && errors.details) {
-      return errors.details[fieldName];
+Form.prototype._addErrors = function(errors) {
+  var self = this;
+  _.each(self._inputRegistry, function(input, fieldName) {
+    if (errors.details[fieldName]) {
+      input.errors = errors.details[fieldName];
+    } else {
+      delete input.errors;
+    }
+  });
+};
+
+Form.prototype._addValues = function(values) {
+  var self = this;
+  Meteor.defer(function() {
+    _.each(values, function(val, fieldName) {
+      $('#' + self.name + '_' + fieldName).val(val);
+    });
+  });
+};
+
+Form._handleAction = function(e) {
+  var $el = $(e.target);
+  var form = Form._findForm($el);
+  var name = $el.data('name');
+  form['_handle' + _.titleize(name)]();
+};
+
+Form.prototype._handleErrors = function(errors) {
+  this.trigger('error');
+  this._handleLoadingStop();
+  this._invalidateListeners();
+  this._addValues(this.currentValues);
+};
+
+Form.prototype._handleSuccess = function(message) {
+  this.trigger('success');
+  this._handleLoadingStop();
+  this._invalidateListeners();
+};
+
+Form.prototype._invalidateListeners = function() {
+  for (var context_id in this.listeners)
+    this.listeners[context_id].invalidate();
+};
+
+Form.prototype._registerListeners = function() {
+  var self = this;
+  var context = Meteor.deps.Context.current;
+  if (context && !this.listeners[context.id]) {
+    this.listeners[context.id] = context;
+    context.on_invalidate(function () {
+      delete self.listeners[context.id];
+    });
+  }
+};
+
+Form.prototype._handleSubmit = function() {
+  var self = this;
+  this.trigger('submit', self);
+
+  this.currentValues = form2js(self.form)[self.name] || {};
+  self._handleLoadingStart();
+
+  if (self._isValid()) {
+    if (self.method && _.isFunction(self.method)) {
+      self.method(function(err, result) {
+        if (err) {
+          self._handleError();
+        } else{
+          self._handleSuccess();
+        }
+      });
+    } else {
+      self._handleSuccess();
+    }
+  } else {
+    self._handleErrors();
+  }
+};
+
+Form.prototype._handleCancel = function() {
+  this.trigger('cancel');
+};
+
+Form.prototype._handleReset = function() {
+  this.trigger('reset');
+};
+
+Form.prototype._handleLoadingStart = function() {
+  this.trigger('loading:start');
+  this.$inputs.prop('disabled', true);
+  this.$form.addClass('loading');
+};
+
+Form.prototype._handleLoadingStop = function() {
+  this.trigger('loading:stop');
+  this.$inputs.prop('disabled', false);
+  this.$form.removeClass('loading');
+};
+
+Form._findForm = function($el) {
+  return $el.closest('form').data('form');
+};
+
+// Setup template helpers
+
+Template.form.inputs = function() {
+  var name = this.fieldsets ? 'fieldsets' : 'inputs';
+  return Template[name](this);
+};
+
+Template.form.actions = function() {
+  var name = _.camelize(this.actionLayout + '_actions');
+  return Template[name](this);
+};
+
+Template.inputs.input = function() {
+  var name = _.camelize(this.inputLayout + '_' + this.as +'_input');
+  var template = Template[name];
+  template.events = Form._inputEvents;
+  return template(this);
+};
+
+// Common events
+
+Template.action.events = {
+  'click button': function(e) {
+    e.preventDefault();
+    Form._handleAction(e);
+  },
+  'keydown button': function(e) {
+  
+    // Return or space bar on the button should 
+    // trigger the action
+    if (_.isActionKey(e)) {
+      e.preventDefault();
+      Form._handleAction(e);
     }
   }
 };
 
-// Template helpers
-
-Template.action.render = function() {
-  var templateName = _.camelize(this.name + '_action');
-  return Template[templateName] && Template[templateName](this);
-};
-
-Template.inputs.input = function() {
-  var templateName = _.camelize(this.inputLayout + '_' + this.as +'_input');
-  Template[templateName].errors = Form.helpers.inputErrors;
-  return Template[templateName](this);
-};
-
-Template.form.actions = function() {
-  var templateName = _.camelize(this.actionLayout + '_actions');
-  return Template[templateName](this);
-};
-
-Template.errorsReason.errors = function() {
-  var key = _.camelize(this.name + '_errors');
-  var errors = Session.get(key);
-
-  if (_.isString(errors))
-    return { reason: errors, details: [] };
-  else
-    return errors;
-};
-
-Template.success.success = function() {
-  var key = _.camelize(this.name + '_success');
-  return Session.get(key);
+Form._inputEvents = {
+  'keydown input': function(e) {
+  
+    // Hitting enter on an input
+    if (_.isReturnKey(e)) {
+      e.preventDefault();
+  
+      var $el = $(e.target);
+      var form = Form._findForm($el);
+  
+      // Save field if it's a liveEdit field
+      if (false) {
+  
+      // Otherwise submit the form
+      } else {
+        form._handleSubmit();
+      }
+    }
+  }
 };

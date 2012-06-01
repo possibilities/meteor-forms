@@ -1,0 +1,46 @@
+<template name="form">
+  <form id="{{name}}Form" class="{{classes}}">
+    <div class="formWrapper">
+      {{{inputs}}}
+      {{{actions}}}
+    </div>
+  </form>
+</template>
+
+<template name="fieldsets">
+  {{#each fieldsets}}
+    <fieldset>
+      <legend>{{name}}</legend>
+      {{> inputs}}
+    </fieldset>
+  {{/each}}
+</template>
+
+<template name="inputs">
+  {{#each inputs}}
+    {{{input}}}
+  {{/each}}
+</template>
+
+<template name="blockActions">
+  <div class="form-actions">
+    {{> actions}}
+  </div>
+</template>
+
+<template name="inlineActions">
+  <span class="inline-form-actions">
+    {{> actions}}
+  </span>
+</template>
+
+<template name="actions">
+  {{#each actions}}
+    {{> action}}
+  {{/each}}
+  <span class="spinner" />
+</template>
+
+<template name="action">
+  <button data-name="{{name}}" class="btn {{name}}Action {{classes}}" name="{{name}}">{{label}}</button>
+</template>

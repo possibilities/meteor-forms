@@ -2,7 +2,8 @@ SearchForm = function(options) {
   var defaultOptions = {
     layout: 'search',
     inputClasses: ['input-medium', 'search-query'],
-    noInputLabels: true
+    noInputLabels: true,
+    clearOnSuccess: false
   };
   options = _.extend(defaultOptions, options);
 

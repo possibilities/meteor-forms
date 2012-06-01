@@ -13,8 +13,7 @@ Package.on_use(function (api) {
   // Resources
   api.add_files('public/spinner.gif', 'client');
   // Templates
-  api.add_files('templates/base.html', 'client');
-  api.add_files('templates/actions.html', 'client');
+  api.add_files('templates/form.html', 'client');
   // Form input templates
   api.add_files('templates/inputs/text.html', 'client');
   api.add_files('templates/inputs/textarea.html', 'client');
