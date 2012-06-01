@@ -4,7 +4,6 @@
 
 <body>
   {{> demo}}
-  {{> forkMe}}
 </body>
 
 <template name="demo">
@@ -17,27 +16,15 @@
 
     <div class="tabbable">
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#validation" data-toggle="tab">Validation</a></li>
-        <li><a href="#basic" data-toggle="tab">Basic</a></li>
-        <li><a href="#horizontal" data-toggle="tab">Horizontal</a></li>
-        <li><a href="#search" data-toggle="tab">Search</a></li>
-        <li><a href="#inline" data-toggle="tab">Inline</a></li>
+        <li class="active"><a href="#basic" data-toggle="tab">Basic</a></li>
+        <li><a href="#presets" data-toggle="tab">Presets</a></li>
+        <li><a href="#validation" data-toggle="tab">Validation</a></li>
         <li><a href="#events" data-toggle="tab">Events</a></li>
         <li><a href="#liveEdit" data-toggle="tab">Live Edit</a></li>
         <li><a href="#inPlaceEditing" data-toggle="tab">In-Place Editing</a></li>
       </ul>
       <div class="tab-content span12">
         <div class="tab-pane active" id="basic">
-          <h2>Validation</h2>
-          <div class="row">
-            <div class="span6">
-              {{{validationForm}}}
-            </div>
-            <div class="span5">
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane" id="basic">
           <h2>Basic</h2>
           <div class="row">
             <div class="span6">
@@ -47,31 +34,27 @@
             </div>
           </div>
         </div>
-        <div class="tab-pane" id="horizontal">
-            <h2>Horizontal</h2>
+        <div class="tab-pane" id="presets">
+          <h2>Presets</h2>
+          <p>Three presets are included besides the basic form and it's easy to write your own presets.</p>
           <div class="row">
             <div class="span6">
+              <h3>Horizontal</h3>
               {{{horizontalForm}}}
-            </div>
-            <div class="span5">
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane" id="search">
-          <h2>Search</h2>
-          <div class="row">
-            <div class="span6">
+              <h3>Search</h3>
               {{{searchForm}}}
+              <h3>Inline</h3>
+              {{{inlineForm}}}
             </div>
             <div class="span5">
             </div>
           </div>
         </div>
-        <div class="tab-pane" id="inline">
-          <h2>Inline</h2>
+        <div class="tab-pane" id="validation">
+          <h2>Validation</h2>
           <div class="row">
             <div class="span6">
-              {{{inlineForm}}}
+              {{{validationForm}}}
             </div>
             <div class="span5">
             </div>
@@ -99,8 +82,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="forkMe">
-  <a href="https://github.com/possibilities/meteor-forms"><img class="forkMe" style="position: absolute; top: 0; right: 0; border: 0;" data-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 </template>
