@@ -1,10 +1,11 @@
 var DemoRouter = Backbone.Router.extend({
 
   initialize: function() {
-    this.route(/([^\?]*)/, 'showTab');
+    this.route(/([^\?]*)?/, 'showTab');
   },
   
   showTab: function(page) {
+    page || (page = 'configuration/basic')
     $('.tabbable a[href="' + page + '"]').tab('show');
   },
 });
