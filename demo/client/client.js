@@ -5,9 +5,16 @@ var DemoRouter = Backbone.Router.extend({
   },
   
   showTab: function(page) {
-    page || (page = 'configuration/basic')
+    page || (page = this._defaultPage());
+    console.log(page);
     $('.tabbable a[href="' + page + '"]').tab('show');
   },
+  
+  _defaultPage: function() {
+    var $default = $('.tabbable .default-tab');
+    if ($default.length > 0)
+      return $default.attr('href');
+  }
 });
 
 var demoApp = new DemoRouter();
