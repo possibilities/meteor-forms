@@ -1,10 +1,10 @@
 var DemoRouter = Backbone.Router.extend({
 
   initialize: function() {
-    this.route(/([^\?]*)/, 'show');
+    this.route(/([^\?]*)/, 'showTab');
   },
   
-  show: function(page) {
+  showTab: function(page) {
     $('.tabbable a[href="' + page + '"]').tab('show');
   },
 });
@@ -16,7 +16,7 @@ Meteor.startup(function() {
 });
 
 Template.demo.events = {
-  'click .tabbable li a': function(e) {
+  'click .tabbable li a': function showTab(e) {
     e.preventDefault();
     var $el = $(e.currentTarget);
     if ($el.data('toggle') !== 'dropdown') {
