@@ -45,8 +45,6 @@ Form.prototype.render = function() {
     self.$form.data('form', self);
     self.$inputs = self.$form.find(':input');
     self.initialValues = form2js(self.form)[self.name] || {};
-    
-    self.focus();
   });
 
   return Meteor.ui.chunk(function() {
@@ -64,7 +62,10 @@ Form.prototype._tag = function() {
   var self = this;
 
   this._registerListeners();
-  this._resetValues();
+
+  if (self.clearOnSuccess) {
+    this._resetValues();
+  }
 
   return this;
 };
@@ -72,16 +73,14 @@ Form.prototype._tag = function() {
 Form.prototype._resetValues = function() {
   var self = this;
 
-  if (self.clearOnSuccess) {
-    if (self.$inputs) {
-      self.$inputs.val('');
-      self.$form.find(':checkbox').prop('checked', false);
-    }
-
-    _.each(self.initialValues, function(val, fieldName) {
-      $('#' + self.name + '_' + fieldName).val(val);
-    });
+  if (this.$inputs) {
+    this.$inputs.val('');
+    this.$form.find(':checkbox').prop('checked', false);
   }
+
+  _.each(self.initialValues, function(val, fieldName) {
+    $('#' + self.name + '_' + fieldName).val(val);
+  });
 };
 
 Form.prototype._parse = function(form) {
@@ -294,6 +293,7 @@ Form.prototype._handleSubmit = function() {
 
 Form.prototype._handleCancel = function() {
   this.trigger('cancel');
+  this._resetValues();
 };
 
 Form.prototype._handleReset = function() {
