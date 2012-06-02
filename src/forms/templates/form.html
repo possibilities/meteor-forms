@@ -1,10 +1,27 @@
 <template name="form">
   <form id="{{name}}Form" class="{{classes}}">
     <div class="formWrapper">
+      {{> notice}}
       {{{inputs}}}
       {{{actions}}}
     </div>
   </form>
+</template>
+
+<template name="notice">
+  {{#if notice/success}}
+    <div class="alert alert-success alert-block">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <h4 class="alert-heading">{{notice/success}}</h4>
+    </div>
+  {{/if}}
+  
+  {{#if notice/errors}}
+    <div class="alert alert-error alert-block">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <h4 class="alert-heading">{{notice/errors/reason}}</h4>
+    </div>
+  {{/if}}
 </template>
 
 <template name="fieldsets">

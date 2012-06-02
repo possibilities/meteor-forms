@@ -71,7 +71,8 @@ var bookForm = new Form({
       hint: "'Last, First' format"
     },
     'isbn', {
-      label: 'ISBN'
+      label: 'ISBN',
+      hint: "Here's an ISBN you can use 0140043519"
     }
   ],
   actions: [

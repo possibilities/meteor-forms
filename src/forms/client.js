@@ -4,6 +4,7 @@ Form = function(attributes) {
   this._inputRegistry = {};
   
   // Set defaults
+  self.notice = {};
   self.layout = self.layout || 'basic';
   var classes = self.classes ? self.classes : [];
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
@@ -13,6 +14,7 @@ Form = function(attributes) {
   self.autoPlaceholders = _.isBoolean(self.autoPlaceholders) ? self.autoPlaceholders : false;
   self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
   self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
+  self.validatorClass = _.constantize(self.name + '_validator');
   
   // Build up the fieldsets and inputs
   if (self.fieldsets)
@@ -166,13 +168,12 @@ Form.prototype._isValid = function() {
   var self = this;
   var validator;
 
-  var validatorClass = _.constantize(self.name + '_validator');
-  if (validatorClass) {
-    validator = new validatorClass(self.currentValues);
-    if (validator.isValid()) {
+  if (self.validatorClass) {
+    self.validator = new self.validatorClass(self.currentValues);
+    if (self.validator.isValid()) {
       return true;
     } else {
-      self._addErrors(validator.errors);
+      self._addErrors(self.validator.errors);
       return false;
     }
   } else {
@@ -189,6 +190,17 @@ Form.prototype._addErrors = function(errors) {
       delete input.errors;
     }
   });
+  
+  self.errors = errors;
+};
+
+Form.prototype._clearErrors = function() {
+  var self = this;
+  _.each(self._inputRegistry, function(input, fieldName) {
+    delete input.errors;
+  });
+  
+  delete self.errors;
 };
 
 Form.prototype._addValues = function(values) {
@@ -210,14 +222,26 @@ Form._handleAction = function(e) {
 Form.prototype._handleErrors = function(errors) {
   this.trigger('error');
   this._handleLoadingStop();
+  this._setNotice('errors', this.errors);
   this._invalidateListeners();
   this._addValues(this.currentValues);
+};
+
+Form.prototype._successMessage = function() {
+  return this.successMessage || this.validator.validate.successMessage;
 };
 
 Form.prototype._handleSuccess = function(message) {
   this.trigger('success');
   this._handleLoadingStop();
+  this._setNotice('success', this._successMessage());
+  this._setNotice('errors', null);
+  this._clearErrors();
   this._invalidateListeners();
+};
+
+Form.prototype._setNotice = function(type, message) {
+  this.notice[type] = message;
 };
 
 Form.prototype._invalidateListeners = function() {

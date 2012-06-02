@@ -6,8 +6,6 @@ A smart package for generating bootstrap forms (inspired by [formtastic](https:/
 
 Mass assignment protection where possible
 
-Change all examples so the form isn't defined every time
-
 Auto focus (default) and manual focus
 
 Use form errorsMessage and successMessage but fall back to validation messages if possible. Also need fallback if neither exist
