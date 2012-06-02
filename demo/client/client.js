@@ -11,15 +11,31 @@ var DemoRouter = Backbone.Router.extend({
   },
   basic: function() {
     $('.tabbable a[href="#basic"]').tab('show');
+
+    Meteor.defer(function() {
+      basicForm.focus();
+    });
   },
   presets: function() {
     $('.tabbable a[href="#presets"]').tab('show');
+    
+    Meteor.defer(function() {
+      horizontalForm.focus();
+    });
   },
   validation: function() {
     $('.tabbable a[href="#validation"]').tab('show');
+    
+    Meteor.defer(function() {
+      bookForm.focus();
+    });
   },
   events: function() {
     $('.tabbable a[href="#events"]').tab('show');
+    
+    Meteor.defer(function() {
+      eventsForm.focus();
+    });
   },
   liveEdit: function() {
     $('.tabbable a[href="#liveEdit"]').tab('show');

@@ -15,7 +15,7 @@ Form = function(attributes) {
   self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
   self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
   self.validatorClass = _.constantize(self.name + '_validator');
-  
+
   // Build up the fieldsets and inputs
   if (self.fieldsets)
     self.fieldsets = self._parseFieldsets(self.fieldsets);
@@ -45,6 +45,8 @@ Form.prototype.render = function() {
     self.$form.data('form', self);
     self.$inputs = self.$form.find(':input');
     self.initialValues = form2js(self.form)[self.name] || {};
+    
+    self.focus();
   });
 
   return Meteor.ui.chunk(function() {
@@ -52,6 +54,10 @@ Form.prototype.render = function() {
     return Template.form(tag);
   });
   
+};
+
+Form.prototype.focus = function() {
+  $(this.$inputs.get(0)).focus();
 };
 
 Form.prototype._tag = function() {
