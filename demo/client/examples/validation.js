@@ -1,3 +1,5 @@
+// Setup validators
+
 var shouldBeAnISBN = function(options) {
   options = _.extend({
     message: "must be a valid ISBN 10 or 13"
@@ -27,23 +29,7 @@ var shouldBeLastFirstFormat = function(options) {
   };
 };
 
-var shouldBeAnISBN = function(options) {
-  options = _.extend({
-    message: "must be a valid ISBN 10 or 13"
-  }, options);
-
-  return function(attribute) {
-    var isbn;
-
-    if (attribute)
-      isbn = ISBN.parse(attribute);
-
-    if (!isbn || !isbn.isValid()) {
-      return options;
-    }
-  };
-};
-
+// Setup the form validator
 
 BookValidator = Model.extend({
   validate: {
@@ -72,6 +58,8 @@ BookValidator = Model.extend({
     }
   }
 });
+
+// Setup the form
 
 var bookForm = new Form({
   name: 'book',

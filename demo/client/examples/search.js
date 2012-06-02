@@ -1,4 +1,4 @@
-searchForm = new SearchForm({
+var searchForm = new SearchForm({
   name: 'search',
   classes: 'well',
   method: artificialDelay,
