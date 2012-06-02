@@ -1,6 +1,10 @@
 # Meteor Forms
 
-A smart package for generating bootstrap forms (inspired by [formtastic](https://github.com/justinfrench/formtastic))
+A smart package for generating bootstrap forms
+
+## Credits
+
+Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 

@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "A smart package for generating bootstrap forms (inspired by formtastic)"
+  summary: "A smart package for generating bootstrap forms"
 });
 
 Package.on_use(function (api) {
