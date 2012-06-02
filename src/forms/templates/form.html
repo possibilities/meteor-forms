@@ -10,17 +10,11 @@
 
 <template name="notice">
   {{#if notice/success}}
-    <div class="alert alert-success alert-block">
-      <a class="close" data-dismiss="alert" href="#">×</a>
-      <h4 class="alert-heading">{{notice/success}}</h4>
-    </div>
+    <div class="alert alert-success">{{notice/success}}</div>
   {{/if}}
   
   {{#if notice/errors}}
-    <div class="alert alert-error alert-block">
-      <a class="close" data-dismiss="alert" href="#">×</a>
-      <h4 class="alert-heading">{{notice/errors/reason}}</h4>
-    </div>
+    <div class="alert alert-error">{{notice/errors/reason}}</div>
   {{/if}}
 </template>
 

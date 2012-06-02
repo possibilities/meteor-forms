@@ -64,7 +64,6 @@ BookValidator = Model.extend({
 var bookForm = new Form({
   name: 'book',
   classes: 'well',
-  method: artificialDelay,
   inputs: [
     'title',
     'author', {

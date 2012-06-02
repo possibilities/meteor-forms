@@ -8,10 +8,6 @@ Mass assignment protection where possible
 
 Auto focus (default) and manual focus
 
-Use form errorsMessage and successMessage but fall back to validation messages if possible. Also need fallback if neither exist
-
-CSRF protection
-
 `method` key should allow a string or function with string denoting a `Meteor.method`
 
 Need a reset action, should clear the form and emit a 'reset' event

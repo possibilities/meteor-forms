@@ -228,7 +228,9 @@ Form.prototype._handleErrors = function(errors) {
 };
 
 Form.prototype._successMessage = function() {
-  return this.successMessage || this.validator.validate.successMessage;
+  return this.successMessage
+          || this.validator.validate.successMessage
+          || 'Your request was processed successfully';
 };
 
 Form.prototype._handleSuccess = function(message) {
