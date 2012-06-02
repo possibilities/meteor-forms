@@ -2,13 +2,12 @@ body {
   margin: 20px;
 }
 
-h1 {
+h1, h3, h2 {
   margin-bottom: 10px;
 }
 
 h2 {
   margin-top: 20px;
-  margin-bottom: 10px;
 }
 
 .well, .tabbable {
