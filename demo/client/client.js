@@ -1,4 +1,5 @@
 var DemoRouter = Backbone.Router.extend({
+  // TODO figure out how to do this dynamically
   routes: {
     "":               "basic",
     "basic":          "basic",

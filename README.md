@@ -16,6 +16,4 @@ Cancel should clear the form and emit a 'cancel' event
 
 Use placeholders more often in demo (goes for validation demo too)
 
-Use backbone routing for demo tabs (validation demo too)
-
 Round out inline form demo, username field shouldn't clear, password field should be a password field
