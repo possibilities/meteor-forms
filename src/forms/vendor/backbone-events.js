@@ -1,4 +1,6 @@
-var Backbone = {};
+// I couldn't bear loading all of backbone when we only need Events
+
+var Backbone = Backbone || {};
 
 // Create a local reference to slice/splice.
 var slice = Array.prototype.slice;
@@ -6,16 +8,6 @@ var splice = Array.prototype.splice;
   
 // Regular expression used to split event strings
 var eventSplitter = /\s+/;
-
-// A module that can be mixed in to *any object* in order to provide it with
-// custom events. You may bind with `on` or remove with `off` callback functions
-// to an event; trigger`-ing an event fires all callbacks in succession.
-//
-//     var object = {};
-//     _.extend(object, Backbone.Events);
-//     object.on('expand', function(){ alert('expanded'); });
-//     object.trigger('expand');
-//
 
 var Events = Backbone.Events = {
   // Bind one or more space separated events, `events`, to a `callback`
