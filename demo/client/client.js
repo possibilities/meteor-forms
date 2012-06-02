@@ -1,50 +1,73 @@
 var DemoRouter = Backbone.Router.extend({
   // TODO figure out how to do this dynamically
   routes: {
-    "":               "basic",
-    "basic":          "basic",
-    "presets":        "presets",
-    "validation":     "validation",
-    "events":         "events",
-    "liveEdit":       "liveEdit",
-    "inPlaceEditing": "inPlaceEditing"
+    "":                          "basic",
+    "configuration/basic":       "basic",
+    "configuration/horizontal":  "horizontal",
+    "configuration/search":      "search",
+    "configuration/inline":      "inline",
+    "events":                    "events",
+    "liveEdit":                  "liveEdit",
+    "validation/clientSideOnly": "clientSideOnly",
+    "validation/manualServer":   "manualServer",
+    "validation/autoServer":     "autoServer",
+    "validation/models":         "models",
+    "validation/mongoHooks":     "mongoHooks"
   },
   basic: function() {
-    $('.tabbable a[href="#basic"]').tab('show');
+    $('.tabbable a[href="configuration/basic"]').tab('show');
   },
-  presets: function() {
-    $('.tabbable a[href="#presets"]').tab('show');
+  horizontal: function() {
+    $('.tabbable a[href="configuration/horizontal"]').tab('show');
+  },
+  search: function() {
+    $('.tabbable a[href="configuration/search"]').tab('show');
+  },
+  inline: function() {
+    $('.tabbable a[href="configuration/inline"]').tab('show');
   },
   validation: function() {
-    $('.tabbable a[href="#validation"]').tab('show');
+    $('.tabbable a[href="validation"]').tab('show');
   },
   events: function() {
-    $('.tabbable a[href="#events"]').tab('show');
+    $('.tabbable a[href="events"]').tab('show');
   },
   liveEdit: function() {
-    $('.tabbable a[href="#liveEdit"]').tab('show');
+    $('.tabbable a[href="liveEdit"]').tab('show');
   },
   inPlaceEditing: function() {
-    $('.tabbable a[href="#inPlaceEditing"]').tab('show');
+    $('.tabbable a[href="inPlaceEditing"]').tab('show');
+  },
+  clientSideOnly: function() {
+    $('.tabbable a[href="validation/clientSideOnly"]').tab('show');
+  },
+  manualServer: function() {
+    $('.tabbable a[href="validation/manualServer"]').tab('show');
+  },
+  autoServer: function() {
+    $('.tabbable a[href="validation/autoServer"]').tab('show');
+  },
+  models: function() {
+    $('.tabbable a[href="validation/models"]').tab('show');
+  },
+  mongoHooks: function() {
+    $('.tabbable a[href="validation/mongoHooks"]').tab('show');
   }
 });
 
 var demoApp = new DemoRouter();
 
 Meteor.startup(function() {
-  Backbone.history.start({pushState: true});
+  Backbone.history.start({ pushState: true });
 });
 
 Template.demo.events = {
   'click .tabbable li a': function(e) {
-    var route = $(e.currentTarget).attr('href').slice(1);
-    demoApp.navigate(route, { trigger: true });
+    e.preventDefault();
+    var $el = $(e.currentTarget);
+    if ($el.data('toggle') !== 'dropdown') {
+      var route = $el.attr('href');
+      demoApp.navigate(route, { trigger: true });
+    }
   }
 };
-
-Meteor.startup(function() {
-  Meteor.defer(function() {
-    $('body').append('<a href="https://github.com/possibilities/meteor-forms"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>');  
-  });
-  
-});
