@@ -1,6 +1,6 @@
 Meteor.methods({
   validateAndEcho: function(formValues) {
-    console.log(111);
+
     // Wrap the incoming form values in the validator
     var profileValidator = new ProfileValidator(formValues);
     
