@@ -1,22 +1,29 @@
 Form = function(options) {
-  this.addFilter(options);
+  this.addValidationFilter(options);
 };
 
-Form.prototype.addFilter = function(options) {
-  var methodName = options.method;
-  var validatorClass = _.constantize(options.name + 'Validator');
+Form.prototype.addValidationFilter = function(options) {
+  if (options.method) {
 
-  Filter.methods([
-    function(form) {
+    // Figure out the validator class
+    var validatorClass = _.constantize(options.name + 'Validator');
+
+    // This is the filter we add to the targeted method
+    var validationFilter = function validationFilter(form) {
+    
+      // Get a validator and give it our data
       var validator = new validatorClass(form);
 
+      // Check it out!
       if (!validator.isValid())
         throw validator.errors;
-    }, {
-      only: methodName
-    }
-  ]);
-};
+    };
 
-// Stubbed out because we don't care on the server
-Form.prototype.tag = function(){};
+    Filter.methods([
+      {
+        handler: validationFilter,
+        only: options.method
+      } 
+    ]);
+  }
+};

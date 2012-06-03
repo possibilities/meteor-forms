@@ -111,7 +111,7 @@
 
         <div class="tab-pane" id="validationManualServer">
           <h2>Validation &ndash; Manual Server</h2>
-          <p>If you want to validate <em>server-side</em> after <em>client-side</em> validation passes you can instantiate the validator in your <code>Meteor.methods</code>. See the <a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a> demo to see how the library can eliminate boilerplate validation code in your <code>Meteor.methods</code> by running the validation code for you.</p>
+          <p>If you want to validate <em>server-side</em> after <em>client-side</em> validation passes you can instantiate the validator in your <code>Meteor.methods</code>. For this to work your validator needs to be defined in a <em>common</em> script so the validator will be available both <em>client</em> and <em>server-side</em>. See the <a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a> demo to see how the library can eliminate boilerplate validation code in your <code>Meteor.methods</code> by running the validation code for you.</p>
           <div class="row">
             <div class="span6">
               {{{profileForm}}}
@@ -126,8 +126,16 @@
         
         <div class="tab-pane" id="validationAutoServer">
           <h2>Validation &ndash; Auto Server</h2>
-          <p>TODO</p>
+          <p>If you define your form and validator in a <em>common</em> script the form's <code>method</code> will be wrapped in a validation <a href="https://github.com/possibilities/meteor-filters"></a> filter so validations will be run automatically on both the client and server. The form will handle errors and display them on the form if something causes validation to pass on the client and fail on the server.</p>
           <div class="row">
+            <div class="span6">
+              {{{storyForm}}}
+            </div>
+            <div class="span5">
+              {{{code "demo/server/examples/validation/authServer.js"}}}
+              {{{code "demo/common/examples/validation/authServer.js"}}}
+              {{{code "demo/client/examples/validation/authServer.js"}}}
+            </div>
           </div>
         </div>
         
