@@ -1,25 +1,34 @@
 <template name="basicCheckboxInput">
-  <span class="control-group">
+  <span class="control-group {{#if errors}} error{{/if}}">
+
     <label class="checkbox">
-      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="">
+      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1">
       {{#if label}}{{label}}{{/if}}
     </label>
+
+    {{> errors}}
+
     {{#if hint}}
-      <span class="help-block">{{hint}}</span>
+      <span class="help-block hint">{{hint}}</span>
     {{/if}}
+
   </span>
 </template>
 
 <template name="horizontalCheckboxInput">
-  <div class="control-group">
+  <div class="control-group {{#if errors}} error{{/if}}">
     <label class="checkbox" class="control-label" for="{{id}}">
+
       <div class="controls">
-        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox">
+        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1">
         {{#if label}} {{label}}{{/if}}
+
+        {{> errors}}
+
+        {{#if hint}}
+          <span class="help-block hint">{{hint}}</span>
+        {{/if}}
       </div>
     </label>
-    {{#if hint}}
-      <span class="help-block">{{hint}}</span>
-    {{/if}}
   </div>
 </template>

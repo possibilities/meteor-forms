@@ -1,6 +1,8 @@
 # Meteor Forms
 
-A smart package for generating bootstrap forms
+A smart package for generating forms
+
+*Note: The generated forms are designed to be used with [bootstrap](http://twitter.github.com/bootstrap/) styles but might work fine without them. If you want to use these without bootstrap I can refactor all the bootstrap specific stuff into [presets](https://github.com/possibilities/meteor-forms/tree/master/src/forms/presets) and remove bootstrap as a hard dependency, just open an issue for it.*
 
 ## Credits
 
@@ -8,7 +10,11 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+Something wrong with checkboxes
+
 Mass assignment protection where possible
+
+Cancel and reset should clear errors
 
 `method` key should allow a string or function with string denoting a `Meteor.method`
 
@@ -23,3 +29,9 @@ Round out existing widgets
 Add some more widgets
 
 Do more work on focus maybe
+
+Consider using underscore templates rather than concatting strings
+
+Go back and borrow more ideas from formtastic
+
+Tab indexes

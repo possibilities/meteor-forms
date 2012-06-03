@@ -26,6 +26,6 @@ form {
   display: block;
 }
 
-.help-block {
-  color: grey;
+.hint {
+  color: grey !important;
 }

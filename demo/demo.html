@@ -11,7 +11,7 @@
   <div class="container">
     <h1>Forms Demo</h1>
 
-    <p><em>A smart package for generating bootstrap forms</em></p>
+    <p><em>A smart package for generating forms</em></p>
 
     <div class="tabbable">
       <ul class="nav nav-tabs">
@@ -98,21 +98,29 @@
         <div class="tab-pane" id="validationClientSideOnly">
           <h2>Validation &ndash; Client-side Only</h2>
 
-          <p>If you define a form called <code>bookForm</code> <em>client-side only</em> and a validator class called <code>BookValidator</code> it will be used to validate the form before it's <code>method</code> is called.</p>
+          <p>If you define a <em>client-side</em> form called <code>bookForm</code> and a validator class called <code>BookValidator</code> it will be used to validate the form before it's <code>method</code> attribute is called. Check out the other examples to see how to have the validations run on both <em>client-side</em> and <em>server-side</em></p>
           <div class="row">
             <div class="span6">
-              {{{validationForm}}}
+              {{{validationClientSideOnly}}}
             </div>
             <div class="span5">
-              {{{code "demo/client/examples/validation.js"}}}
+              {{{code "demo/client/examples/validation/clientSideOnly.js"}}}
             </div>
           </div>
         </div>
 
         <div class="tab-pane" id="validationManualServer">
           <h2>Validation &ndash; Manual Server</h2>
-          <p>TODO</p>
+          <p>If you want to validate <em>server-side</em> after <em>client-side</em> validation passes you can instantiate the validator in your <code>Meteor.methods</code>. See the <a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a> demo to see how the library can eliminate boilerplate validation code in your <code>Meteor.methods</code> by running the validation code for you.</p>
           <div class="row">
+            <div class="span6">
+              {{{profileForm}}}
+            </div>
+            <div class="span5">
+              {{{code "demo/common/examples/validation/lib/manualServer.js"}}}
+              {{{code "demo/client/examples/validation/manualServer.js"}}}
+              {{{code "demo/server/examples/validation/manualServer.js"}}}
+            </div>
           </div>
         </div>
         

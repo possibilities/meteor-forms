@@ -55,3 +55,14 @@
 <template name="action">
   <button data-name="{{name}}" class="btn {{name}}Action {{classes}}" name="{{name}}">{{label}}</button>
 </template>
+
+<template name="errors">
+  {{#if errors}}
+    <p class="help-block">
+      {{#each errors}}
+        <!-- TODO Everything breaks if a block level element is used. This fixes things for now -->
+        <span class="block-fix"><em>{{this}}</em></span>
+      {{/each}}
+    </p>
+  {{/if}}
+</template>

@@ -2,7 +2,7 @@
 
 var shouldBeAnISBN = function(options) {
   options = _.extend({
-    message: "must be a valid ISBN 10 or 13"
+    messageSuffix: "must be a valid ISBN 10 or 13"
   }, options);
 
   return function(attribute) {
@@ -19,7 +19,7 @@ var shouldBeAnISBN = function(options) {
 
 var shouldBeLastFirstFormat = function(options) {
   options = _.extend({
-    message: "should be 'Last, First' format"
+    messageSuffix: "should be 'Last, First' format"
   }, options);
 
   return function(attribute) {
@@ -33,9 +33,9 @@ var shouldBeLastFirstFormat = function(options) {
 
 BookValidator = Model.extend({
   validate: {
-    errorMessage: "The demo form isn't happy, make " +
+    errorMessage: "The demo form isn't happy. Make " +
                   "things right and try again!",
-    successMessage: "Great, you made a happy form, " +
+    successMessage: "Great, you made a happy form. " +
                     "Try it again!",
     inputs: {
       title: {
@@ -82,6 +82,6 @@ var bookForm = new Form({
   ]
 });
 
-Template.demo.validationForm = function() {
+Template.demo.validationClientSideOnly = function() {
   return bookForm.render();
 };

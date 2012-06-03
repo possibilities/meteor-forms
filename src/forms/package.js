@@ -1,5 +1,5 @@
 Package.describe({
-  summary: "A smart package for generating bootstrap forms"
+  summary: "A smart package for generating forms"
 });
 
 Package.on_use(function (api) {

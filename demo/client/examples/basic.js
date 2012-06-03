@@ -1,4 +1,4 @@
-var artificialDelay = function(afterDelay) {
+var artificialDelay = function(formValues, afterDelay) {
   Meteor.setTimeout(afterDelay, 500);
 };
 

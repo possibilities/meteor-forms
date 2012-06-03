@@ -13,3 +13,7 @@ h2 {
 .well, .tabbable {
   margin-top: 20px;
 }
+
+p {
+  line-height: 25px;
+}

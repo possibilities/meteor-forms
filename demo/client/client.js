@@ -6,7 +6,6 @@ var DemoRouter = Backbone.Router.extend({
   
   showTab: function(page) {
     page || (page = this._defaultPage());
-    console.log(page);
     $('.tabbable a[href="' + page + '"]').tab('show');
   },
   

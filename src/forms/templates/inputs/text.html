@@ -1,31 +1,31 @@
 <template name="basicTextInput">
   <span class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label>{{label}}</label>{{/if}}
+
     <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
 
-    {{#if errors}}
-      <p class="help-block">
-        {{#each errors}}
-          <!-- TODO Everything breaks if a block level element is used. This fixes things for now -->
-          <span class="block-fix"><em>{{this}}</em></span>
-        {{/each}}
-      </p>
-    {{/if}}
-
+    {{> errors}}
   </span>
+
   {{#if hint}}
-    <span class="help-block">{{hint}}</span>
+    <span class="help-block hint">{{hint}}</span>
   {{/if}}
+
 </template>
 
 <template name="horizontalTextInput">
-  <div class="control-group">
+  <div class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
+
     <div class="controls">
       <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
-      {{#if hint}}
-        <p class="help-block">{{hint}}</p>
-      {{/if}}
+
+      {{> errors}}
     </div>
   </div>
+
+  {{#if hint}}
+    <p class="help-block hint">{{hint}}</p>
+  {{/if}}
+
 </template>

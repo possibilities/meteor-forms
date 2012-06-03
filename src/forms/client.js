@@ -14,7 +14,7 @@ Form = function(attributes) {
   self.autoPlaceholders = _.isBoolean(self.autoPlaceholders) ? self.autoPlaceholders : false;
   self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
   self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
-  self.validatorClass = _.constantize(self.name + '_validator');
+  self.method = self._prepareMethod(self.method);
 
   // Build up the fieldsets and inputs
   if (self.fieldsets)
@@ -36,7 +36,6 @@ _.extend(Form.prototype, Events);
 
 Form.prototype.render = function() {
   var self = this;
-  this.trigger('render');
 
   // Keep a references to important dom elements
   Meteor.defer(function() {
@@ -47,11 +46,12 @@ Form.prototype.render = function() {
     self.initialValues = form2js(self.form)[self.name] || {};
   });
 
+  this.trigger('render');
+
   return Meteor.ui.chunk(function() {
     var tag = self._tag();
     return Template.form(tag);
   });
-  
 };
 
 Form.prototype.focus = function() {
@@ -68,6 +68,24 @@ Form.prototype._tag = function() {
   }
 
   return this;
+};
+
+Form.prototype._prepareMethod = function(methodName) {
+  var self = this;
+
+  if (_.isFunction(self.method)) {
+    return self.method;
+  } else if (_.isString(self.method)) {
+    return function remoteMethod(formValues, fn) {
+      Meteor.call(methodName, formValues, function(err, results) {
+        fn(err, results);
+      });
+    }
+  } else {
+    return function noop(formValues, fn) {
+      fn(null, formValues);
+    }
+  }
 };
 
 Form.prototype._resetValues = function() {
@@ -171,10 +189,10 @@ Form.prototype._parseActions = function(actions) {
 
 Form.prototype._isValid = function() {
   var self = this;
-  var validator;
+  var validatorClass = _.constantize(self.name + '_validator');
 
-  if (self.validatorClass) {
-    self.validator = new self.validatorClass(self.currentValues);
+  if (validatorClass) {
+    self.validator = new validatorClass(self.currentValues);
     if (self.validator.isValid()) {
       return true;
     } else {
@@ -212,24 +230,38 @@ Form.prototype._addValues = function(values) {
   var self = this;
   Meteor.defer(function() {
     _.each(values, function(val, fieldName) {
-      $('#' + self.name + '_' + fieldName).val(val);
+      $el = $('#' + self.name + '_' + fieldName);
+      if ($el.attr('type') === 'checkbox' && val) {
+        $el.prop('checked', true);
+      } else {
+        $el = $el.val(val);
+      }
     });
   });
 };
 
+// TODO figure out how to not have to look up the form, i.e. this
+// should be an instance method
 Form._handleAction = function(e) {
   var $el = $(e.target);
   var form = Form._findForm($el);
   var name = $el.data('name');
-  form['_handle' + _.titleize(name)]();
+
+  form.trigger('action:' + name);
+
+  var handler = form['_handle' + _.titleize(name)];
+  if (handler)
+    handler.call(form);
 };
 
 Form.prototype._handleErrors = function(errors) {
-  this.trigger('error');
   this._handleLoadingStop();
   this._setNotice('errors', this.errors);
+  this._setNotice('success', null);
   this._invalidateListeners();
   this._addValues(this.currentValues);
+
+  this.trigger('error');
 };
 
 Form.prototype._successMessage = function() {
@@ -239,12 +271,13 @@ Form.prototype._successMessage = function() {
 };
 
 Form.prototype._handleSuccess = function(message) {
-  this.trigger('success');
   this._handleLoadingStop();
   this._setNotice('success', this._successMessage());
   this._setNotice('errors', null);
   this._clearErrors();
   this._invalidateListeners();
+
+  this.trigger('success');
 };
 
 Form.prototype._setNotice = function(type, message) {
@@ -269,47 +302,47 @@ Form.prototype._registerListeners = function() {
 
 Form.prototype._handleSubmit = function() {
   var self = this;
-  this.trigger('submit', self);
 
-  this.currentValues = form2js(self.form)[self.name] || {};
+  self.currentValues = form2js(self.form)[self.name] || {};
   self._handleLoadingStart();
 
   if (self._isValid()) {
-    if (self.method && _.isFunction(self.method)) {
-      self.method(function(err, result) {
-        if (err) {
-          self._handleError();
-        } else{
-          self._handleSuccess();
-        }
-      });
-    } else {
-      self._handleSuccess();
-    }
+    var callback = function(err, result) {
+
+      if (err) {
+        self._addErrors(err);
+        self._handleErrors();
+      } else {
+        self._handleSuccess();
+      }
+    };
+
+    self.method(self.currentValues, callback);
   } else {
     self._handleErrors();
   }
 };
 
 Form.prototype._handleCancel = function() {
-  this.trigger('cancel');
   this._resetValues();
 };
 
 Form.prototype._handleReset = function() {
-  this.trigger('reset');
+  this._resetValues();
 };
 
 Form.prototype._handleLoadingStart = function() {
-  this.trigger('loading:start');
   this.$inputs.prop('disabled', true);
   this.$form.addClass('loading');
+
+  this.trigger('loading:start');
 };
 
 Form.prototype._handleLoadingStop = function() {
-  this.trigger('loading:stop');
   this.$inputs.prop('disabled', false);
   this.$form.removeClass('loading');
+
+  this.trigger('loading:stop');
 };
 
 Form._findForm = function($el) {
