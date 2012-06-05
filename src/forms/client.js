@@ -309,7 +309,6 @@ Form.prototype._clearErrors = function() {
 };
 
 Form.prototype._addValues = function(values) {
-  console.log('_addValues', values);
   var self = this;
   Meteor.defer(function() {
     _.each(values, function(val, fieldName) {
