@@ -1,4 +1,4 @@
-Template.validationModelsDemo.userForm = function() {
+Template.validationModelFormsDemo.userForm = function() {
   return userForm.render();
 };
 

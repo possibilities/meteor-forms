@@ -1,4 +1,4 @@
-Template.validationModelsDemo.users = function() {
+Template.validationModelFormsDemo.users = function() {
   return Users.find().fetch();
 };
 
