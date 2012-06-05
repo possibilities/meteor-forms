@@ -78,8 +78,6 @@ Form.prototype.create = function() {
   this._resetValues();
   this._clearErrors();
 
-  delete this.editData;
-  
   return this;
 };
 
@@ -120,6 +118,7 @@ Form.prototype.render = function() {
 
     if (self.editData) {
       self._addValues(self.editData);
+      delete self.editData;
     }
     return Template.form(tag);
   });
