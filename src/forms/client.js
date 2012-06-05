@@ -77,6 +77,8 @@ Form.prototype.edit = function(obj) {
 Form.prototype.create = function() {
   this._resetValues();
   this._clearErrors();
+
+  delete this.editData;
   
   return this;
 };
