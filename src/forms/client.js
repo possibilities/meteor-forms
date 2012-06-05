@@ -83,6 +83,7 @@ Form.prototype._setModelId = function(id) {
 Form.prototype.edit = function(obj) {
   this._resetValues();
   this._clearErrors();
+  this.notice = {};
 
   if (obj._id) {
     this._setModelId(obj._id);
@@ -98,6 +99,7 @@ Form.prototype.create = function() {
 
   this._resetValues();
   this._clearErrors();
+  this.notice = {};
 
   return this;
 };
