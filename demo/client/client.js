@@ -79,7 +79,7 @@ Meteor.autosubscribe(function() {
     if (user) {
       firstBlood = false;
       $('.userFormControls button').attr('disabled', false);
-      $('.userFormControls .loading').removeClass('loading');
+      $('.userFormControls.loading').removeClass('loading');
     }
   }
 });
