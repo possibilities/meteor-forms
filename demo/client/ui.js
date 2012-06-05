@@ -1,6 +1,3 @@
-Users = new Meteor.Collection('users');
-Meteor.subscribe('users');
-
 Template.validationModelsDemo.users = function() {
   return Users.find();
 };
@@ -21,7 +18,8 @@ Template.demo.events = {
       demoAppRouter.navigate(route, { trigger: true });
     }
   },
-  
+
+  // Handle the UI for loading user forms
   'click .userFormControls button': function(e) {
     var $button = $(e.currentTarget);
 
