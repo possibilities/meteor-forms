@@ -26,13 +26,19 @@
         </li>
 
         <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Models <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="validation/models" data-target="#validationModels" data-toggle="tab">Models</a></li>
+            <li><a href="validation/mongoHooks" data-target="#validationMongoHooks" data-toggle="tab">Mongo Hooks</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="validation/clientSideOnly" data-target="#validationClientSideOnly" data-toggle="tab">Client-side only</a></li>
             <li><a href="validation/manualServer" data-target="#validationManualServer" data-toggle="tab">Manual server</a></li>
             <li><a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a></li>
-            <li><a href="validation/models" data-target="#validationModels" data-toggle="tab">Models</a></li>
-            <li><a href="validation/mongoHooks" data-target="#validationMongoHooks" data-toggle="tab">Mongo Hooks</a></li>
           </ul>
         </li>
 
@@ -141,7 +147,23 @@
         
         <div class="tab-pane" id="validationModels">
           <h2>Validation &ndash; Models</h2>
-          <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> the form will use the model's validation. An added benefit of <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> is that it instantiates models from the data sent over the wire so the objects that arrive in your <code>Meteor.methods</code> will be model instances (rather than <a href="#" rel="tooltip" title="Plain Old Javascript Object">POJOs</a>.)</p>
+          <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> your forms will <em>generate away</em> much of the boilerplate code you'd have to write otherwise. But don't worry, if you want more control over how the form is processed you can disable most of the magic. Just let me know if there's something you need to turn off and you can't find a setting for it and I'll add one. Some nice things the forms will do with your models:</p>
+          
+          <ul>
+            <li>Generates server side methods for inserting and updating models</li>
+            <li>Performs client and server-side validation automatically if you've added validators to the model</li>
+          </ul>
+          
+          <p>Things it will do in the future (maybe soon¿):</p>
+          
+          <ul>
+            <li>Prevent mass-assignment</li>
+            <li>Generate client-side <code>Meteor.method</code> stubs</li>
+            <li>Model deletion</li>
+          </ul>
+
+          <h3>Demo</h3>
+
           <div class="row">
             <div class="span6">
               <div class="loading userFormControls">
