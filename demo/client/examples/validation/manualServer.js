@@ -26,7 +26,7 @@ var profileForm = new Form({
 });
 
 Template.demo.profileForm = function() {
-  return profileForm.render();
+  return profileForm.show().render();
 };
 
 // Break the form when the break button is clicked

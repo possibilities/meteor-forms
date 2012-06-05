@@ -33,5 +33,5 @@ Template.demo.eventsForm = function() {
     console.info.apply(console, args);
   });
 
-  return eventsForm.render();
+  return eventsForm.show().render();
 };

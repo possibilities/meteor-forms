@@ -1,5 +1,5 @@
 Template.demo.storyForm = function() {
-  return storyForm.render();
+  return storyForm.show().render();
 };
 
 // Break the form when the break button is clicked

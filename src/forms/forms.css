@@ -2,6 +2,10 @@ button.btn {
   margin-right: 5px;
 }
 
+.btn-group button.btn {
+  margin-right: 0;
+}
+
 form {
   position: relative;
 }
@@ -22,10 +26,18 @@ form {
   display: inline-block;
 }
 
-.block-fix {
+.blockfix {
   display: block;
+}
+
+.clearfix {
+  clear: both;
 }
 
 .hint {
   color: grey !important;
+}
+
+.hide {
+  display: none;
 }

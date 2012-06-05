@@ -35,5 +35,5 @@ var horizontalForm = new HorizontalForm({
 });
 
 Template.demo.horizontalForm = function() {
-  return horizontalForm.render();
+  return horizontalForm.show().render();
 };

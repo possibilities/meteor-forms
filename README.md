@@ -10,6 +10,10 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+Input template names should be inline/block rather than basic/horizontal
+
+Factor model-ify-ing meteor methods out of the validationFilter
+
 Something wrong with checkboxes
 
 Mass assignment protection where possible

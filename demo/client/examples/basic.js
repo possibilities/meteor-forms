@@ -32,5 +32,5 @@ var basicForm = new Form({
 });
 
 Template.demo.basicForm = function() {
-  return basicForm.render();
+  return basicForm.show().render();
 };

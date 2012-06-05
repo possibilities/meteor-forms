@@ -8,6 +8,10 @@ Form = function(attributes) {
   self.layout = self.layout || 'basic';
   var classes = self.classes ? self.classes : [];
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
+  self.renderHidden = _.isBoolean(self.renderHidden) ? self.renderHidden : true;
+  if (self.renderHidden) {
+    self.classes.push('hide');
+  }
   self.inputLayout = self.inputLayout || 'basic';
   self.actionLayout = (self.layout === 'horizontal') ? 'block' : 'inline';
   self.labelByDefault = _.isBoolean(self.labelByDefault) ? self.labelByDefault : true;
@@ -34,6 +38,64 @@ Form = function(attributes) {
 
 _.extend(Form.prototype, Events);
 
+Form.prototype.hide = function() {
+  var classes = this.classes.split(' ');
+  if (!_.contains(classes, 'hide')) {
+    classes.push('hide');
+    this.classes = classes.join(' ');
+  }
+
+  if (this.rendered) {
+    this._invalidateListeners();
+  }
+
+  return this;
+};
+
+Form.prototype._setModelId = function() {
+  var modelIdField = this._parseInput({
+    as: 'hidden',
+    name: 'modelId'
+  });
+
+  this.inputs.unshift(modelIdField);
+};
+
+Form.prototype.edit = function(obj) {
+  this._resetValues();
+  this._clearErrors();
+
+  if (obj._id) {
+    this._setModelId(obj._id);
+  }
+
+  this.editData = obj;
+  
+  return this;
+};
+
+Form.prototype.create = function() {
+  this._resetValues();
+  this._clearErrors();
+  
+  return this;
+};
+
+Form.prototype.show = function() {
+  var classes = this.classes.split(' ');
+  var hidePosition = _.indexOf(classes, 'hide');
+  if (hidePosition >= 0) {
+    classes.splice(hidePosition, 1);
+    this.classes = classes.join(' ');
+  }
+
+  if (this.rendered) {
+    this._invalidateListeners();
+  }
+
+  return this;
+};
+
 Form.prototype.render = function() {
   var self = this;
 
@@ -48,8 +110,15 @@ Form.prototype.render = function() {
 
   this.trigger('render');
 
+  self.rendered = true;
+
+
   return Meteor.ui.chunk(function() {
     var tag = self._tag();
+
+    if (self.editData) {
+      self._addValues(self.editData);
+    }
     return Template.form(tag);
   });
 };
@@ -138,41 +207,42 @@ Form.prototype._parseFieldsets = function(fieldsets) {
   });
 };
 
-Form.prototype._parseInputs = function(inputs) {
+Form.prototype._parseInput = function(input) {
   var self = this;
-  inputs = self._parse(inputs);
+
+  // Figure out which classes it should have
+  input.classes = _.ensureArray(input.classes).join(' ');
+  if (self.inputClasses)
+    input.classes = input.classes + ' ' + self.inputClasses.join(' ');
   
-  return _.map(inputs, function(input) {
+  // Calculate label if world peace exists
+  input.label = (
+    !self.noInputLabels
+      &&
+    (
+      input.label
+        ||
+      self.labelByDefault
+    )
+  ) ? (input.label || _.humanize(input.name)) : null;
 
-    // Figure out which classes it should have
-    input.classes = _.ensureArray(input.classes).join(' ');
-    if (self.inputClasses)
-      input.classes = input.classes + ' ' + self.inputClasses.join(' ');
-    
-    // Calculate label if world peace exists
-    input.label = (
-      !self.noInputLabels
-        &&
-      (
-        input.label
-          ||
-        self.labelByDefault
-      )
-    ) ? (input.label || _.humanize(input.name)) : null;
+  // Calculate all the values the input will need
+  var inputName = input.name;
+  input.name = self.name + '.' + inputName;
+  input.id = self.name + '_' + inputName;
+  input.as = input.as || 'text';
+  input.placeholder = self.autoPlaceholders ? _.humanize(inputName) : input.placeholder;
+  input.layout = self.layout;
+  input.inputLayout = self.inputLayout;
 
-    // Calculate all the values the input will need
-    var inputName = input.name;
-    input.name = self.name + '.' + inputName;
-    input.id = self.name + '_' + inputName;
-    input.as = input.as || 'text';
-    input.placeholder = self.autoPlaceholders ? _.humanize(inputName) : input.placeholder;
-    input.layout = self.layout;
-    input.inputLayout = self.inputLayout;
+  self._inputRegistry[inputName] = input;
 
-    self._inputRegistry[inputName] = input;
+  return input;
+};
 
-    return input;
-  });
+Form.prototype._parseInputs = function(inputs) {
+  inputs = this._parse(inputs);
+  return _.map(inputs, this._parseInput, this);
 };
 
 Form.prototype._parseActions = function(actions) {
@@ -189,19 +259,28 @@ Form.prototype._parseActions = function(actions) {
 
 Form.prototype._isValid = function() {
   var self = this;
-  var validatorClass = _.constantize(self.name + '_validator');
+  
+  // Start with a fresh validator
+  delete self.validator;
 
-  if (validatorClass) {
-    self.validator = new validatorClass(self.currentValues);
-    if (self.validator.isValid()) {
-      return true;
-    } else {
-      self._addErrors(self.validator.errors);
-      return false;
-    }
-  } else {
-    return true;
+  if (_.isFunction(self.currentValues.isValid)) {
+    self.validator = self.currentValues;
+  } else if (!self.validatorClass) {
+    self.validatorClass = _.constantize(self.name + '_validator');
   }
+
+  if (!self.validator && self.validatorClass) {
+    self.validator = new self.validatorClass(self.currentValues);
+  }
+
+  if (self.validator && !self.validator.isValid()) {
+    self._addErrors(self.validator.errors);
+  } else {
+    self._clearErrors();
+  }
+
+  // It's not valid if it's accumulated any errors
+  return !self.errors;
 };
 
 Form.prototype._addErrors = function(errors) {
@@ -223,10 +302,13 @@ Form.prototype._clearErrors = function() {
     delete input.errors;
   });
   
+  this._setNotice('errors', null);
+  
   delete self.errors;
 };
 
 Form.prototype._addValues = function(values) {
+  console.log('_addValues', values);
   var self = this;
   Meteor.defer(function() {
     _.each(values, function(val, fieldName) {
@@ -266,7 +348,7 @@ Form.prototype._handleErrors = function(errors) {
 
 Form.prototype._successMessage = function() {
   return this.successMessage
-          || this.validator.validate.successMessage
+          || (this.validator && this.validator.validate.successMessage)
           || 'Your request was processed successfully';
 };
 
@@ -274,7 +356,6 @@ Form.prototype._handleSuccess = function(message) {
   this._handleLoadingStop();
   this._setNotice('success', this._successMessage());
   this._setNotice('errors', null);
-  this._clearErrors();
   this._invalidateListeners();
 
   this.trigger('success');
@@ -304,6 +385,10 @@ Form.prototype._handleSubmit = function() {
   var self = this;
 
   self.currentValues = form2js(self.form)[self.name] || {};
+  
+  if (self.modelClass)
+    self.currentValues = new self.modelClass(self.currentValues);
+  
   self._handleLoadingStart();
 
   if (self._isValid()) {

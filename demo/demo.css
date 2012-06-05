@@ -17,3 +17,11 @@ h2 {
 p {
   line-height: 25px;
 }
+
+.userFormControls .spinner {
+  margin: 7px 0 0 10px;
+}
+
+.userFormControls {
+  margin-top: 10px;
+}

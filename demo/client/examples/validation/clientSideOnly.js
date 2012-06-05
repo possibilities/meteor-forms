@@ -83,5 +83,5 @@ var bookForm = new Form({
 });
 
 Template.demo.validationClientSideOnly = function() {
-  return bookForm.render();
+  return bookForm.show().render();
 };

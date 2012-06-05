@@ -16,5 +16,5 @@ var searchForm = new SearchForm({
 });
 
 Template.demo.searchForm = function() {
-  return searchForm.render();
+  return searchForm.show().render();
 };
