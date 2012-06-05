@@ -21,4 +21,17 @@ _.mixin({
     return _global[name];
   },
 
+  showMethodCallsFor: function(obj, options) {
+    options || (options = {});
+    options.blacklist || (options.blacklist = []);
+
+    _.each(obj.prototype, function(method, name) {
+      if (_.contains(options.blacklist, name)) return;
+      obj.prototype[name] = function() {
+        console.log(name); // Don't delete me!
+        return method.apply(this, arguments);
+      };
+    });
+  }
+
 });
