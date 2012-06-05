@@ -1,4 +1,4 @@
-Template.validationModelFormsDemo.users = function() {
+Template.userControls.users = function() {
   return Users.find().fetch();
 };
 
@@ -39,18 +39,18 @@ Template.demo.events = {
   }
 };
 
-// Make the new user button get selected when you press cancel 
-// on any form TODO make better
-userForm.on('action:cancel', function() {
+// Make the new user button get selected when you press
+// cancel or the for is submitted successfully
+// TODO make better
+userForm.on('success action:cancel', function() {
+
+  // Clear everything
   $('.userFormControls button').filter(function() {
     return !$(this).prop('disabled');
   }).button('reset').removeClass('active');
 
+  // Toggle new user on
   $('.userFormControls button').filter(function() {
     return !$(this).data('id');
-  }).button('working');
-  
-  $('.userFormControls button').filter(function() {
-    return !$(this).data('id') || $(this).hasClass('active');
-  }).button('toggle');
+  }).button('working').button('toggle');
 });

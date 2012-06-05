@@ -208,16 +208,8 @@
   <div class="row">
     <div class="span6">
       <div class="loading userFormControls">
-        {{#if users}}
-          <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
-          <div class="btn-group pull-left" data-toggle="buttons-radio">
-            {{#each users}}
-              <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
-            {{/each}}
-          </div>
-        {{else}}
-          <span class="loading-message pull-left">Loading demo...</span> <span class="spinner pull-left" />
-        {{/if}}
+        <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
+        {{> userControls}}
       </div>
       <div class="clearfix">
         {{{userForm}}}
@@ -229,4 +221,16 @@
       {{{code "demo/client/examples/models/modelForms.js"}}}
     </div>
   </div>
+</template>
+
+<template name="userControls">
+  {{#if users}}
+    <div class="btn-group pull-left" data-toggle="buttons-radio">
+      {{#each users}}
+        <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
+      {{/each}}
+    </div>
+  {{else}}
+    <span class="loading-message pull-left">Loading users...</span> <span class="spinner pull-left" />
+  {{/if}}
 </template>

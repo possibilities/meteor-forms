@@ -404,6 +404,7 @@ Form.prototype._registerListeners = function() {
   var self = this;
   var context = Meteor.deps.Context.current;
   if (context && !this.listeners[context.id]) {
+    console.log(context);
     this.listeners[context.id] = context;
     context.on_invalidate(function () {
       delete self.listeners[context.id];
@@ -526,7 +527,7 @@ Form._inputEvents = {
 
 // Debugging
 // _.showMethodCallsFor(Form, {
-//   blacklist: ['on', 'off'],
+//   // blacklist: ['on', 'off'],
 //   // showArgumentsWhitelist: ['trigger'],
-//   showArguments: true,
+//   // showArguments: true,
 // });

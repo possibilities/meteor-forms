@@ -23,9 +23,13 @@ li {
 }
 
 .userFormControls .spinner {
-  margin: 3px 0 0 10px;
+  margin: 9px 0 0 15px;
 }
 
 .userFormControls {
   margin-top: 10px;
+}
+
+.loading-message {
+  margin: 5px 0 0 10px;
 }
