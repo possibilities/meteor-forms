@@ -6,7 +6,7 @@ Form.prototype.addValidationFilter = function(options) {
   if (options.method) {
     Filter.methods([
       {
-        handler: ValidationFilters.validationFilter,
+        handler: ValidationFilters.validationFilter(options.name),
         only: options.method
       } 
     ]);
