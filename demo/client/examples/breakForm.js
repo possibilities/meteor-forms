@@ -1,5 +1,3 @@
-// breakClientSideValidation(profileForm);
-
 var breakClientSideValidation = function(form) {
 
   var hijackErrorMessage = function(message) {
@@ -10,8 +8,13 @@ var breakClientSideValidation = function(form) {
     form._invalidateListeners();
   }
 
-  // Replace the validator to break client side validation!
-  ProfileValidator = Model.extend({ validate: {} });
+  // Break validation by making form's internal _isValid
+  // method always return true!
+  form._isValid = function() {
+    return true
+  };
+
+  // Show an appropriate message when the form completes
   hijackErrorMessage('Great, you broke it. Try submitting an ' + 
                      'invalid form!');
 
