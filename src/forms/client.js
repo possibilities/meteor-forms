@@ -438,6 +438,8 @@ Form.prototype._handleSubmit = function() {
 
 Form.prototype._handleCancel = function() {
   this._resetValues();
+  this._unsetModelId();
+  this._invalidateListeners();
 };
 
 Form.prototype._handleReset = function() {
