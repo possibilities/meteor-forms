@@ -10,6 +10,8 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+When you switch from one edit form to another the text flicks once, stop that!
+
 Input template names should be inline/block rather than basic/horizontal
 
 Factor model-ify-ing meteor methods out of the validationFilter
