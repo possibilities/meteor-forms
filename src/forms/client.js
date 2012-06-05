@@ -495,5 +495,7 @@ Form._inputEvents = {
 
 // Debugging
 // _.showMethodCallsFor(Form, {
-//   blacklist: ['on', 'off']
+//   blacklist: ['on', 'off'],
+//   // showArgumentsWhitelist: ['trigger'],
+//   showArguments: true,
 // });
