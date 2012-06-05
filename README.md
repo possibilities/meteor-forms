@@ -41,3 +41,5 @@ Consider using underscore templates rather than concatting strings
 Go back and borrow more ideas from formtastic
 
 Tab indexes
+
+Add inflection support for looking up collection name

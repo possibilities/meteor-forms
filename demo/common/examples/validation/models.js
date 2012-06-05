@@ -34,7 +34,6 @@ User = Model.extend({
 var userForm = new Form({
   name: 'user',
   classes: 'well',
-  method: 'saveUser',
   modelClass: User,
   inputs: [
     'firstName',

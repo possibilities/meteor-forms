@@ -1,4 +1,4 @@
-Template.demo.userForm = function() {
+Template.validationModelsDemo.userForm = function() {
   return userForm.render();
 };
 
@@ -6,10 +6,7 @@ var showNewUserForm = function() {
   userForm.create().show();
 };
 
-var showEditUserForm = function(firstName) {
-  var user = Users.findOne({
-    firstName: firstName
-  });
-
+var showEditUserForm = function(id) {
+  var user = Users.findOne(id);
   userForm.edit(user).show();
 };

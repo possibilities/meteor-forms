@@ -8,13 +8,11 @@ Secure.noDataMagic();
 
 Users.remove({});
 Users.insert({
-  shortName: 'yngwie',
   firstName: 'Yngwie',
   lastName: 'Malmsteen',
   about: 'Yngwie plays with yarn and is fat.'
 });
 Users.insert({
-  shortName: 'derrida',
   firstName: 'Derrida',
   lastName: 'Bannister',
   about: "Derrida will eat anything and shouldn't be let outside."

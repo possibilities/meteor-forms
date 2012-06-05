@@ -146,44 +146,7 @@
         </div>
         
         <div class="tab-pane" id="validationModels">
-          <h2>Validation &ndash; Models</h2>
-          <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> your forms will <em>generate away</em> much of the boilerplate code you'd have to write otherwise. But don't worry, if you want more control over how the form is processed you can disable most of the magic. Just let me know if there's something you need to turn off and you can't find a setting for it and I'll add one (the included preset system will be helpful in creating your own defaults). Some nice things the forms will do with your models:</p>
-          
-          <ul>
-            <li>Generates server side methods for inserting and updating models</li>
-            <li>Performs client and server-side validation automatically if you've added validators to the model</li>
-          </ul>
-          
-          <p>Things it will do in the future (maybe soon¿):</p>
-          
-          <ul>
-            <li>Prevent mass-assignment</li>
-            <li>Generate client-side <code>Meteor.method</code> stubs</li>
-            <li>Model deletion</li>
-          </ul>
-
-          <h3>Demo</h3>
-
-          <div class="row">
-            <div class="span6">
-              <div class="loading userFormControls">
-                <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
-                <div class="btn-group pull-left" data-toggle="buttons-radio">
-                  <button data-first-name="Yngwie" data-working-text="Edit Yngwie..." class="btn btn-info" disabled>Edit Yngwie</button>
-                  <button data-first-name="Derrida" data-working-text="Edit Derrida..." class="btn btn-info" disabled>Edit Derrida</button>
-                </div>
-                <span class="spinner pull-left" />
-              </div>
-              <div class="clearfix">
-                {{{userForm}}}
-              </div>
-            </div>
-            <div class="span5">
-              {{{code "demo/server/examples/validation/models.js"}}}
-              {{{code "demo/common/examples/validation/models.js"}}}
-              {{{code "demo/client/examples/validation/models.js"}}}
-            </div>
-          </div>
+          {{> validationModelsDemo}}
         </div>
         
         <div class="tab-pane" id="validationMongoHooks">
@@ -222,4 +185,48 @@
   <a href="https://github.com/possibilities/meteor-forms">
     <img src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" style="position: absolute; top: 0; right: 0; border: 0;" alt="Fork me on GitHub">
   </a>
+</template>
+
+<template name="validationModelsDemo">
+  <h2>Validation &ndash; Models</h2>
+  <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> your forms will <em>generate away</em> much of the boilerplate code you'd have to write otherwise. But don't worry, if you want more control over how the form is processed you can disable most of the magic. Just let me know if there's something you need to turn off and you can't find a setting for it and I'll add one (the included preset system will be helpful in creating your own defaults). Some nice things the forms will do with your models:</p>
+
+  <ul>
+    <li>Generates server side methods for inserting and updating models</li>
+    <li>Performs client and server-side validation automatically if you've added validators to the model</li>
+  </ul>
+
+  <p>Things it will do in the future (maybe soon¿):</p>
+
+  <ul>
+    <li>Prevent mass-assignment</li>
+    <li>Generate client-side <code>Meteor.method</code> stubs</li>
+    <li>Model deletion</li>
+  </ul>
+
+  <h3>Demo</h3>
+
+  <div class="row">
+    <div class="span6">
+      <div class="loading userFormControls">
+        <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
+        {{#if users}}
+          <div class="btn-group pull-left" data-toggle="buttons-radio">
+            {{#each users}}
+              <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
+            {{/each}}
+          </div>
+        {{/if}}
+        <span class="spinner pull-left" />
+      </div>
+      <div class="clearfix">
+        {{{userForm}}}
+      </div>
+    </div>
+    <div class="span5">
+      {{{code "demo/server/examples/validation/models.js"}}}
+      {{{code "demo/common/examples/validation/models.js"}}}
+      {{{code "demo/client/examples/validation/models.js"}}}
+    </div>
+  </div>
 </template>

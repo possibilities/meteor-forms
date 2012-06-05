@@ -1,3 +1,6 @@
+Users = new Meteor.Collection('users');
+Meteor.subscribe('users');
+
 var DemoRouter = Backbone.Router.extend({
 
   // Route everything through showTag(), it'll
@@ -33,6 +36,10 @@ Meteor.startup(function() {
   
 });
 
+Template.validationModelsDemo.users = function() {
+  return Users.find();
+};
+
 Template.demo.events = {
 
   // If the link is only intended for a tooltip prevent default action
@@ -57,10 +64,10 @@ Template.demo.events = {
       return !$(this).prop('disabled');
     }).button('reset').removeClass('active');
 
-    var firstName = $button.data('first-name');
+    var id = $button.data('id');
 
-    if (firstName) {
-      showEditUserForm(firstName);
+    if (id) {
+      showEditUserForm(id);
     } else {
       showNewUserForm();
     }
@@ -68,9 +75,6 @@ Template.demo.events = {
     $button.button('working');
   }
 };
-
-Users = new Meteor.Collection('users');
-Meteor.subscribe('users');
 
 var firstBlood = true;
 Meteor.autosubscribe(function() {

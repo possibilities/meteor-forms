@@ -52,10 +52,29 @@ Form.prototype.hide = function() {
   return this;
 };
 
-Form.prototype._setModelId = function() {
+Form.prototype._unsetModelId = function() {
+  var self = this;
+  if (this.inputs) {
+    var modelIdInput = _.find(this.inputs, function(input) {
+      return _.endsWith(input.name, '.modelId') && input.as === 'hidden';
+    });
+    
+    if (modelIdInput) {
+      var modelIdInputIndex = _.indexOf(this.inputs, modelIdInput);
+      if (modelIdInputIndex >= 0) {
+        this.inputs.splice(modelIdInputIndex, 1);
+      }
+    }
+  }
+};
+
+Form.prototype._setModelId = function(id) {
+  this._unsetModelId();
+
   var modelIdField = this._parseInput({
     as: 'hidden',
-    name: 'modelId'
+    name: 'modelId',
+    value: id
   });
 
   this.inputs.unshift(modelIdField);
@@ -75,6 +94,8 @@ Form.prototype.edit = function(obj) {
 };
 
 Form.prototype.create = function() {
+  this._unsetModelId();
+
   this._resetValues();
   this._clearErrors();
 
@@ -140,19 +161,26 @@ Form.prototype._tag = function() {
   return this;
 };
 
+Form.prototype._remoteMethod = function(methodName) {
+  return function remoteMethod(formValues, fn) {
+    delete formValues.validate;
+    Meteor.call(methodName, formValues, function(err, results) {
+      fn(err, results);
+    });
+  }
+};
+
 Form.prototype._prepareMethod = function(methodName) {
   var self = this;
 
   if (_.isFunction(self.method)) {
     return self.method;
   } else if (_.isString(self.method)) {
-    return function remoteMethod(formValues, fn) {
-      Meteor.call(methodName, formValues, function(err, results) {
-        fn(err, results);
-      });
-    }
+    return self._remoteMethod(methodName);
+  } else if (self.modelClass) {
+    return self._remoteMethod('saveModel');
   } else {
-    return function noop(formValues, fn) {
+    return function noopFormMethod(formValues, fn) {
       fn(null, formValues);
     }
   }
