@@ -209,15 +209,16 @@
   <div class="row">
     <div class="span6">
       <div class="loading userFormControls">
-        <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
         {{#if users}}
+          <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
           <div class="btn-group pull-left" data-toggle="buttons-radio">
             {{#each users}}
               <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
             {{/each}}
           </div>
+        {{else}}
+          <span class="loading-message pull-left">Loading demo...</span> <span class="spinner pull-left" />
         {{/if}}
-        <span class="spinner pull-left" />
       </div>
       <div class="clearfix">
         {{{userForm}}}

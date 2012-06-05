@@ -1,5 +1,5 @@
 Template.validationModelsDemo.users = function() {
-  return Users.find();
+  return Users.find().fetch();
 };
 
 Template.demo.events = {
@@ -39,14 +39,18 @@ Template.demo.events = {
   }
 };
 
-var firstBlood = true;
-Meteor.autosubscribe(function() {
-  if (firstBlood) {
-    var user = Users.findOne();
-    if (user) {
-      firstBlood = false;
-      $('.userFormControls button').attr('disabled', false);
-      $('.userFormControls.loading').removeClass('loading');
-    }
-  }
+// Make the new user button get selected when you press cancel 
+// on any form TODO make better
+userForm.on('action:cancel', function() {
+  $('.userFormControls button').filter(function() {
+    return !$(this).prop('disabled');
+  }).button('reset').removeClass('active');
+
+  $('.userFormControls button').filter(function() {
+    return !$(this).data('id');
+  }).button('working');
+  
+  $('.userFormControls button').filter(function() {
+    return !$(this).data('id') || $(this).hasClass('active');
+  }).button('toggle');
 });
