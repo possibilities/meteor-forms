@@ -13,25 +13,6 @@ Template.demo.events = {
       var route = $el.attr('href');
       demoAppRouter.navigate(route, { trigger: true });
     }
-  },
-
-  // Handle the UI for loading user forms
-  'click .userFormControls button': function(e) {
-    var $button = $(e.currentTarget);
-
-    $('.userFormControls button').filter(function() {
-      return !$(this).prop('disabled');
-    }).button('reset').removeClass('active');
-
-    var id = $button.data('id');
-
-    if (id) {
-      showEditUserForm(id);
-    } else {
-      showNewUserForm();
-    }
-
-    $button.button('working');
   }
 };
 

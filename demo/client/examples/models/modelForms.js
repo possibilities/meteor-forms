@@ -14,3 +14,24 @@ var showEditUserForm = function(id) {
   var user = Users.findOne(id);
   userForm.edit(user).show();
 };
+
+Template.userControls.events = {
+  // Handle the UI for loading user forms
+  'click button': function(e) {
+    var $button = $(e.currentTarget);
+
+    $('.userFormControls button').filter(function() {
+      return !$(this).prop('disabled');
+    }).button('reset').removeClass('active');
+
+    var id = $button.data('id');
+
+    if (id) {
+      showEditUserForm(id);
+    } else {
+      showNewUserForm();
+    }
+
+    $button.button('working');
+  }
+};
