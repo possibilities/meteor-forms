@@ -52,6 +52,7 @@ Form.prototype.hide = function() {
   return this;
 };
 
+// TODO wtf¿ use the input registry
 Form.prototype._unsetModelId = function() {
   var self = this;
   if (this.inputs) {
@@ -404,7 +405,6 @@ Form.prototype._registerListeners = function() {
   var self = this;
   var context = Meteor.deps.Context.current;
   if (context && !this.listeners[context.id]) {
-    console.log(context);
     this.listeners[context.id] = context;
     context.on_invalidate(function () {
       delete self.listeners[context.id];
