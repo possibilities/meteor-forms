@@ -3,8 +3,6 @@ SimpleDemo.load({
   repo: 'meteor-forms'
 });
 
-Users.remove({});
-
 Meteor.publish('users', function(sessionId) {
 
   if (sessionId && Users.find({ _clientId: sessionId }).count() <= 0) {
