@@ -1,4 +1,4 @@
-Template.demo.events = {
+_.extend(Template.demo.events, {
 
   // If the link is only intended for a tooltip prevent default action
   'click a[rel=tooltip][href=#]': function(e) {
@@ -14,7 +14,7 @@ Template.demo.events = {
       demoAppRouter.navigate(route, { trigger: true });
     }
   }
-};
+});
 
 // Make the new user button get selected when you press
 // cancel or the for is submitted successfully

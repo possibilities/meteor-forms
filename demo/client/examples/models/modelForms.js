@@ -15,9 +15,9 @@ var showEditUserForm = function(id) {
   userForm.edit(user).show();
 };
 
-Template.userControls.events = {
+Template.demo.events = {
   // Handle the UI for loading user forms
-  'click button': function(e) {
+  'click .userFormControls button': function(e) {
     var $button = $(e.currentTarget);
 
     $('.userFormControls button').filter(function() {
