@@ -1,7 +1,6 @@
 SimpleDemo.load({
   user: 'possibilities',
-  repo: 'meteor-forms',
-  ref: 'feature-model-support'
+  repo: 'meteor-forms'
 });
 
 Meteor.publish('users', function(sessionId) {
