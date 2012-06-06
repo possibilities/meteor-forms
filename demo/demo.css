@@ -27,7 +27,11 @@ li {
 }
 
 .userFormControls {
-  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.userFormControls form {
+  border: 0px solid black !important;
 }
 
 .loading-message {

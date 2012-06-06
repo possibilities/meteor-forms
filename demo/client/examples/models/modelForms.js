@@ -1,3 +1,7 @@
+Template.userControls.users = function() {
+  return Users.find().fetch();
+};
+
 Template.validationModelFormsDemo.userForm = function() {
   return userForm.render();
 };

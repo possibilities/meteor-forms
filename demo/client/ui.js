@@ -1,7 +1,3 @@
-Template.userControls.users = function() {
-  return Users.find().fetch();
-};
-
 Template.demo.events = {
 
   // If the link is only intended for a tooltip prevent default action

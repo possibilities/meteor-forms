@@ -188,6 +188,7 @@
 
 <template name="validationModelFormsDemo">
   <h2>Validation &ndash; Model Forms</h2>
+
   <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> your forms will <em>generate away</em> much of the boilerplate code you'd have to write otherwise. But don't worry, if you want more control over how the form is processed you can disable most of the magic. Just let me know if there's something you need to turn off and you can't find a setting for it and I'll add one (the included preset system will be helpful in creating your own defaults). Some nice things the forms will do with your models:</p>
 
   <ul>
@@ -203,11 +204,10 @@
     <li>Model deletion</li>
   </ul>
 
-  <h3>Demo</h3>
-
   <div class="row">
-    <div class="span6">
+    <div class="span6 well">
       <div class="loading userFormControls">
+        <h3>Demo</h3>
         <button class="btn btn-primary pull-left" data-toggle="button" data-working-text="New user...">New user</button>
         {{> userControls}}
       </div>
@@ -219,18 +219,7 @@
       {{{code "demo/server/examples/models/modelForms.js"}}}
       {{{code "demo/common/examples/models/modelForms.js"}}}
       {{{code "demo/client/examples/models/modelForms.js"}}}
+      {{{code "demo/client/examples/models/modelForms.html"}}}
     </div>
   </div>
-</template>
-
-<template name="userControls">
-  {{#if users}}
-    <div class="btn-group pull-left" data-toggle="buttons-radio">
-      {{#each users}}
-        <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
-      {{/each}}
-    </div>
-  {{else}}
-    <span class="loading-message pull-left">Loading users...</span> <span class="spinner pull-left" />
-  {{/if}}
 </template>

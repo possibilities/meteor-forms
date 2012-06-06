@@ -1,0 +1,11 @@
+<template name="userControls">
+  {{#if users}}
+    <div class="btn-group pull-left" data-toggle="buttons-radio">
+      {{#each users}}
+        <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
+      {{/each}}
+    </div>
+  {{else}}
+    <span class="loading-message pull-left">Loading users...</span> <span class="spinner pull-left" />
+  {{/if}}
+</template>

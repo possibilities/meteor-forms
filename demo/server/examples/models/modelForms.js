@@ -1,18 +1,18 @@
-Meteor.methods({
+Users = new Meteor.Collection('users');
+Secure.noDataMagic();
 
-  // The validation library will run the validator
-  // automatically for you, yay!
+Users.remove({});
+Users.insert({
+  firstName: 'Yngwie',
+  lastName: 'Malmsteen',
+  about: 'Yngwie plays with yarn and is fat.'
+});
+Users.insert({
+  firstName: 'Derrida',
+  lastName: 'Bannister',
+  about: "Derrida will eat anything and shouldn't be let outside."
+});
 
-  saveUser: function(user) {
-
-    // `user` argument is a User model, not a POJO
-    // console.log(user.isValid); // -> [Function]
-
-    /*
-     *  Do smart things with valid story here!
-     */
-
-    // Send it back to the client
-    return user;
-  }
+Meteor.publish('users', function() {
+  return Users.find();
 });
