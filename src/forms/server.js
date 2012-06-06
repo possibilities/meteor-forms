@@ -12,19 +12,6 @@ FormFilters = {
     next(model);
   },
 
-  injectClientIdIf: function(conditionFn) {
-    return function() {
-      console.log('in it', this);
-      var self = this;
-      var args = _.toArray(arguments);
-      _.each(args, function(arg) {
-        if (conditionFn(arg)) {
-          arg._clientId = self.clientId;
-        }
-      });
-    };
-  },
-
   // The shitiest pluralize method ever
   // TODO can we get rails-like inflections
   _pluralize: function(str) {

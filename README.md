@@ -10,6 +10,8 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+If you edit a user then add one without pressing any button it edits the original user
+
 When you switch from one edit form to another the text flicks once, stop that!
 
 Input template names should be inline/block rather than basic/horizontal
