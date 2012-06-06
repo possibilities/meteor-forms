@@ -26,13 +26,3 @@ Meteor.publish('users', function(sessionId) {
     _clientId: sessionId
   });
 });
-
-// TODO Kinda hacky, make it less so
-Filter.methods([
-  {
-    handler: FormFilters.injectClientIdIf(function(arg) {
-      return !_.isUndefined(arg._modelName);
-    }),
-    only: 'saveModel'
-  } 
-]);
