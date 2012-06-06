@@ -22,10 +22,6 @@ form {
   background-image: url("/packages/forms/public/spinner.gif");
 }
 
-.loading .spinner {
-  display: inline-block;
-}
-
 .blockfix {
   display: block;
 }

@@ -1,16 +1,10 @@
 <template name="userControls">
-  {{#if users}}
-
-    <div class="btn-group pull-left">
-      <button class="btn btn-info dropdown-toggle userEditDropdown" data-working-text="Editing..." data-toggle="dropdown">Edit user <span class="caret"></span></button>
-      <ul class="dropdown-menu">
-        {{#each users}}
-          <li><a href="#" data-id="{{_id}}" class="userAction userEditAction">{{firstName}}</a></li>
-        {{/each}}
-      </ul>
-    </div>
-
-  {{else}}
-    <span class="loading-message pull-left">Loading users...</span> <span class="spinner pull-left" />
-  {{/if}}
+  <div class="btn-group pull-left">
+    <button class="btn btn-info dropdown-toggle userEditDropdown" data-working-text="Editing..." data-toggle="dropdown"{{#unless users}} disabled{{/unless}}>{{#if users}}Edit user{{else}}Loading users...{{/if}} <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      {{#each users}}
+        <li><a href="#" data-id="{{_id}}" class="userAction userEditAction">{{firstName}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
 </template>
