@@ -12,7 +12,7 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
-Add model-hooks integration
+Add mongo-hooks integration
 
 Smooth out what it means to edit/update a model
 
