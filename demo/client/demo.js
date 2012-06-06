@@ -30,4 +30,7 @@ userForm.on('success action:cancel', function() {
   $('.userFormControls button').filter(function() {
     return !$(this).data('id');
   }).button('working').button('toggle');
+  
+  // show the new form
+  userForm.create().show();
 });
