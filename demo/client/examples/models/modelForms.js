@@ -17,12 +17,15 @@ var showEditUserForm = function(id) {
 
 Template.demo.events = {
   // Handle the UI for loading user forms
-  'click .userFormControls button': function(e) {
+  'click .userFormControls .userAction': function(e) {
+
+    e.preventDefault();
     var $button = $(e.currentTarget);
 
-    $('.userFormControls button').filter(function() {
+    $('.userFormControls .userAction').filter(function() {
       return !$(this).prop('disabled');
     }).button('reset').removeClass('active');
+    $('.userEditDropdown').button('reset').removeClass('active');
 
     var id = $button.data('id');
 
@@ -32,6 +35,10 @@ Template.demo.events = {
       showNewUserForm();
     }
 
-    $button.button('working');
+    if ($button.hasClass('userEditAction')) {
+      $('.userEditDropdown').button('working').button('toggle');
+    } else if ($button.hasClass('userNewAction')) {
+      $button.button('working');
+    }
   }
 };

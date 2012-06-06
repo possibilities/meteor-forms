@@ -1,10 +1,15 @@
 <template name="userControls">
   {{#if users}}
-    <div class="btn-group pull-left" data-toggle="buttons-radio">
-      {{#each users}}
-        <button data-id="{{_id}}" data-working-text="Edit {{firstName}}..." class="btn btn-info">Edit {{firstName}}</button>
-      {{/each}}
+
+    <div class="btn-group pull-left">
+      <button class="btn btn-info dropdown-toggle userEditDropdown" data-working-text="Editing..." data-toggle="dropdown">Edit User <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        {{#each users}}
+          <li><a href="#" data-id="{{_id}}" class="userAction userEditAction">{{firstName}}</a></li>
+        {{/each}}
+      </ul>
     </div>
+
   {{else}}
     <span class="loading-message pull-left">Loading users...</span> <span class="spinner pull-left" />
   {{/if}}

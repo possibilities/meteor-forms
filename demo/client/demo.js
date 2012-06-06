@@ -9,7 +9,7 @@ _.extend(Template.demo.events, {
   'click .tabbable li a': function showTab(e) {
     e.preventDefault();
     var $el = $(e.currentTarget);
-    if ($el.data('toggle') !== 'dropdown') {
+    if ($el.data('toggle') !== 'dropdown' && $el.data('target')) {
       var route = $el.attr('href');
       demoAppRouter.navigate(route, { trigger: true });
     }
@@ -22,15 +22,16 @@ _.extend(Template.demo.events, {
 userForm.on('success action:cancel', function() {
 
   // Clear everything
-  $('.userFormControls button').filter(function() {
+  $('.userFormControls .userAction').filter(function() {
     return !$(this).prop('disabled');
   }).button('reset').removeClass('active');
+  $('.userEditDropdown').button('reset').removeClass('active');
 
   // Toggle new user on
-  $('.userFormControls button').filter(function() {
+  $('.userFormControls .userAction').filter(function() {
     return !$(this).data('id');
   }).button('working').button('toggle');
-  
+
   // show the new form
   userForm.create().show();
 });
