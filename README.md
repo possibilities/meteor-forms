@@ -12,6 +12,8 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+clearOnSuccess seems to be broken
+
 Add mongo-hooks integration
 
 Smooth out what it means to edit/update a model
