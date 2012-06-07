@@ -1,8 +1,3 @@
-SimpleDemo.load({
-  user: 'possibilities',
-  repo: 'meteor-forms'
-});
-
 Meteor.publish('users', function(sessionId) {
 
   if (sessionId && Users.find({ _clientId: sessionId }).count() <= 0) {
