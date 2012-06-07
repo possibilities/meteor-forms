@@ -2,6 +2,7 @@ SearchForm = function(options) {
   var defaultOptions = {
     layout: 'search',
     inputClasses: ['input-medium', 'search-query'],
+    showErrorsInline: false,
     noInputLabels: true,
     clearOnSuccess: false
   };

@@ -14,7 +14,19 @@
   {{/if}}
   
   {{#if notice/errors}}
-    <div class="alert alert-error">{{notice/errors/reason}}</div>
+    {{#if showErrorsInline}}
+      <div class="alert alert-error">{{notice/errors/reason}}</div>
+    {{else}}
+      <div class="alert alert-error alert-block">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">{{notice/errors/reason}}</h4>
+        <ul>
+          {{#each notice/errors/detailList}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
   {{/if}}
 </template>
 

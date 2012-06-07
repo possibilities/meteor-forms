@@ -6,7 +6,7 @@ Form = function(attributes) {
   // Set defaults
   self.notice = {};
   self.layout = self.layout || 'basic';
-  var classes = self.classes ? self.classes : [];
+  self.classes || (self.classes = []);
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
   self.renderHidden = _.isBoolean(self.renderHidden) ? self.renderHidden : true;
   if (self.renderHidden) {
@@ -18,6 +18,7 @@ Form = function(attributes) {
   self.autoPlaceholders = _.isBoolean(self.autoPlaceholders) ? self.autoPlaceholders : false;
   self.noInputLabels = _.isBoolean(self.noInputLabels) ? self.noInputLabels : false;
   self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
+  self.showErrorsInline = _.isBoolean(self.showErrorsInline) ? self.showErrorsInline : true;
   self.method = self._prepareMethod(self.method);
 
   // Build up the fieldsets and inputs
@@ -36,7 +37,7 @@ Form = function(attributes) {
   this.listeners = {};
 };
 
-_.extend(Form.prototype, Events);
+_.extend(Form.prototype, Backbone.Events);
 
 Form.prototype.hide = function() {
   var classes = this.classes.split(' ');
@@ -324,6 +325,12 @@ Form.prototype._addErrors = function(errors) {
       delete input.errors;
     }
   });
+  
+  if (!self.showErrorsInline) {
+    errors.detailList = _.map(errors.details, function(error) {
+      return error;
+    });
+  }
   
   self.errors = errors;
 };

@@ -31,7 +31,7 @@ Form.prototype._addValidationFilter = function() {
     methodName = 'saveModel';
     Form._saveModelFilterFirstBlood = false;
   }
-  
+
   if (methodName) {
     Filter.methods([
       {

@@ -4,7 +4,7 @@
 
     <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
 
-    {{> errors}}
+    {{#if showErrorsInline}}{{> errors}}{{/if}}
   </span>
 
   {{#if hint}}
@@ -21,7 +21,7 @@
     <div class="controls">
       <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
 
-      {{> errors}}
+      {{#if showErrorsInline}}{{> errors}}{{/if}}
 
       {{#if hint}}
         <span class="help-block hint">{{hint}}</span>

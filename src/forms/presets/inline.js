@@ -1,7 +1,8 @@
 InlineForm = function(options) {
   var defaultOptions = {
     layout: 'inline',
-    inputClasses: ['input-small'],
+    showErrorsInline: false,
+    inputClasses: ['input-small']
   };
   options = _.extend(defaultOptions, options);
 
