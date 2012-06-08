@@ -47,3 +47,5 @@ Go back and borrow more ideas from formtastic
 Tab indexes
 
 Add inflection support for looking up collection name
+
+Allow global config of all forms in project

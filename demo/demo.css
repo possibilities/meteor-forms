@@ -1,27 +1,3 @@
-body {
-  margin: 20px;
-}
-
-h1, h3, h2 {
-  margin-bottom: 10px;
-}
-
-h2 {
-  margin-top: 20px;
-}
-
-.well, .tabbable {
-  margin-top: 20px;
-}
-
-p {
-  line-height: 20px;
-}
-
-li {
-  line-height: 25px;
-}
-
 .userFormControls .spinner {
   margin: 9px 0 0 15px;
 }
