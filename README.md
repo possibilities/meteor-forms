@@ -49,3 +49,5 @@ Tab indexes
 Add inflection support for looking up collection name
 
 Allow global config of all forms in project
+
+Add a gallery of widgets to the demo
