@@ -20,7 +20,7 @@ Form = function(attributes) {
   self.clearOnSuccess = _.isBoolean(self.clearOnSuccess) ? self.clearOnSuccess : true;
   self.showErrorsInline = _.isBoolean(self.showErrorsInline) ? self.showErrorsInline : true;
   self.method = self._prepareMethod(self.method);
-
+  
   // Build up the fieldsets and inputs
   if (self.fieldsets)
     self.fieldsets = self._parseFieldsets(self.fieldsets);
@@ -131,6 +131,11 @@ Form.prototype.render = function() {
     self.$form.data('form', self);
     self.$inputs = self.$form.find(':input');
     self.initialValues = form2js(self.form)[self.name] || {};
+
+    if (self.headerTemplate) {
+      self.header = Template[self.headerTemplate]();
+    }
+
   });
 
   this.trigger('render');
