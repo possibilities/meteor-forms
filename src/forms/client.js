@@ -137,7 +137,6 @@ Form.prototype.render = function() {
 
   self.rendered = true;
 
-
   return Meteor.ui.chunk(function() {
     var tag = self._tag();
 
@@ -495,7 +494,7 @@ Template.inputs.input = function() {
 
 // Common events
 
-Template.action.events = {
+Template.form.events = {
   'click button': function(e) {
     e.preventDefault();
     Form._handleAction(e);

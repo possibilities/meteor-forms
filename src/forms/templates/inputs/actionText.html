@@ -1,0 +1,9 @@
+<template name="basicActionTextInput">
+  <span class="control-group {{#if errors}} error{{/if}}">
+    <div class="controls">
+      <div class="input-append">
+        <input id="{{id}}" name="{{name}}" id="appendedInputButton" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} /><button data-name="submit" class="btn {{name}}Action {{action/classes}}" name="{{name}}" type="button">{{action/label}}</button>
+      </div>
+    </div>
+  </span>
+</template>
