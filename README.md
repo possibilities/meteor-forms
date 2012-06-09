@@ -12,6 +12,8 @@ Inspired by <a href="https://github.com/justinfrench/formtastic">formtastic</a>
 
 ## TODO
 
+Client session demo problem coming from form: Uncaught Error: The return value of chunk can only be used once. 
+
 clearOnSuccess seems to be broken
 
 Add mongo-hooks integration
