@@ -109,6 +109,7 @@ Form.prototype.create = function() {
 Form.prototype.show = function() {
   var classes = this.classes.split(' ');
   var hidePosition = _.indexOf(classes, 'hide');
+
   if (hidePosition >= 0) {
     classes.splice(hidePosition, 1);
     this.classes = classes.join(' ');
@@ -124,6 +125,10 @@ Form.prototype.show = function() {
 Form.prototype.render = function() {
   var self = this;
 
+  if (self.headerTemplate) {
+    self.header = Template[self.headerTemplate](self);
+  }
+
   // Keep a references to important dom elements
   Meteor.defer(function() {
     self.$form = $('#' + self.name + 'Form');
@@ -131,11 +136,6 @@ Form.prototype.render = function() {
     self.$form.data('form', self);
     self.$inputs = self.$form.find(':input');
     self.initialValues = form2js(self.form)[self.name] || {};
-
-    if (self.headerTemplate) {
-      self.header = Template[self.headerTemplate]();
-    }
-
   });
 
   this.trigger('render');
