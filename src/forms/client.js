@@ -125,10 +125,6 @@ Form.prototype.show = function() {
 Form.prototype.render = function() {
   var self = this;
 
-  if (self.headerTemplate) {
-    self.header = Template[self.headerTemplate](self);
-  }
-
   // Keep a references to important dom elements
   Meteor.defer(function() {
     self.$form = $('#' + self.name + 'Form');
