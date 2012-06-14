@@ -4,7 +4,7 @@
 
     <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
 
-    {{#if showErrorsInline}}{{> errors}}{{/if}}
+    {{> errors}}
   </span>
 
   {{#if hint}}
@@ -20,7 +20,7 @@
     <div class="controls">
       <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
 
-      {{#if showErrorsInline}}{{> errors}}{{/if}}
+      {{> errors}}
     </div>
   </div>
 

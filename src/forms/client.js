@@ -9,9 +9,8 @@ Form = function(attributes) {
   self.classes || (self.classes = []);
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
   self.renderHidden = _.isBoolean(self.renderHidden) ? self.renderHidden : true;
-  if (self.renderHidden) {
-    self.classes.push('hide');
-  }
+  if (self.renderHidden)
+    self._hide = true;
   self.inputLayout = self.inputLayout || 'basic';
   self.actionLayout = (self.layout === 'horizontal') ? 'block' : 'inline';
   self.labelByDefault = _.isBoolean(self.labelByDefault) ? self.labelByDefault : true;
@@ -35,16 +34,13 @@ Form = function(attributes) {
   self.classes = _.flatten([self.classes, 'form-' + self.layout]).join(' ');
   
   this.listeners = {};
+  this._addCrudMethod();
 };
 
 _.extend(Form.prototype, Backbone.Events);
 
 Form.prototype.hide = function() {
-  var classes = this.classes.split(' ');
-  if (!_.contains(classes, 'hide')) {
-    classes.push('hide');
-    this.classes = classes.join(' ');
-  }
+  this._hide = true;
 
   if (this.rendered) {
     this._invalidateListeners();
@@ -107,13 +103,7 @@ Form.prototype.create = function() {
 };
 
 Form.prototype.show = function() {
-  var classes = this.classes.split(' ');
-  var hidePosition = _.indexOf(classes, 'hide');
-
-  if (hidePosition >= 0) {
-    classes.splice(hidePosition, 1);
-    this.classes = classes.join(' ');
-  }
+  this._hide = false;
 
   if (this.rendered) {
     this._invalidateListeners();
@@ -125,14 +115,15 @@ Form.prototype.show = function() {
 Form.prototype.render = function() {
   var self = this;
 
-  // Keep a references to important dom elements
-  Meteor.defer(function() {
-    self.$form = $('#' + self.name + 'Form');
-    self.form = self.$form.get(0);
-    self.$form.data('form', self);
-    self.$inputs = self.$form.find(':input');
-    self.initialValues = form2js(self.form)[self.name] || {};
-  });
+  if (!self._hide)
+    // Keep a references to important dom elements
+    Meteor.defer(function() {
+      self.$form = $('#' + self.name + 'Form');
+      self.form = self.$form.get(0);
+      self.$form.data('form', self);
+      self.$inputs = self.$form.find(':input');
+      self.initialValues = form2js(self.form)[self.name] || {};
+    });
 
   this.trigger('render');
 
@@ -166,9 +157,11 @@ Form.prototype._tag = function() {
 };
 
 Form.prototype._remoteMethod = function(methodName) {
+  var self = this;
+
   return function remoteMethod(formValues, fn) {
     delete formValues.validate;
-    Meteor.call(methodName, formValues, function(err, results) {
+    Meteor.call(methodName, self.currentValues, function(err, results) {
       fn(err, results);
     });
   }
@@ -391,10 +384,14 @@ Form.prototype._successMessage = function() {
 };
 
 Form.prototype._handleSuccess = function(message) {
+  var self = this;
+
   this._handleLoadingStop();
   this._setNotice('success', this._successMessage());
   this._setNotice('errors', null);
-  this._invalidateListeners();
+  Meteor.defer(function() {
+    self._invalidateListeners();
+  });
 
   this.trigger('success');
 };

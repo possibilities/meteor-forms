@@ -1,12 +1,14 @@
 <template name="form">
-  <form id="{{name}}Form" class="{{classes}}">
-    <div class="formWrapper">
-      {{> notice}}
-      {{{header}}}
-      {{{inputs}}}
-      {{{actions}}}
-    </div>
-  </form>
+  {{#unless _hide}}
+    <form id="{{name}}Form" class="{{classes}}{{#unless showErrorsInline}} hide-input-errors{{/unless}}">
+      <div class="formWrapper">
+        {{> notice}}
+        {{{header}}}
+        {{{inputs}}}
+        {{{actions}}}
+      </div>
+    </form>
+  {{/unless}}
 </template>
 
 <template name="notice">
@@ -71,7 +73,7 @@
 
 <template name="errors">
   {{#if errors}}
-    <p class="help-block">
+    <p class="input-error help-block">
       {{#each errors}}
         <!-- TODO Everything breaks if a block level element is used. This fixes things for now -->
         <span class="blockfix"><em>{{this}}</em></span>
