@@ -1,8 +1,10 @@
 <template name="form">
   {{#unless hidden}}
     <form id="{{name}}_form" class="{{classes}}">
-      {{inputs}}
-      {{actions}}
+      <div class="form-{{layout}}">
+        {{inputs}}
+        {{actions}}
+      </div>
     </form>  
   {{/unless}}
 </template>
@@ -29,7 +31,7 @@
 </template>
 
 <template name="inlineActions">
-  <span class="inline-form-actions">
+  <span{{#if inlineFormActions}} class="inline-form-actions"{{/if}}>
     {{> actions}}
   </span>
 </template>

@@ -16,6 +16,7 @@ Template.form.actions = function() {
 
 Template.inputs.input = function() {
   var name = _.camelize(this.inputLayout + '_' + this.as +'_input');
+  console.log(name);
   var template = Template[name];
 
   if (!template)

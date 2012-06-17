@@ -27,9 +27,19 @@ Form = function(config) {
   // Make classes an array if it's a string
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
 
-  // Setup input layout
-  if (self.layout === 'horizontal')
-    inputLayout = 'block';
+  // Do special stuff for horizontal forms
+
+  if (self.layout === 'horizontal') {
+    self.horizontalLayout = true;
+    self.inputLayout = 'horizontal';
+    self.actionLayout = 'block';
+  }
+
+  if (self.layout === 'basic')
+    self.inlineFormActions = true;
+
+  // Get classes ready for display
+  self.classes = self.classes.join(' ');
 
   // Setup method that get's called on submit
   self.method = self._prepareMethod(self.method);
@@ -237,6 +247,7 @@ Form.prototype._populateInputs = function(values) {
       var id = $el.attr('id');
       if (id) {
         var name = id.split('_').splice(1).join('_');
+        // TODO widgets should define this stuff externally
         if ($el.is(':checkbox')) {
           var checked = values[name] ? true : false;
           $el.prop("checked", checked);
