@@ -2,7 +2,7 @@
   <span class="control-group {{#if errors}} error{{/if}}">
 
     <label class="checkbox">
-      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1">
+      <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1"{{#if value}} checked{{/if}}>
       {{#if label}}{{label}}{{/if}}
     </label>
 
@@ -20,7 +20,7 @@
     <label class="checkbox" class="control-label" for="{{id}}">
 
       <div class="controls">
-        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1">
+        <input id="{{id}}" name="{{name}}" class="{{classes}}" type="checkbox" value="1"{{#if value}} checked{{/if}}>
         {{#if label}} {{label}}{{/if}}
 
         {{> errors}}

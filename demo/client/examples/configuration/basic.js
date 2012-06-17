@@ -16,11 +16,10 @@ var basicForm = new Form({
       value: 'Some default text!', 
       hint: 'Some help text about the field'
     },
-    'section',
-    'category',
     'allow_comments', {
       label: 'Allow commenting on this story',
-      as: 'checkbox'
+      as: 'checkbox',
+      value: true
     }
   ],
   actions: [

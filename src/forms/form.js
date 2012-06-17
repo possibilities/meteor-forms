@@ -79,7 +79,6 @@ Form.prototype.toString = function() {
   self._registerListeners();
 
   if (!self.hidden)
-    // Keep references to important dom elements
     Meteor.defer(function() {
       self._cacheDomElements();
     });
@@ -88,10 +87,12 @@ Form.prototype.toString = function() {
 };
 
 Form.prototype._cacheDomElements = function() {
+  // Keep references to important dom elements
   this.$form = $('#' + this.name + '_form');
   this.form = this.$form.get(0);
   this.$form.data('form', this);
   this.$inputs = this.$form.find(':input');
+  // Keep references to initial values
   this.initialValues = form2js(this.form)[this.name] || {};
 };
 
@@ -235,11 +236,13 @@ Form.prototype._populateInputs = function(values) {
       var $el = $(this);
       var id = $el.attr('id');
       if (id) {
-        var name = id.split('_')[1];
-        if (values[name])
-          $el.val(values[name]);
-        else
-          $el.val('');
+        var name = id.split('_').splice(1).join('_');
+        if ($el.is(':checkbox')) {
+          var checked = values[name] ? true : false;
+          $el.prop("checked", checked);
+        } else
+          var val = values[name] ? values[name] : '';
+          $el.val(val);
       }
     });
   }
