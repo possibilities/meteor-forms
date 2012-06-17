@@ -10,9 +10,9 @@ form {
   position: relative;
 }
 
-.form-basic .inline-form-actions {
+.inline-form-actions {
   display: block;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .spinner {

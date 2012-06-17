@@ -1,8 +1,8 @@
-<template name="basicTextareaInput">
+<template name="stackedTextInput">
   <span class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label>{{label}}</label>{{/if}}
 
-    <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+    <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}} />
 
     {{> errors}}
   </span>
@@ -13,19 +13,19 @@
 
 </template>
 
-<template name="horizontalTextareaInput">
+<template name="horizontalTextInput">
   <div class="control-group {{#if errors}} error{{/if}}">
-
     {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
 
     <div class="controls">
-      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}>
 
       {{> errors}}
-
-      {{#if hint}}
-        <span class="help-block hint">{{hint}}</span>
-      {{/if}}
     </div>
   </div>
+
+  {{#if hint}}
+    <p class="help-block hint">{{hint}}</p>
+  {{/if}}
+
 </template>

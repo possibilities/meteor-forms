@@ -1,3 +1,16 @@
+new Tabs('formsNav', [
+
+  'configuration', [
+    'basic', {
+      default: true
+    },
+    'horizontal',
+    'search',
+    'inline'
+  ]
+
+]);
+
 var artificialDelay = function(formValues, afterDelay) {
   Meteor.setTimeout(afterDelay, 500);
 };
@@ -30,7 +43,3 @@ var basicForm = new Form({
     }
   ]
 });
-
-Template.demo.basicForm = function() {
-  return basicForm.show().render();
-};

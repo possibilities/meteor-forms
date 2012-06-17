@@ -1,220 +1,35 @@
 <head>
-  <title>Forms Demo</title>
+  <title>Meteor Forms</title>
 </head>
 
 <body>
-  {{> demo}}
-</body>
-
-<template name="demo">
   <div class="container">
     <h1>Forms Demo</h1>
-
     <p><em>A smart package for generating forms</em></p>
+    {{formsNav}}
+  </div>
+</body>
 
-    <p class="alert">I'm in the process of reworking most of this. Most of the demos seem fine but some are broken. Check back in a week-ish (12/06/14) -Mike</p>
-
-    <div class="tabbable">
-      <ul class="nav nav-tabs">
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Configuration <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="configuration/basic" class="default-tab" data-target="#configurationBasic" data-toggle="tab">Basic</a></li>
-            <li><a href="configuration/horizontal" data-target="#configurationHorizontal" data-toggle="tab">Horizontal</a></li>
-            <li><a href="configuration/search" data-target="#configurationSearch" data-toggle="tab">Search</a></li>
-            <li><a href="configuration/inline" data-target="#configurationInline" data-toggle="tab">Inline</a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Models <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="models/modelForms" data-target="#validationModelForms" data-toggle="tab">Model Forms</a></li>
-            <li><a href="models/mongoHooks" data-target="#validationMongoHooks" data-toggle="tab">Mongo Hooks</a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Validation <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="validation/clientSideOnly" data-target="#validationClientSideOnly" data-toggle="tab">Client-side only</a></li>
-            <li><a href="validation/manualServer" data-target="#validationManualServer" data-toggle="tab">Manual server</a></li>
-            <li><a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a></li>
-          </ul>
-        </li>
-
-        <li><a href="events" data-target="#events" data-toggle="tab">Events</a></li>
-        <li><a href="liveEdit" data-target="#liveEdit" data-toggle="tab">Live Edit</a></li>
-        <li><a href="inPlaceEditing" data-target="#inPlaceEditing" data-toggle="tab">In-Place Editing</a></li>
-      </ul>
-      <div class="tab-content span12">
-        
-        <div class="tab-pane" id="configurationBasic">
-          <h2>Basic</h2>
-
-          <div class="row">
-            <div class="span6">
-              {{{basicForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/configuration/basic.js"}}}
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="configurationHorizontal">
-          <h2>Horizontal</h2>
-
-          <div class="row">
-            <div class="span6">
-              {{{horizontalForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/configuration/horizontal.js"}}}
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="configurationSearch">
-          <h2>Search</h2>
-
-          <div class="row">
-            <div class="span6">
-              {{{searchForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/configuration/search.js"}}}
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="configurationInline">
-          <h2>Inline</h2>
-
-          <div class="row">
-            <div class="span6">
-              {{{inlineForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/configuration/inline.js"}}}
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab-pane" id="validationClientSideOnly">
-          <h2>Validation &ndash; Client-side Only</h2>
-
-          <p>If you define a <em>client-side</em> form called <code>bookForm</code> and a validator class called <code>BookValidator</code> it will be used to validate the form before it's <code>method</code> attribute is called. Check out the other examples to see how to have the validations run on both <em>client-side</em> and <em>server-side</em></p>
-          <div class="row">
-            <div class="span6">
-              {{{validationClientSideOnly}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/validation/clientSideOnly.js"}}}
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="validationManualServer">
-          <h2>Validation &ndash; Manual Server</h2>
-          <p>If you want to validate <em>server-side</em> after <em>client-side</em> validation passes you can instantiate the validator in your <code>Meteor.methods</code>. For this to work your validator needs to be defined in a <em>common</em> script so the validator will be available both <em>client</em> and <em>server-side</em>. See the <a href="validation/autoServer" data-target="#validationAutoServer" data-toggle="tab">Auto server</a> demo to see how the library can eliminate boilerplate validation code in your <code>Meteor.methods</code> by running the validation code for you.</p>
-          <div class="row">
-            <div class="span6">
-              {{{profileForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/server/examples/validation/manualServer.js"}}}
-              {{{code "demo/common/examples/validation/manualServer.js"}}}
-              {{{code "demo/client/examples/validation/manualServer.js"}}}
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab-pane" id="validationAutoServer">
-          <h2>Validation &ndash; Auto Server</h2>
-          <p>If you define your form and validator in a <em>common</em> script the form's <code>method</code> will be wrapped in a validation <a href="https://github.com/possibilities/meteor-filters"></a> filter so validations will be run automatically on both the client and server. The form will handle errors and display them on the form if something causes validation to pass on the client and fail on the server.</p>
-          <div class="row">
-            <div class="span6">
-              {{{storyForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/server/examples/validation/autoServer.js"}}}
-              {{{code "demo/common/examples/validation/autoServer.js"}}}
-              {{{code "demo/client/examples/validation/autoServer.js"}}}
-            </div>
-          </div>
-        </div>
-        
-        <div class="tab-pane" id="validationModelForms">
-          {{> validationModelFormsDemo}}
-        </div>
-        
-        <div class="tab-pane" id="validationMongoHooks">
-          <h2>Validation &ndash; Mongo Hooks</h2>
-          <p>TODO</p>
-          <div class="row">
-          </div>
-        </div>
-        
-        <div class="tab-pane" id="events">
-          <h2>Events</h2>
-          <p>Form objects emit lifecycle events so it's easy to customize a form's behavior. Watch your browser's console to see the events being fired.</p>
-          <div class="row">
-            <div class="span6">
-              {{{eventsForm}}}
-            </div>
-            <div class="span5">
-              {{{code "demo/client/examples/events.js"}}}
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane" id="liveEdit">
-          <h2>Live Edit</h2>
-          <p>TODO</p>
-        </div>
-        <div class="tab-pane" id="inPlaceEditing">
-          <h2>In-Place Editing</h2>
-          <p>TODO</p>
-        </div>
-      </div>
+<template name="configurationBasic">
+  <h2>Basic</h2>
+  <div class="row">
+    <div class="span6">
+      {{basic}}
+    </div>
+    <div class="span6">
+      {{{code "demo/client/examples/configuration/basic.js"}}}
     </div>
   </div>
 </template>
 
-<template name="validationModelFormsDemo">
-  <h2>Validation &ndash; Model Forms</h2>
+<template name="configurationHorizontal">
+  <h2>Horizontal</h2>
+</template>
 
-  <p>If you're using <a href="https://github.com/possibilities/meteor-model-base">meteor-model-base</a> your forms will <em>generate away</em> much of the boilerplate code you'd have to write otherwise. But don't worry, if you want more control over how the form is processed you can disable most of the magic. Just let me know if there's something you need to turn off and you can't find a setting for it and I'll add one (the included preset system will be helpful in creating your own defaults). Some nice things the forms will do with your models:</p>
+<template name="configurationSearch">
+  <h2>Search</h2>
+</template>
 
-  <ul>
-    <li>Generates server side methods for inserting and updating models</li>
-    <li>Performs client and server-side validation automatically if you've added validators to the model</li>
-  </ul>
-
-  <p>Things it will do in the future (maybe soon¿):</p>
-
-  <ul>
-    <li>Prevent mass-assignment</li>
-    <li>Generate client-side <code>Meteor.method</code> stubs</li>
-    <li>Model deletion</li>
-  </ul>
-
-  <div class="row">
-    <div class="span4 well">
-      <div class="userFormControls">
-        <h3>Demo</h3>
-        <button class="btn btn-primary pull-left userAction userNewAction" data-toggle="button" data-working-text="New user...">New user</button>
-        {{> userControls}}
-      </div>
-      <div class="clearfix">
-        {{{userForm}}}
-      </div>
-    </div>
-    <div class="span7">
-      {{{code "demo/common/examples/models/modelForms.js"}}}
-      {{{code "demo/client/examples/models/modelForms.js"}}}
-      {{{code "demo/client/examples/models/modelForms.html"}}}
-      {{{code "demo/server/examples/models/modelForms.js"}}}
-    </div>
-  </div>
+<template name="configurationInline">
+  <h2>Inline</h2>
 </template>

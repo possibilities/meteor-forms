@@ -1,36 +1,10 @@
 <template name="form">
-  {{#unless _hide}}
-    <form id="{{name}}Form" class="{{classes}}{{#unless showErrorsInline}} hide-input-errors{{/unless}}">
-      <div class="formWrapper">
-        {{> notice}}
-        {{{header}}}
-        {{{inputs}}}
-        {{{actions}}}
-      </div>
-    </form>
+  {{#unless hidden}}
+    <form id="{{name}}_form" class="{{classes}}">
+      {{inputs}}
+      {{actions}}
+    </form>  
   {{/unless}}
-</template>
-
-<template name="notice">
-  {{#if notice/success}}
-    <div class="alert alert-success">{{notice/success}}</div>
-  {{/if}}
-  
-  {{#if notice/errors}}
-    {{#if showErrorsInline}}
-      <div class="alert alert-error">{{notice/errors/reason}}</div>
-    {{else}}
-      <div class="alert alert-error alert-block">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">{{notice/errors/reason}}</h4>
-        <ul>
-          {{#each notice/errors/detailList}}
-            <li>{{this}}</li>
-          {{/each}}
-        </ul>
-      </div>
-    {{/if}}
-  {{/if}}
 </template>
 
 <template name="fieldsets">
@@ -44,7 +18,7 @@
 
 <template name="inputs">
   {{#each inputs}}
-    {{{input}}}
+    {{input}}
   {{/each}}
 </template>
 
