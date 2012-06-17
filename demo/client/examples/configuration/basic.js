@@ -5,7 +5,7 @@ var artificialDelay = function(formValues, afterDelay) {
 };
 
 var basicForm = new Form({
-  name: 'basic',
+  name: 'basicDemoForm',
   classes: 'well',
   method: artificialDelay,
   successMessage: 'Great, the form was submitted!',

@@ -22,9 +22,14 @@ Package.on_use(function (api) {
   api.add_files('common.js', ['client', 'server']);
   api.add_files('lib/dependable.js', 'client');
   api.add_files('lib/parseable.js', 'client');
-  api.add_files('form.js', 'client');
+  api.add_files('form.js', ['client', 'server']);
   api.add_files('utils.js', 'client');
   api.add_files('template.js', 'client');
+
+  // Forms
+  api.add_files('presets/search.js', ['client', 'server']);
+  api.add_files('presets/inline.js', ['client', 'server']);
+  api.add_files('presets/horizontal.js', ['client', 'server']);
 });
 
 Package.on_test(function (api) {

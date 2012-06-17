@@ -1,5 +1,8 @@
-// Helpers
+// Base form class
 
+// Client side implimentation
+if (Meteor.is_client) {
+  
 Form = function(config) {
   var self = this;
   self._inputRegistry = {};
@@ -18,7 +21,7 @@ Form = function(config) {
     clearOnSuccess: true,
     showErrorsInline: true
   };
-  
+
   _.extend(self, defaults, config);
 
   // Make classes an array if it's a string
@@ -36,7 +39,7 @@ Form = function(config) {
     self.fieldsets = self._parseFieldsets(self.fieldsets);
   else
     self.inputs = self._parseInputs(self.inputs);
-  
+
   // Build up the form actions
   if (self.actions)
     self.actions = self._parseActions(self.actions);
@@ -63,7 +66,7 @@ Form.prototype.edit = function(values) {
   var self = this;
 
   this.notice = {};
-  
+
   this._clearErrors();
   self._populateInputs(values);
 
@@ -94,7 +97,7 @@ Form.prototype._cacheDomElements = function() {
 
 Form.prototype._isValid = function() {
   var self = this;
-  
+
   // Start with a fresh validator
   delete self.validator;
 
@@ -127,13 +130,13 @@ Form.prototype._addErrors = function(errors) {
       delete input.errors;
     }
   });
-  
+
   if (!self.showErrorsInline) {
     errors.detailList = _.map(errors.details, function(error) {
       return error;
     });
   }
-  
+
   self.errors = errors;
 };
 
@@ -142,9 +145,9 @@ Form.prototype._clearErrors = function() {
   _.each(self._inputRegistry, function(input, fieldName) {
     delete input.errors;
   });
-  
+
   this._setNotice('errors', null);
-  
+
   delete self.errors;
 };
 
@@ -164,10 +167,10 @@ Form.prototype._handleSubmit = function() {
   var self = this;
 
   self.currentValues = form2js(self.form)[self.name] || {};
-  
+
   if (self.modelClass)
     self.currentValues = new self.modelClass(self.currentValues);
-  
+
   self._handleLoadingStart();
 
   if (self._isValid()) {
@@ -213,7 +216,7 @@ Form.prototype._handleSuccess = function(message) {
     self.edit(self.initialValues);
   else
     self.edit(self.currentValues);
-  
+
   this.trigger('success');
 };
 
@@ -304,7 +307,7 @@ Form.prototype._unsetModelId = function() {
     var modelIdInput = _.find(this.inputs, function(input) {
       return _.endsWith(input.name, '.modelId') && input.as === 'hidden';
     });
-    
+  
     if (modelIdInput) {
       var modelIdInputIndex = _.indexOf(this.inputs, modelIdInput);
       if (modelIdInputIndex >= 0) {
@@ -325,3 +328,58 @@ Form.prototype._setModelId = function(id) {
 
   this.inputs.unshift(modelIdField);
 };
+
+}
+
+// Server side implimentation
+if (Meteor.is_server) {
+
+Form = function(options) {
+  _.extend(this, options);
+
+  this._addValidationFilter();
+  this._addCrudMethod();
+};
+
+FormFilters = {
+  configureCollection: function(model, next) {
+    var name = FormFilters._pluralize(model._modelName);
+    model.collection = _.constantize(name);
+    next(model);
+  },
+
+  // The shitiest pluralize method ever
+  // TODO can we get rails-like inflections
+  _pluralize: function(str) {
+    return str + 's';
+  }
+};
+
+
+Form._saveModelFilterFirstBlood = true;
+Form.prototype._addValidationFilter = function() {
+  var methodName;
+
+  if (_.isString(this.method)) {
+    methodName = this.method;
+  } else if (this.modelClass && Form._saveModelFilterFirstBlood) {
+    // TODO figure out if this first blood is working
+    methodName = 'saveModel';
+    Form._saveModelFilterFirstBlood = false;
+  }
+
+  if (methodName) {
+    Filter.methods([
+      {
+        handler: FormFilters.configureCollection,
+        only: methodName
+      },
+      {
+        handler: ValidationFilters.validationFilter(this.name),
+        only: methodName
+      } 
+    ]);
+  }
+};
+
+}
