@@ -111,7 +111,8 @@ Form.prototype._generateHelpers = function() {
 
 Form.prototype._cacheDomElements = function() {
   var self = this;
-  if (!self.hidden) {
+  if (!self.hidden && !self._domCached) {
+    self._domCached = true;
     Meteor.defer(function() {
       // Keep references to important dom elements
       self.$form = $('#' + self.name + '_form');

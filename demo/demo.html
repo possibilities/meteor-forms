@@ -12,6 +12,9 @@
 
 <template name="configurationBasic">
   <h2>Basic</h2>
+
+  <p>Just a basic form, no big deal</p>
+
   <div class="row">
     <div class="span6">
       {{> basicForm}}
@@ -20,6 +23,9 @@
       {{{code "demo/client/examples/configuration/basic/basic.js"}}}
     </div>
   </div>
+
+  <p>This one will be cleared when you submit it</p>
+
   <div class="row">
     <div class="span6">
       {{> clearOnSuccessForm}}
@@ -28,6 +34,9 @@
       {{{code "demo/client/examples/configuration/basic/clearOnSuccess.js"}}}
     </div>
   </div>
+
+  <p>This one will be cleared and hidden when you submit it</p>
+
   <div class="row">
     <div class="span6">
       {{> clearAndHideOnSuccessForm}}
@@ -39,17 +48,14 @@
 </template>
 
 <template name="basicForm">
-  <p>Just a basic form, no big deal</p>
   {{basicForm}}
 </template>
 
 <template name="clearOnSuccessForm">
-  <p>This one will be cleared when you submit it</p>
   {{clearOnSuccessForm}}
 </template>
 
 <template name="clearAndHideOnSuccessForm">
-  <p>This one will be cleared and hidden when you submit it</p>
   {{clearAndHideOnSuccessForm}}
   {{#clearAndHideOnSuccessFormIsHidden}}
     <p><em>Hidden as promised (;</em></p>
