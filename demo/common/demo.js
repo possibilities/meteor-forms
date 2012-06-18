@@ -5,6 +5,6 @@ new Demo({
   github: {
     user: 'possibilities',
     repo: 'meteor-forms',
-    ref: 'rewrite2'
+    ref: 'rework'
   }
 });
