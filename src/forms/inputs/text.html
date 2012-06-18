@@ -18,7 +18,7 @@
     {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
 
     <div class="controls">
-      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}{{#if disabled}} disabled{{/if}} />
+      <input id="{{id}}" name="{{name}}" type="text" class="{{classes}}" value="{{value}}" {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}{{#if form/loading}} disabled="disabled"{{/if}} />
 
       {{> errors}}
     </div>
