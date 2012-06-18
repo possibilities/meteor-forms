@@ -285,6 +285,8 @@ Form.prototype._populateInputs = function(values) {
 
 Form.prototype._handleCancel = function() {
   this.edit(this.initialValues);
+  this.notice = {};
+  this._invalidateListeners();
 };
 Form.prototype._handleReset = Form.prototype._handleCancel;
 
