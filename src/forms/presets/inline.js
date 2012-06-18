@@ -1,10 +1,14 @@
 InlineForm = function(options) {
-  var defaultOptions = {
+  var defaults = {
     layout: 'inline',
-    showErrorsInline: false,
-    inputClasses: ['input-small']
+    inputClasses: ['input-small'],
+    messages: {
+      showErrorDetails: false
+    }
   };
-  options = _.extend(defaultOptions, options);
+  
+  options.messages = _.extend(defaults.messages, options.messages);
+  options = _.extend(defaults, options);
 
   Form.call(this, options);
 };

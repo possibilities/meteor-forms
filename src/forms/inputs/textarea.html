@@ -2,7 +2,7 @@
   <span class="control-group {{#if errors}} error{{/if}}">
     {{#if label}}<label>{{label}}</label>{{/if}}
 
-    <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+    <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"{{#if form/loading}} disabled="disabled"{{/if}}>{{value}}</textarea>
 
     {{> errors}}
   </span>
@@ -19,7 +19,7 @@
     {{#if label}}<label class="control-label" for="{{id}}">{{label}}</label>{{/if}}
 
     <div class="controls">
-      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge">{{value}}</textarea>
+      <textarea id="{{id}}" name="{{name}}" rows="3" class="{{classes}} input-xlarge"{{#if form/loading}} disabled="disabled"{{/if}}>{{value}}</textarea>
 
       {{> errors}}
 

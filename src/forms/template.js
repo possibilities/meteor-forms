@@ -16,7 +16,6 @@ Template.form.actions = function() {
 
 Template.inputs.input = function() {
   var name = _.camelize(this.inputLayout + '_' + this.as +'_input');
-  console.log(name);
   var template = Template[name];
 
   if (!template)
@@ -41,7 +40,6 @@ var findActionName = function($el) {
 var invokeAction = function($el, name) {
   var form = findForm($el);
   name || (name = findActionName($el));
-  
   action = form['_handle' + _.titleize(name)];
   if (!action)
     action = form._handleCustomAction;

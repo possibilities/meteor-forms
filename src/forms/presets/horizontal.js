@@ -1,9 +1,12 @@
 HorizontalForm = function(options) {
-  var defaultOptions = {
+  var defaults = {
     layout: 'horizontal',
-    inputLayout: 'horizontal'
+    inputLayout: 'horizontal',
+    messages: {}
   };
-  options = _.extend(defaultOptions, options);
+
+  options.messages = _.extend(defaults.messages, options.messages);
+  options = _.extend(defaults, options);
 
   Form.call(this, options);
 };

@@ -19,7 +19,12 @@ form {
   display: none;
   width: 16px;
   height: 11px;
+  margin: 7px 0 0 6px;
   background-image: url("/packages/forms/public/spinner.gif");
+}
+
+.loading .spinner {
+  display: block;
 }
 
 .blockfix {

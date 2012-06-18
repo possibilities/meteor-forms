@@ -11,6 +11,9 @@ Package.on_use(function (api) {
   api.add_files('vendor/underscore.strings.js', 'client');
   api.add_files('vendor/form2js.js', 'client');
 
+  // Resources
+  api.add_files('public/spinner.gif', 'client');
+
   api.add_files('form.html', 'client');
   api.add_files('form.css', 'client');
   api.add_files('inputs/actionText.html', 'client');

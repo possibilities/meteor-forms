@@ -63,6 +63,7 @@ Parseable = {
     input.placeholder = self.autoPlaceholders ? _.humanize(inputName) : input.placeholder;
     input.layout = self.layout;
     input.inputLayout = self.inputLayout;
+    input.form = self;
 
     self._inputRegistry[inputName] = input;
 
@@ -80,6 +81,7 @@ Parseable = {
     actions = this._parse(actions);
     actions = _.map(actions, function(action) {
       action.label = _.humanize(action.label || action.name);
+      action.form = self;
       return action;
     });
 

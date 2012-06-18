@@ -2,7 +2,7 @@
 
 // Client side implimentation
 if (Meteor.is_client) {
-  
+
 Form = function(config) {
   var self = this;
   self._inputRegistry = {};
@@ -19,9 +19,15 @@ Form = function(config) {
     autoPlaceholders: false,
     noInputLabels: false,
     clearOnSuccess: true,
-    showErrorsInline: true
+    hideOnSuccess: false,
+    messages: {
+      success: 'Your request was processed successfully.',
+      error: 'Error! Your request could not be processed.',
+      showErrorDetails: true
+    }
   };
 
+  config.messages = _.extend(defaults.messages, config.messages);
   _.extend(self, defaults, config);
 
   // Make classes an array if it's a string
@@ -53,9 +59,8 @@ Form = function(config) {
   // Build up the form actions
   if (self.actions)
     self.actions = self._parseActions(self.actions);
-
-  // Generate handlebars helper for displaying the form
-  self._generateTemplateHelper();
+    
+  self._generateHelpers();
 };
 
 _.extend(Form.prototype, Backbone.Events);
@@ -75,35 +80,48 @@ Form.prototype.show = function() {
 Form.prototype.edit = function(values) {
   var self = this;
 
-  this.notice = {};
+  // this.notice = {};
 
-  this._clearErrors();
+  // this._clearErrors();
   self._populateInputs(values);
+
+  // this._invalidateListeners();
 
   return this;
 };
 
-Form.prototype.toString = function() {
+Form.prototype.render = function() {
+  this._registerListeners();
+  this._cacheDomElements();
+
+  return Template.form(this);
+};
+
+Form.prototype._generateHelpers = function() {
   var self = this;
 
-  self._registerListeners();
+  Handlebars.registerHelper(self.name, function() {
+    return new Handlebars.SafeString(self.render());
+  });
 
-  if (!self.hidden)
-    Meteor.defer(function() {
-      self._cacheDomElements();
-    });
-
-  return Template.form(self);
+  Handlebars.registerHelper(self.name + 'IsHidden', function(options) {
+    return self.hidden ? options.fn() : options.inverse();
+  });
 };
 
 Form.prototype._cacheDomElements = function() {
-  // Keep references to important dom elements
-  this.$form = $('#' + this.name + '_form');
-  this.form = this.$form.get(0);
-  this.$form.data('form', this);
-  this.$inputs = this.$form.find(':input');
-  // Keep references to initial values
-  this.initialValues = form2js(this.form)[this.name] || {};
+  var self = this;
+  if (!self.hidden) {
+    Meteor.defer(function() {
+      // Keep references to important dom elements
+      self.$form = $('#' + self.name + '_form');
+      self.form = self.$form.get(0);
+      self.$form.data('form', self);
+      self.$inputs = self.$form.find(':input');
+      // Keep references to initial values
+      self.initialValues = form2js(self.form)[self.name] || {};
+    });
+  }
 };
 
 Form.prototype._isValid = function() {
@@ -125,7 +143,7 @@ Form.prototype._isValid = function() {
   if (self.validator && !self.validator.isValid()) {
     self._addErrors(self.validator.errors);
   } else {
-    self._clearErrors();
+    // self._clearErrors();
   }
 
   // It's not valid if it's accumulated any errors
@@ -142,7 +160,7 @@ Form.prototype._addErrors = function(errors) {
     }
   });
 
-  if (!self.showErrorsInline) {
+  if (!self.messages.showErrorDetails) {
     errors.detailList = _.map(errors.details, function(error) {
       return error;
     });
@@ -152,27 +170,19 @@ Form.prototype._addErrors = function(errors) {
 };
 
 Form.prototype._clearErrors = function() {
-  var self = this;
-  _.each(self._inputRegistry, function(input, fieldName) {
-    delete input.errors;
-  });
-
-  this._setNotice('errors', null);
-
-  delete self.errors;
+  // var self = this;
+  // _.each(self._inputRegistry, function(input, fieldName) {
+  //   delete input.errors;
+  // });
+  // 
+  // this._setNotice('errors', null);
+  // 
+  // delete self.errors;
 };
 
 Form.prototype._setNotice = function(type, message) {
   this.notice[type] = message;
-};
-
-Form.prototype._generateTemplateHelper = function() {
-  var self = this;
-
-  Handlebars.registerHelper(self.name, function() {
-    return new Handlebars.SafeString(self);
-  });
-};
+ };
 
 Form.prototype._handleSubmit = function() {
   var self = this;
@@ -182,11 +192,14 @@ Form.prototype._handleSubmit = function() {
   if (self.modelClass)
     self.currentValues = new self.modelClass(self.currentValues);
 
-  self._handleLoadingStart();
+  // TODO annoying
+  this.edit(this.currentValues);
+  this.loading = true;
+  this._invalidateListeners();
 
   if (self._isValid()) {
+    
     var callback = function(err, result) {
-
       if (err) {
         self._addErrors(err);
         self._handleErrors();
@@ -194,7 +207,7 @@ Form.prototype._handleSubmit = function() {
         self._handleSuccess();
       }
     };
-
+  
     self.method(self.currentValues, callback);
   } else {
     self._handleErrors();
@@ -202,31 +215,33 @@ Form.prototype._handleSubmit = function() {
 };
 
 Form.prototype._handleErrors = function(errors) {
-  this._handleLoadingStop();
+  this.loading = false;
+
   this._setNotice('errors', this.errors);
   this._setNotice('success', null);
-  this._invalidateListeners();
+
+  // this._invalidateListeners();
 
   this.trigger('error');
-};
-
-Form.prototype._successMessage = function() {
-  return this.successMessage
-          || (this.validator && this.validator.validate.successMessage)
-          || 'Your request was processed successfully';
 };
 
 Form.prototype._handleSuccess = function(message) {
   var self = this;
 
-  this._handleLoadingStop();
-  this._setNotice('success', this._successMessage());
+  this.loading = false;
+
+  this._setNotice('success', this.messages.success);
   this._setNotice('errors', null);
 
   if (self.clearOnSuccess)
     self.edit(self.initialValues);
   else
     self.edit(self.currentValues);
+
+  if (self.hideOnSuccess)
+    self.hide();
+
+  this._invalidateListeners();
 
   this.trigger('success');
 };
@@ -235,10 +250,17 @@ Form.prototype._populateInputs = function(values) {
   var self = this;
 
   _.each(self._inputRegistry, function(input, fieldName) {
-    if (values[fieldName])
-      input.value = values[fieldName];
-    else
+    if (values[fieldName]) {
+      var val;
+      if (input.as === 'checkbox') {
+        val = values[fieldName] ? true : false;
+      } else {
+        val = values[fieldName];
+      }
+      input.value = val;
+    } else {
       delete input.value;
+    }
   });
 
   if (self.$inputs) {
@@ -251,36 +273,22 @@ Form.prototype._populateInputs = function(values) {
         if ($el.is(':checkbox')) {
           var checked = values[name] ? true : false;
           $el.prop("checked", checked);
-        } else
+        } else {
           var val = values[name] ? values[name] : '';
           $el.val(val);
+        }
       }
     });
   }
 };
 
 Form.prototype._handleCancel = function() {
-  this._unsetModelId();
   this.edit(this.initialValues);
 };
 Form.prototype._handleReset = Form.prototype._handleCancel;
 
 Form.prototype._handleCustomAction = function(actionName) {
   console.log('TODO', actionName);
-};
-
-Form.prototype._handleLoadingStart = function() {
-  this.$inputs.prop('disabled', true);
-  this.$form.addClass('loading');
-
-  this.trigger('loading:start');
-};
-
-Form.prototype._handleLoadingStop = function() {
-  this.$inputs.prop('disabled', false);
-  this.$form.removeClass('loading');
-
-  this.trigger('loading:stop');
 };
 
 Form.prototype._remoteMethod = function(methodName) {
@@ -312,35 +320,6 @@ Form.prototype._prepareMethod = function(methodName) {
 
 Form.prototype._parse = function(form) {
   return this._pairStringsWithObjects(form, 'name');
-};
-
-// TODO wtf¿ use the input registry
-Form.prototype._unsetModelId = function() {
-  var self = this;
-  if (this.inputs) {
-    var modelIdInput = _.find(this.inputs, function(input) {
-      return _.endsWith(input.name, '.modelId') && input.as === 'hidden';
-    });
-  
-    if (modelIdInput) {
-      var modelIdInputIndex = _.indexOf(this.inputs, modelIdInput);
-      if (modelIdInputIndex >= 0) {
-        this.inputs.splice(modelIdInputIndex, 1);
-      }
-    }
-  }
-};
-
-Form.prototype._setModelId = function(id) {
-  this._unsetModelId();
-
-  var modelIdField = this._parseInput({
-    as: 'hidden',
-    name: 'modelId',
-    value: id
-  });
-
-  this.inputs.unshift(modelIdField);
 };
 
 }

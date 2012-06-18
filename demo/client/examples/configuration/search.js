@@ -1,9 +1,11 @@
 var searchForm = new SearchForm({
-  name: 'searchDemoForm',
+  name: 'searchForm',
   classes: 'well',
   method: artificialDelay,
   // TODO make default (and demo) messages search appropriate
-  successMessage: 'Great, the form was submitted!',
+  messages: {
+    success: "Yay! Look at all those results!"
+  },
   inputs: [
     'query', {
       placeholder: 'Search for something...'

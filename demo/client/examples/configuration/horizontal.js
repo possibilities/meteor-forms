@@ -1,8 +1,10 @@
 var horizontalForm = new HorizontalForm({
-  name: 'horizontalDemoForm',
+  name: 'horizontalForm',
   classes: 'well',
   method: artificialDelay,
-  successMessage: 'Great, the form was submitted!',
+  messages: {
+    success: 'Great, your story was saved!'
+  },
   fieldsets: [
     'storyInfo', {
       inputs: [

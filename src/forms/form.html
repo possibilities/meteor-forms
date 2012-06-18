@@ -1,12 +1,35 @@
 <template name="form">
   {{#unless hidden}}
-    <form id="{{name}}_form" class="{{classes}}">
+    <form id="{{name}}_form" class="{{classes}}{{#if loading}} loading{{/if}}">
       <div class="form-{{layout}}">
+        {{> notice notice}}
         {{inputs}}
         {{actions}}
       </div>
     </form>  
   {{/unless}}
+</template>
+
+<template name="notice">
+  {{#if success}}
+    <div class="alert alert-success">{{success}}</div>
+  {{/if}}
+  
+  {{#if errors}}
+    {{#if showErrorDetails}}
+      <div class="alert alert-error">{{errors/reason}}</div>
+    {{else}}
+      <div class="alert alert-error alert-block">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">{{errors/reason}}</h4>
+        <ul>
+          {{#each errors/detailList}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    {{/if}}
+  {{/if}}
 </template>
 
 <template name="fieldsets">
@@ -25,13 +48,13 @@
 </template>
 
 <template name="blockActions">
-  <div class="form-actions">
+  <div class="form-actions">y
     {{> actions}}
   </div>
 </template>
 
 <template name="inlineActions">
-  <span{{#if inlineFormActions}} class="inline-form-actions"{{/if}}>
+  <span class="{{#if inlineFormActions}}inline-form-actions{{/if}}">
     {{> actions}}
   </span>
 </template>
@@ -40,11 +63,12 @@
   {{#each actions}}
     {{> action}}
   {{/each}}
-  <span class="spinner" />
+  <div class="spinner pull-left" />
+  <div class="clearfix" />
 </template>
 
 <template name="action">
-  <button data-name="{{name}}" class="btn {{name}}Action {{classes}}" name="{{name}}">{{label}}</button>
+  <button data-name="{{name}}" class="pull-left btn {{name}}Action {{classes}}" name="{{name}}"{{#if form/loading}} disabled="disabled"{{/if}}>{{label}}</button>
 </template>
 
 <template name="errors">

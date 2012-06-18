@@ -14,7 +14,9 @@
   <h2>Basic</h2>
   <div class="row">
     <div class="span6">
-      {{basicDemoForm}}
+      {{> basicForm}}
+      {{> clearOnSuccessForm}}
+      {{> clearAndHideOnSuccessForm}}
     </div>
     <div class="span6">
       {{{code "demo/client/examples/configuration/basic.js"}}}
@@ -22,11 +24,29 @@
   </div>
 </template>
 
+<template name="basicForm">
+  <p>Just a basic form, no big deal</p>
+  {{basicForm}}
+</template>
+
+<template name="clearOnSuccessForm">
+  <p>This one will be cleared when you submit it</p>
+  {{clearOnSuccessForm}}
+</template>
+
+<template name="clearAndHideOnSuccessForm">
+  <p>This one will be cleared and hidden when you submit it</p>
+  {{clearAndHideOnSuccessForm}}
+  {{#clearAndHideOnSuccessFormIsHidden}}
+    <p><em>Hidden as promised (;</em></p>
+  {{/clearAndHideOnSuccessFormIsHidden}}
+</template>
+
 <template name="configurationHorizontal">
   <h2>Horizontal</h2>
   <div class="row">
     <div class="span6">
-      {{horizontalDemoForm}}
+      {{horizontalForm}}
     </div>
     <div class="span6">
       {{{code "demo/client/examples/configuration/horizontal.js"}}}
@@ -38,7 +58,7 @@
   <h2>Search</h2>
   <div class="row">
     <div class="span6">
-      {{searchDemoForm}}
+      {{searchForm}}
     </div>
     <div class="span6">
       {{{code "demo/client/examples/configuration/search.js"}}}
@@ -50,7 +70,7 @@
   <h2>Inline</h2>
   <div class="row">
     <div class="span6">
-      {{inlineDemoForm}}
+      {{inlineForm}}
     </div>
     <div class="span6">
       {{{code "demo/client/examples/configuration/inline.js"}}}

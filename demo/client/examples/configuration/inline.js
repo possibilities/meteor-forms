@@ -1,10 +1,12 @@
 var inlineForm = new InlineForm({
-  name: 'inlineDemoForm',
+  name: 'inlineForm',
   classes: 'well',
   autoPlaceholders: true,
   labelByDefault: false,
   method: artificialDelay,
-  successMessage: 'Great, the form was submitted!',
+  messages: {
+    success: 'Great, the you signed in!'
+  },
   inputs: [
     'email',
     'password',
