@@ -17,7 +17,7 @@ new Demo({
         'inline'
       ],
       'validation', [
-        'external',
+        'basic',
         'models'
       ],
       'magic',
