@@ -1,7 +1,3 @@
-var artificialDelay = function(formValues, afterDelay) {
-  Meteor.setTimeout(afterDelay, 1500);
-};
-
 var basicForm = new Form({
   name: 'basicForm',
   classes: 'well',
