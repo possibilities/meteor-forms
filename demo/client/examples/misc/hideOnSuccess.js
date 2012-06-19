@@ -1,5 +1,5 @@
-var clearAndHideOnSuccessForm = new Form({
-  name: 'clearAndHideOnSuccessForm',
+var hideOnSuccessForm = new Form({
+  name: 'hideOnSuccessForm',
   classes: 'well',
   method: artificialDelay,
   clearOnSuccess: true,

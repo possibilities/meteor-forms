@@ -2,7 +2,6 @@ var externalNotice = new Form({
   name: 'externalNoticeForm',
   classes: 'well',
   method: artificialDelay,
-  clearOnSuccess: false,
   externalNotice: true,
   messages: {
     success: 'Great, your story was saved!'

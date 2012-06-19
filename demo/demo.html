@@ -40,16 +40,12 @@
   {{externalNoticeForm}}
 </template>
 
-<template name="clearOnSuccessForm">
-  {{clearOnSuccessForm}}
-</template>
-
-<template name="clearAndHideOnSuccessForm">
-  {{clearAndHideOnSuccessFormNotice}}
-  {{clearAndHideOnSuccessForm}}
-  {{#clearAndHideOnSuccessFormIsHidden}}
+<template name="hideOnSuccessForm">
+  {{hideOnSuccessFormNotice}}
+  {{hideOnSuccessForm}}
+  {{#hideOnSuccessFormIsHidden}}
     <p><em>Hidden as promised (;</em></p>
-  {{/clearAndHideOnSuccessFormIsHidden}}
+  {{/hideOnSuccessFormIsHidden}}
 </template>
 
 <template name="misc">
@@ -66,25 +62,14 @@
     </div>
   </div>
 
-  <p>This one will be cleared when you submit it</p>
-
-  <div class="row">
-    <div class="span6">
-      {{> clearOnSuccessForm}}
-    </div>
-    <div class="span6">
-      {{{code "demo/client/examples/layout/basic/clearOnSuccess.js"}}}
-    </div>
-  </div>
-
   <p>This one will be cleared and hidden when you submit it</p>
 
   <div class="row">
     <div class="span6">
-      {{> clearAndHideOnSuccessForm}}
+      {{> hideOnSuccessForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/layout/basic/clearAndHideOnSuccess.js"}}}
+      {{{code "demo/client/examples/layout/basic/hideOnSuccess.js"}}}
     </div>
   </div>
 </template>
