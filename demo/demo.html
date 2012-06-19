@@ -10,7 +10,7 @@
   </div>
 </body>
 
-<template name="configurationBasic">
+<template name="basicsBasic">
   <h2>Basic</h2>
 
   <p>Just a basic form, no big deal</p>
@@ -20,7 +20,7 @@
       {{> basicForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/basic/basic.js"}}}
+      {{{code "demo/client/examples/basics/basic/basic.js"}}}
     </div>
   </div>
 
@@ -31,7 +31,7 @@
       {{> externalNoticeForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/basic/externalNotice.js"}}}
+      {{{code "demo/client/examples/basics/basic/externalNotice.js"}}}
     </div>
   </div>
 
@@ -42,7 +42,7 @@
       {{> clearOnSuccessForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/basic/clearOnSuccess.js"}}}
+      {{{code "demo/client/examples/basics/basic/clearOnSuccess.js"}}}
     </div>
   </div>
 
@@ -53,9 +53,18 @@
       {{> clearAndHideOnSuccessForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/basic/clearAndHideOnSuccess.js"}}}
+      {{{code "demo/client/examples/basics/basic/clearAndHideOnSuccess.js"}}}
     </div>
   </div>
+</template>
+
+<template name="validation">
+</template>
+
+<template name="magic">
+</template>
+
+<template name="misc">
 </template>
 
 <template name="basicForm">
@@ -79,38 +88,38 @@
   {{/clearAndHideOnSuccessFormIsHidden}}
 </template>
 
-<template name="configurationHorizontal">
+<template name="basicsHorizontal">
   <h2>Horizontal</h2>
   <div class="row">
     <div class="span6">
       {{horizontalForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/horizontal.js"}}}
+      {{{code "demo/client/examples/basics/horizontal.js"}}}
     </div>
   </div>
 </template>
 
-<template name="configurationSearch">
+<template name="basicsSearch">
   <h2>Search</h2>
   <div class="row">
     <div class="span6">
       {{searchForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/search.js"}}}
+      {{{code "demo/client/examples/basics/search.js"}}}
     </div>
   </div>
 </template>
 
-<template name="configurationInline">
+<template name="basicsInline">
   <h2>Inline</h2>
   <div class="row">
     <div class="span6">
       {{inlineForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/configuration/inline.js"}}}
+      {{{code "demo/client/examples/basics/inline.js"}}}
     </div>
   </div>
 </template>

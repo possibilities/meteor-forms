@@ -1,12 +1,16 @@
 new Tabs('formsNav', [
 
-  'configuration', [
+  'basics', [
     'basic', {
       default: true
     },
     'horizontal',
     'search',
     'inline'
-  ]
+  ],
+  
+  'validation',
+  'magic',
+  'misc'
 
 ]);
