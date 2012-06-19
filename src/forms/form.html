@@ -1,6 +1,6 @@
 <template name="form">
   {{#unless hidden}}
-    <form id="{{name}}_form" class="{{classes}}{{#if loading}} loading{{/if}}{{#if hideNotice}} hide-notice{{/if}}">
+    <form id="{{name}}_form" class="{{classes}}{{#if loading}} loading{{/if}}{{#if externalNotice}} hide-notice{{/if}}">
       <div class="form-{{layout}}">
         {{> notice notice}}
         {{inputs}}

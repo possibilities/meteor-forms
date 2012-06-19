@@ -4,6 +4,7 @@ var clearAndHideOnSuccessForm = new Form({
   method: artificialDelay,
   clearOnSuccess: true,
   hideOnSuccess: true,
+  externalNotice: true,
   messages: {
     success: 'Great, your story was saved!'
   },

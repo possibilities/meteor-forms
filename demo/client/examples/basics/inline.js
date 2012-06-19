@@ -5,7 +5,7 @@ var inlineForm = new InlineForm({
   labelByDefault: false,
   method: artificialDelay,
   messages: {
-    success: 'Great, the you signed in!'
+    success: 'Great, you signed in!'
   },
   inputs: [
     'email',

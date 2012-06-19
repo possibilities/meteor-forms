@@ -20,7 +20,7 @@ Form = function(config) {
     noInputLabels: false,
     clearOnSuccess: true,
     hideOnSuccess: false,
-    hideNotice: false,
+    externalNotice: false,
     hideInlineErrors: false,
     messages: {
       success: 'Your request was processed successfully.',

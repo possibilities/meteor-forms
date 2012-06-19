@@ -1,6 +1,6 @@
 new Tabs('formsNav', [
 
-  'basics', [
+  'layout', [
     'basic', {
       default: true
     },

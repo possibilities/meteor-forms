@@ -10,7 +10,7 @@
   </div>
 </body>
 
-<template name="basicsBasic">
+<template name="layoutBasic">
   <h2>Basic</h2>
 
   <p>Just a basic form, no big deal</p>
@@ -20,40 +20,7 @@
       {{> basicForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/basics/basic/basic.js"}}}
-    </div>
-  </div>
-
-  <p>Sometimes it's nice to have the success and error messages appear outside of the form. You might want this if you have a common area on the page where you want errors to land or if you want to display a success message after a modal dialog is dismissed.</p>
-
-  <div class="row">
-    <div class="span6">
-      {{> externalNoticeForm}}
-    </div>
-    <div class="span6">
-      {{{code "demo/client/examples/basics/basic/externalNotice.js"}}}
-    </div>
-  </div>
-
-  <p>This one will be cleared when you submit it</p>
-
-  <div class="row">
-    <div class="span6">
-      {{> clearOnSuccessForm}}
-    </div>
-    <div class="span6">
-      {{{code "demo/client/examples/basics/basic/clearOnSuccess.js"}}}
-    </div>
-  </div>
-
-  <p>This one will be cleared and hidden when you submit it</p>
-
-  <div class="row">
-    <div class="span6">
-      {{> clearAndHideOnSuccessForm}}
-    </div>
-    <div class="span6">
-      {{{code "demo/client/examples/basics/basic/clearAndHideOnSuccess.js"}}}
+      {{{code "demo/client/examples/layout/basic/basic.js"}}}
     </div>
   </div>
 </template>
@@ -62,9 +29,6 @@
 </template>
 
 <template name="magic">
-</template>
-
-<template name="misc">
 </template>
 
 <template name="basicForm">
@@ -82,44 +46,82 @@
 </template>
 
 <template name="clearAndHideOnSuccessForm">
+  {{clearAndHideOnSuccessFormNotice}}
   {{clearAndHideOnSuccessForm}}
   {{#clearAndHideOnSuccessFormIsHidden}}
     <p><em>Hidden as promised (;</em></p>
   {{/clearAndHideOnSuccessFormIsHidden}}
 </template>
 
-<template name="basicsHorizontal">
+<template name="misc">
+  <h2>Misc</h2>
+
+  <p>Sometimes it's nice to have the success and error messages appear outside of the form. You might want this if you have a common area on the page where you want errors to land or if you want to display a success message after a modal dialog is dismissed.</p>
+
+  <div class="row">
+    <div class="span6">
+      {{> externalNoticeForm}}
+    </div>
+    <div class="span6">
+      {{{code "demo/client/examples/layout/basic/externalNotice.js"}}}
+    </div>
+  </div>
+
+  <p>This one will be cleared when you submit it</p>
+
+  <div class="row">
+    <div class="span6">
+      {{> clearOnSuccessForm}}
+    </div>
+    <div class="span6">
+      {{{code "demo/client/examples/layout/basic/clearOnSuccess.js"}}}
+    </div>
+  </div>
+
+  <p>This one will be cleared and hidden when you submit it</p>
+
+  <div class="row">
+    <div class="span6">
+      {{> clearAndHideOnSuccessForm}}
+    </div>
+    <div class="span6">
+      {{{code "demo/client/examples/layout/basic/clearAndHideOnSuccess.js"}}}
+    </div>
+  </div>
+</template>
+
+<template name="layoutHorizontal">
   <h2>Horizontal</h2>
   <div class="row">
     <div class="span6">
       {{horizontalForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/basics/horizontal.js"}}}
+      {{{code "demo/client/examples/layout/horizontal.js"}}}
     </div>
   </div>
 </template>
 
-<template name="basicsSearch">
+<template name="layoutSearch">
   <h2>Search</h2>
   <div class="row">
     <div class="span6">
       {{searchForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/basics/search.js"}}}
+      {{{code "demo/client/examples/layout/search.js"}}}
     </div>
   </div>
 </template>
 
-<template name="basicsInline">
+<template name="layoutInline">
   <h2>Inline</h2>
   <div class="row">
     <div class="span6">
       {{inlineForm}}
     </div>
     <div class="span6">
-      {{{code "demo/client/examples/basics/inline.js"}}}
+      {{{code "demo/client/examples/layout/inline.js"}}}
     </div>
   </div>
 </template>
