@@ -2,7 +2,6 @@ var basicForm = new Form({
   name: 'basicForm',
   classes: 'well',
   method: artificialDelay,
-  clearOnSuccess: false,
   messages: {
     success: 'Great, your story was saved!'
   },
