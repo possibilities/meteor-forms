@@ -6,5 +6,22 @@ new Demo({
     user: 'possibilities',
     repo: 'meteor-forms',
     ref: 'rework'
+  },
+  tabs: {
+    name: 'formsNav',
+    tabs: [
+      'layout', [
+        'basic', { default: true },
+        'horizontal',
+        'search',
+        'inline'
+      ],
+      'validation', [
+        'external',
+        'models'
+      ],
+      'magic',
+      'misc'
+    ]
   }
 });
