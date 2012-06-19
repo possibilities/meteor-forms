@@ -12,12 +12,18 @@
 
 <template name="notice">
   {{#if success}}
-    <div class="notice alert alert-success">{{success}}</div>
+    <div class="notice alert alert-success">
+      <a class="close" data-dismiss="alert">×</a>
+      {{success}}
+    </div>
   {{/if}}
   
   {{#if errors}}
     {{#if showErrorDetails}}
-      <div class="notice alert alert-error">{{errors/reason}}</div>
+      <div class="notice alert alert-error">
+        <a class="close" data-dismiss="alert">×</a>
+        {{errors/reason}}
+      </div>
     {{else}}
       <div class="notice alert alert-error alert-block">
         <a class="close" data-dismiss="alert" href="#">×</a>
