@@ -49,3 +49,7 @@ form {
 .hide-input-errors .input-error {
   display: none;
 }
+
+.hide-notice .notice {
+  display: none;
+}

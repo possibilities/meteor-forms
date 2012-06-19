@@ -3,10 +3,11 @@ var artificialDelay = function(formValues, afterDelay) {
 };
 
 var basicForm = new Form({
-  name: 'basicForm',
+  name: 'externalNoticeForm',
   classes: 'well',
   method: artificialDelay,
   clearOnSuccess: false,
+  hideNotice: true,
   messages: {
     success: 'Great, your story was saved!'
   },

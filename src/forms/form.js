@@ -20,6 +20,8 @@ Form = function(config) {
     noInputLabels: false,
     clearOnSuccess: true,
     hideOnSuccess: false,
+    hideNotice: false,
+    hideInlineErrors: false,
     messages: {
       success: 'Your request was processed successfully.',
       error: 'Error! Your request could not be processed.',
@@ -34,13 +36,13 @@ Form = function(config) {
   self.classes = _.isString(self.classes) ? self.classes.split(' ') : self.classes;
 
   // Do special stuff for horizontal forms
-
   if (self.layout === 'horizontal') {
     self.horizontalLayout = true;
     self.inputLayout = 'horizontal';
     self.actionLayout = 'block';
   }
 
+  // Do special stuff for basic forms
   if (self.layout === 'basic')
     self.inlineFormActions = true;
 
@@ -63,6 +65,8 @@ Form = function(config) {
   self._generateHelpers();
 };
 
+
+// Add behaviors
 _.extend(Form.prototype, Backbone.Events);
 _.extend(Form.prototype, Dependable);
 _.extend(Form.prototype, Parseable);
@@ -95,6 +99,10 @@ Form.prototype._generateHelpers = function() {
 
   Handlebars.registerHelper(self.name, function() {
     return new Handlebars.SafeString(self.render());
+  });
+
+  Handlebars.registerHelper(self.name + 'Notice', function(options) {
+    return new Handlebars.SafeString(Template.notice(self.notice));
   });
 
   Handlebars.registerHelper(self.name + 'IsHidden', function(options) {
