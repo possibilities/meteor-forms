@@ -79,14 +79,7 @@ Form.prototype.show = function() {
 
 Form.prototype.edit = function(values) {
   var self = this;
-
-  // this.notice = {};
-
-  // this._clearErrors();
   self._populateInputs(values);
-
-  // this._invalidateListeners();
-
   return this;
 };
 
@@ -131,21 +124,18 @@ Form.prototype._isValid = function() {
   // Start with a fresh validator
   delete self.validator;
 
-  if (_.isFunction(self.currentValues.isValid)) {
+  if (_.isFunction(self.currentValues.isValid))
     self.validator = self.currentValues;
-  } else if (!self.validatorClass) {
+  else if (!self.validatorClass)
     self.validatorClass = _.constantize(self.name + '_validator');
-  }
 
-  if (!self.validator && self.validatorClass) {
+  if (!self.validator && self.validatorClass)
     self.validator = new self.validatorClass(self.currentValues);
-  }
 
-  if (self.validator && !self.validator.isValid()) {
+  if (self.validator && !self.validator.isValid())
     self._addErrors(self.validator.errors);
-  } else {
-    // self._clearErrors();
-  }
+  else
+    self._clearErrors();
 
   // It's not valid if it's accumulated any errors
   return !self.errors;
@@ -161,11 +151,10 @@ Form.prototype._addErrors = function(errors) {
     }
   });
 
-  if (!self.messages.showErrorDetails) {
+  if (!self.messages.showErrorDetails)
     errors.detailList = _.map(errors.details, function(error) {
       return error;
     });
-  }
 
   self.errors = errors;
 };
@@ -183,7 +172,7 @@ Form.prototype._clearErrors = function() {
 
 Form.prototype._setNotice = function(type, message) {
   this.notice[type] = message;
- };
+};
 
 Form.prototype._handleSubmit = function() {
   var self = this;
@@ -220,8 +209,6 @@ Form.prototype._handleErrors = function(errors) {
 
   this._setNotice('errors', this.errors);
   this._setNotice('success', null);
-
-  // this._invalidateListeners();
 
   this.trigger('error');
 };
