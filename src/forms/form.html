@@ -56,6 +56,7 @@
 <template name="inlineActions">
   <span class="{{#if inlineFormActions}}inline-form-actions{{/if}}">
     {{> actions}}
+    <span class="spinner" />
   </span>
 </template>
 
@@ -63,12 +64,10 @@
   {{#each actions}}
     {{> action}}
   {{/each}}
-  <div class="spinner pull-left" />
-  <div class="clearfix" />
 </template>
 
 <template name="action">
-  <button data-name="{{name}}" class="pull-left btn {{name}}Action {{classes}}" name="{{name}}"{{#if form/loading}} disabled="disabled"{{/if}}>{{label}}</button>
+  <button data-name="{{name}}" class="btn {{name}}Action {{classes}}" name="{{name}}"{{#if form/loading}} disabled="disabled"{{/if}}>{{label}}</button>
 </template>
 
 <template name="errors">

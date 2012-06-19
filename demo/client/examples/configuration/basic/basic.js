@@ -1,7 +1,7 @@
 // Delay method so we can get 
 // a look at the loading state
 var artificialDelay = function(formValues, afterDelay) {
-  Meteor.setTimeout(afterDelay, 1000);
+  Meteor.setTimeout(afterDelay, 1500);
 };
 
 var basicForm = new Form({

@@ -1,3 +1,6 @@
+/* TODO this should all be namespaced */
+/* TODO cleanup a lot */
+
 button.btn {
   margin-right: 5px;
 }
@@ -13,18 +16,6 @@ form {
 .inline-form-actions {
   display: block;
   margin-top: 10px;
-}
-
-.spinner {
-  display: none;
-  width: 16px;
-  height: 11px;
-  margin: 7px 0 0 6px;
-  background-image: url("/packages/forms/public/spinner.gif");
-}
-
-.loading .spinner {
-  display: block;
 }
 
 .blockfix {
