@@ -1,0 +1,31 @@
+{
+    "meteor": {
+        "branch": "devel"
+    }, 
+    "packages": {
+        "client-sessions": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-client-sessions.git"
+        }, 
+        "demostrap": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-demostrap.git"
+        }, 
+        "filters": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-filters.git"
+        }, 
+        "forms": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-forms.git"
+        }, 
+        "model-base": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-model-base.git"
+        }, 
+        "validation": {
+            "branch": "master", 
+            "git": "https://github.com/possibilities/meteor-validation.git"
+        }
+    }
+}
